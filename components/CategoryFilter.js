@@ -1,13 +1,11 @@
 const CATEGORIES = [
     "All Categories",
-    "Food & Dining",
-    "Home Services",
-    "Automotive",
-    "Beauty & Spa",
-    "Health & Medical",
-    "Retail",
+    "Home Maintenance & Repair",
+    "Food & Beverage",
     "Professional Services",
-    "Education"
+    "Retail Services",
+    "Accommodation & Transport",
+    "Other Community Services"
 ];
 
 export default function CategoryFilter({ selectedCategory, onSelectCategory }) {
