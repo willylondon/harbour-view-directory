@@ -69,7 +69,15 @@ async function migrate() {
             tier: 'free'
         }));
 
-        // 4. Batch Insert
+        // 4. Cleanup and Batch Insert
+        console.log('Clearing existing vendors for a fresh migration...');
+        const { error: deleteError } = await supabase
+            .from('vendors')
+            .delete()
+            .neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all
+
+        if (deleteError) throw deleteError;
+
         console.log(`Inserting ${formattedVendors.length} vendors into Supabase...`);
         const { data: insertData, error: insertError } = await supabase
             .from('vendors')
