@@ -5,6 +5,15 @@ import Navbar from '../../components/Navbar';
 import ImageUploader from '../../components/ImageUploader';
 import { supabase } from '../../lib/supabase';
 
+const CATEGORIES = [
+    "Home Maintenance & Repair",
+    "Food & Beverage",
+    "Professional Services",
+    "Retail Services",
+    "Accommodation & Transport",
+    "Other Community Services"
+];
+
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 export default function NewVendorPage() {
@@ -196,14 +205,19 @@ export default function NewVendorPage() {
                                 </div>
                                 <div>
                                     <label className="block text-sm font-semibold text-gray-700 mb-1">Category</label>
-                                    <input
-                                        type="text"
+                                    <select
                                         value={formState.category}
                                         onChange={(event) => setFormState({ ...formState, category: event.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue outline-none"
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue outline-none bg-white"
                                         required
-                                        placeholder="e.g. Restaurant, Retail, Service"
-                                    />
+                                    >
+                                        <option value="" disabled>Select a category</option>
+                                        {CATEGORIES.map((cat) => (
+                                            <option key={cat} value={cat}>
+                                                {cat}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
                             </div>
 

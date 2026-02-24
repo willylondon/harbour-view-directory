@@ -133,35 +133,35 @@
   "dataRoutes": [
     {
       "page": "/dashboard",
-      "dataRouteRegex": "^/_next/data/DpYQYso2GcpmTZs3NKeWK/dashboard\\.json$"
+      "dataRouteRegex": "^/_next/data/u0Tb5IJ\\-kbYg5hcFLuez2/dashboard\\.json$"
     },
     {
       "page": "/dashboard/events",
-      "dataRouteRegex": "^/_next/data/DpYQYso2GcpmTZs3NKeWK/dashboard/events\\.json$"
+      "dataRouteRegex": "^/_next/data/u0Tb5IJ\\-kbYg5hcFLuez2/dashboard/events\\.json$"
     },
     {
       "page": "/dashboard/help",
-      "dataRouteRegex": "^/_next/data/DpYQYso2GcpmTZs3NKeWK/dashboard/help\\.json$"
+      "dataRouteRegex": "^/_next/data/u0Tb5IJ\\-kbYg5hcFLuez2/dashboard/help\\.json$"
     },
     {
       "page": "/dashboard/new",
-      "dataRouteRegex": "^/_next/data/DpYQYso2GcpmTZs3NKeWK/dashboard/new\\.json$"
+      "dataRouteRegex": "^/_next/data/u0Tb5IJ\\-kbYg5hcFLuez2/dashboard/new\\.json$"
     },
     {
       "page": "/dashboard/vendor/[id]",
       "routeKeys": {
         "nxtPid": "nxtPid"
       },
-      "dataRouteRegex": "^/_next/data/DpYQYso2GcpmTZs3NKeWK/dashboard/vendor/([^/]+?)\\.json$",
-      "namedDataRouteRegex": "^/_next/data/DpYQYso2GcpmTZs3NKeWK/dashboard/vendor/(?<nxtPid>[^/]+?)\\.json$"
+      "dataRouteRegex": "^/_next/data/u0Tb5IJ\\-kbYg5hcFLuez2/dashboard/vendor/([^/]+?)\\.json$",
+      "namedDataRouteRegex": "^/_next/data/u0Tb5IJ\\-kbYg5hcFLuez2/dashboard/vendor/(?<nxtPid>[^/]+?)\\.json$"
     },
     {
       "page": "/vendor/[id]",
       "routeKeys": {
         "nxtPid": "nxtPid"
       },
-      "dataRouteRegex": "^/_next/data/DpYQYso2GcpmTZs3NKeWK/vendor/([^/]+?)\\.json$",
-      "namedDataRouteRegex": "^/_next/data/DpYQYso2GcpmTZs3NKeWK/vendor/(?<nxtPid>[^/]+?)\\.json$"
+      "dataRouteRegex": "^/_next/data/u0Tb5IJ\\-kbYg5hcFLuez2/vendor/([^/]+?)\\.json$",
+      "namedDataRouteRegex": "^/_next/data/u0Tb5IJ\\-kbYg5hcFLuez2/vendor/(?<nxtPid>[^/]+?)\\.json$"
     }
   ],
   "rsc": {

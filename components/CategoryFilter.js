@@ -1,12 +1,4 @@
-const CATEGORIES = [
-    "All Categories",
-    "Home Maintenance & Repair",
-    "Food & Beverage",
-    "Professional Services",
-    "Retail Services",
-    "Accommodation & Transport",
-    "Other Community Services"
-];
+import { CATEGORIES } from '../pages/index';
 
 export default function CategoryFilter({ selectedCategory, onSelectCategory }) {
     return (

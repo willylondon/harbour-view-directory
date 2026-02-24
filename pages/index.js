@@ -8,6 +8,16 @@ import CategoryFilter from '../components/CategoryFilter';
 import SearchBar from '../components/SearchBar';
 import { supabase } from '../lib/supabase';
 
+export const CATEGORIES = [
+    "All Categories",
+    "Home Maintenance & Repair",
+    "Food & Beverage",
+    "Professional Services",
+    "Retail Services",
+    "Accommodation & Transport",
+    "Other Community Services"
+];
+
 export default function Home() {
     const [vendors, setVendors] = useState([]);
     const [filteredVendors, setFilteredVendors] = useState([]);
@@ -109,10 +119,19 @@ export default function Home() {
     }
 
     function filterVendors() {
-        let result = vendors;
+        let result = vendors.map(v => {
+            // If a vendor was created with the old free-text input and doesn't exactly match
+            // one of the predefined categories, force it into "Other Community Services" so
+            // it isn't orphaned from the filter UI.
+            const isKnownCategory = CATEGORIES.includes(v.category);
+            return {
+                ...v,
+                displayCategory: isKnownCategory ? v.category : "Other Community Services"
+            };
+        });
 
         if (selectedCategory && selectedCategory !== 'All Categories') {
-            result = result.filter(v => v.category === selectedCategory);
+            result = result.filter(v => v.displayCategory === selectedCategory);
         }
 
         const query = normalizeQuery(searchQuery);

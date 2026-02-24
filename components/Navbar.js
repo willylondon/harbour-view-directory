@@ -64,9 +64,16 @@ export default function Navbar() {
                             <span className="cursor-pointer hover:text-brand-yellow transition">Admin</span>
                         </Link>
                     )}
-                    <Link href="/dashboard">
-                        <span className="cursor-pointer hover:text-brand-blue bg-brand-yellow text-gray-900 px-5 py-2 rounded-md transition font-bold shadow-sm">Post Ad</span>
-                    </Link>
+                    {session && (
+                        <Link href="/dashboard">
+                            <span className="cursor-pointer hover:text-brand-blue bg-brand-yellow text-gray-900 px-5 py-2 rounded-md transition font-bold shadow-sm">Dashboard</span>
+                        </Link>
+                    )}
+                    {!session && (
+                        <Link href="/dashboard">
+                            <span className="cursor-pointer hover:text-brand-blue bg-brand-yellow text-gray-900 px-5 py-2 rounded-md transition font-bold shadow-sm">Post Ad</span>
+                        </Link>
+                    )}
                     {session ? (
                         <button
                             onClick={() => supabase.auth.signOut()}
@@ -136,14 +143,26 @@ export default function Navbar() {
                                 </span>
                             </Link>
                         )}
-                        <Link href="/dashboard">
-                            <span
-                                className="block w-full text-center cursor-pointer hover:text-brand-blue bg-brand-yellow text-gray-900 px-5 py-2 rounded-md transition font-bold shadow-sm"
-                                onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                                Post Ad
-                            </span>
-                        </Link>
+                        {session && (
+                            <Link href="/dashboard">
+                                <span
+                                    className="block w-full text-center cursor-pointer hover:text-brand-blue bg-brand-yellow text-gray-900 px-5 py-2 rounded-md transition font-bold shadow-sm"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                >
+                                    Dashboard
+                                </span>
+                            </Link>
+                        )}
+                        {!session && (
+                            <Link href="/dashboard">
+                                <span
+                                    className="block w-full text-center cursor-pointer hover:text-brand-blue bg-brand-yellow text-gray-900 px-5 py-2 rounded-md transition font-bold shadow-sm"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                >
+                                    Post Ad
+                                </span>
+                            </Link>
+                        )}
                         {session ? (
                             <button
                                 onClick={() => {
