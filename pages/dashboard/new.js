@@ -264,7 +264,7 @@ export default function NewVendorPage() {
 
                             <ImageUploader
                                 existingImages={[]} // No existing images for new listing
-                                onRemoveExisting={() => {}} 
+                                onRemoveExisting={() => { }}
                                 files={files}
                                 setFiles={setFiles}
                                 error={error}
@@ -289,4 +289,11 @@ export default function NewVendorPage() {
             </main>
         </div>
     );
+}
+
+
+export async function getServerSideProps() {
+    return {
+        props: {}
+    };
 }

@@ -70,3 +70,10 @@ export default function DashboardHelp() {
         </div>
     );
 }
+
+
+export async function getServerSideProps() {
+    return {
+        props: {}
+    };
+}

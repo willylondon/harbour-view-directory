@@ -32,36 +32,44 @@ globalThis.__BUILD_MANIFEST = {
       "static/chunks/turbopack-a3756de4a4003072.js"
     ],
     "/dashboard": [
-      "static/chunks/43dfb2c2a85510ef.js",
+      "static/chunks/0af754087facbce2.js",
       "static/chunks/da0ff8adaa6cce90.js",
       "static/chunks/7d908bc6a3fb30e2.js",
       "static/chunks/95b07f9c90d3ba56.js",
       "static/chunks/eb7ebd28c8b9c2d6.js",
-      "static/chunks/turbopack-af0d8217a253df09.js"
+      "static/chunks/turbopack-4cbf0cae90ec1a79.js"
     ],
     "/dashboard/events": [
-      "static/chunks/28e9aff0c639bcee.js",
+      "static/chunks/72eaa7f2c8387fcc.js",
       "static/chunks/da0ff8adaa6cce90.js",
       "static/chunks/82d8250b3432c256.js",
       "static/chunks/95b07f9c90d3ba56.js",
       "static/chunks/7d908bc6a3fb30e2.js",
-      "static/chunks/turbopack-0820dd84527f0eac.js"
+      "static/chunks/turbopack-41a68b30d3b6fb51.js"
     ],
     "/dashboard/help": [
-      "static/chunks/ffe0680c83bb0647.js",
+      "static/chunks/2b26869d420bc81f.js",
       "static/chunks/da0ff8adaa6cce90.js",
       "static/chunks/95b07f9c90d3ba56.js",
       "static/chunks/82d8250b3432c256.js",
       "static/chunks/7d908bc6a3fb30e2.js",
-      "static/chunks/turbopack-3e63bf51afcb6067.js"
+      "static/chunks/turbopack-3813801717288fd7.js"
+    ],
+    "/dashboard/new": [
+      "static/chunks/186a36483d76fd93.js",
+      "static/chunks/da0ff8adaa6cce90.js",
+      "static/chunks/7d908bc6a3fb30e2.js",
+      "static/chunks/95b07f9c90d3ba56.js",
+      "static/chunks/82d8250b3432c256.js",
+      "static/chunks/turbopack-6fd0bcf7a64058cb.js"
     ],
     "/dashboard/vendor/[id]": [
-      "static/chunks/57f57baff822f89d.js",
+      "static/chunks/a46f03b29f116e9b.js",
       "static/chunks/da0ff8adaa6cce90.js",
-      "static/chunks/82d8250b3432c256.js",
-      "static/chunks/95b07f9c90d3ba56.js",
       "static/chunks/7d908bc6a3fb30e2.js",
-      "static/chunks/turbopack-c1c53888d37a7660.js"
+      "static/chunks/95b07f9c90d3ba56.js",
+      "static/chunks/82d8250b3432c256.js",
+      "static/chunks/turbopack-3c66a403f972c338.js"
     ],
     "/events": [
       "static/chunks/0ad6665b718cfb44.js",
@@ -96,12 +104,12 @@ globalThis.__BUILD_MANIFEST = {
       "static/chunks/turbopack-b91fe87c1aaf1edc.js"
     ],
     "/vendor/[id]": [
-      "static/chunks/a144c6e621235f09.js",
+      "static/chunks/8b741c54388f6342.js",
       "static/chunks/da0ff8adaa6cce90.js",
       "static/chunks/f456c451361f2294.js",
       "static/chunks/95b07f9c90d3ba56.js",
       "static/chunks/7d908bc6a3fb30e2.js",
-      "static/chunks/turbopack-dda0091691e61d27.js"
+      "static/chunks/turbopack-ae53c2a727b62311.js"
     ]
   },
   "devFiles": [],

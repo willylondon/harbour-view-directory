@@ -9,16 +9,19 @@ self.__BUILD_MANIFEST = {
     "static/chunks/79d5d33ac30a2209.js"
   ],
   "/dashboard": [
-    "static/chunks/528699f3e1aada38.js"
+    "static/chunks/eec60deeb0b94cb1.js"
   ],
   "/dashboard/events": [
-    "static/chunks/dcf53f09c04a9f3b.js"
+    "static/chunks/676884a93abbe96e.js"
   ],
   "/dashboard/help": [
-    "static/chunks/cb3cf725c13bda8b.js"
+    "static/chunks/1302ffc5ddf75c75.js"
+  ],
+  "/dashboard/new": [
+    "static/chunks/8bd6fc246b266fbc.js"
   ],
   "/dashboard/vendor/[id]": [
-    "static/chunks/c3424b9465d3d287.js"
+    "static/chunks/f5211c474f09c07e.js"
   ],
   "/events": [
     "static/chunks/968258e86d7dc6cf.js"
@@ -33,7 +36,7 @@ self.__BUILD_MANIFEST = {
     "static/chunks/1bb6b8c0da938eef.js"
   ],
   "/vendor/[id]": [
-    "static/chunks/915dd5d7f50f90d6.js"
+    "static/chunks/b4749cbf06a9f856.js"
   ],
   "__rewrites": {
     "afterFiles": [],
@@ -53,6 +56,7 @@ self.__BUILD_MANIFEST = {
     "/dashboard",
     "/dashboard/events",
     "/dashboard/help",
+    "/dashboard/new",
     "/dashboard/vendor/[id]",
     "/events",
     "/login",

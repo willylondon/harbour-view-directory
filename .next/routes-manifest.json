@@ -100,6 +100,12 @@
       "namedRegex": "^/dashboard/help(?:/)?$"
     },
     {
+      "page": "/dashboard/new",
+      "regex": "^/dashboard/new(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/new(?:/)?$"
+    },
+    {
       "page": "/events",
       "regex": "^/events(?:/)?$",
       "routeKeys": {},
@@ -124,7 +130,40 @@
       "namedRegex": "^/register(?:/)?$"
     }
   ],
-  "dataRoutes": [],
+  "dataRoutes": [
+    {
+      "page": "/dashboard",
+      "dataRouteRegex": "^/_next/data/DpYQYso2GcpmTZs3NKeWK/dashboard\\.json$"
+    },
+    {
+      "page": "/dashboard/events",
+      "dataRouteRegex": "^/_next/data/DpYQYso2GcpmTZs3NKeWK/dashboard/events\\.json$"
+    },
+    {
+      "page": "/dashboard/help",
+      "dataRouteRegex": "^/_next/data/DpYQYso2GcpmTZs3NKeWK/dashboard/help\\.json$"
+    },
+    {
+      "page": "/dashboard/new",
+      "dataRouteRegex": "^/_next/data/DpYQYso2GcpmTZs3NKeWK/dashboard/new\\.json$"
+    },
+    {
+      "page": "/dashboard/vendor/[id]",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "dataRouteRegex": "^/_next/data/DpYQYso2GcpmTZs3NKeWK/dashboard/vendor/([^/]+?)\\.json$",
+      "namedDataRouteRegex": "^/_next/data/DpYQYso2GcpmTZs3NKeWK/dashboard/vendor/(?<nxtPid>[^/]+?)\\.json$"
+    },
+    {
+      "page": "/vendor/[id]",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "dataRouteRegex": "^/_next/data/DpYQYso2GcpmTZs3NKeWK/vendor/([^/]+?)\\.json$",
+      "namedDataRouteRegex": "^/_next/data/DpYQYso2GcpmTZs3NKeWK/vendor/(?<nxtPid>[^/]+?)\\.json$"
+    }
+  ],
   "rsc": {
     "header": "rsc",
     "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",

@@ -311,3 +311,10 @@ export default function VendorEventsPage() {
         </div>
     );
 }
+
+
+export async function getServerSideProps() {
+    return {
+        props: {}
+    };
+}
