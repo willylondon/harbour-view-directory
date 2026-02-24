@@ -180,7 +180,12 @@ export default function VendorDetail() {
                                     {vendor.address && <p><strong>Address:</strong> {vendor.address}</p>}
                                     {vendor.phone && <p><strong>Phone:</strong> {vendor.phone}</p>}
                                     {vendor.whatsapp && (
-                                        <a href={vendor.whatsapp} target="_blank" rel="noopener noreferrer" className="inline-block mt-2 bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600 transition shadow-sm">
+                                        <a
+                                            href={vendor.whatsapp.includes('http') ? vendor.whatsapp : `https://wa.me/${vendor.whatsapp.replace(/\\D/g, '')}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-block mt-2 bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600 transition shadow-sm"
+                                        >
                                             Message on WhatsApp
                                         </a>
                                     )}

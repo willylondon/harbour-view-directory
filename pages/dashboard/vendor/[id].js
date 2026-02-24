@@ -277,12 +277,13 @@ export default function VendorEditPage() {
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-1">WhatsApp Link</label>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-1">WhatsApp Number</label>
                                     <input
                                         type="text"
                                         value={formState.whatsapp}
                                         onChange={(event) => setFormState({ ...formState, whatsapp: event.target.value })}
                                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue outline-none"
+                                        placeholder="e.g. 18765550100"
                                     />
                                 </div>
                             </div>

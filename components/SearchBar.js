@@ -11,6 +11,12 @@ export default function SearchBar({ onSearch }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        // Dismiss the virtual mobile keyboard automatically on submit
+        if (typeof document !== 'undefined' && document.activeElement) {
+            document.activeElement.blur();
+        }
+
         const submittedValue = e.currentTarget.elements.search?.value ?? query;
         onSearch && onSearch(submittedValue);
     };
