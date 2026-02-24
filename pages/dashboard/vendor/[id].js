@@ -320,3 +320,9 @@ export default function VendorEditPage() {
         </div>
     );
 }
+
+export async function getServerSideProps() {
+    return {
+        props: {}
+    };
+}

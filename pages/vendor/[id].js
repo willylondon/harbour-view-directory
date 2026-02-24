@@ -285,3 +285,9 @@ export default function VendorDetail() {
         </div>
     );
 }
+
+export async function getServerSideProps() {
+    return {
+        props: {}
+    };
+}
