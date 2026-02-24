@@ -1,0 +1,22 @@
+{
+  "/": "pages/index.html",
+  "/_app": "pages/_app.js",
+  "/_document": "pages/_document.js",
+  "/_error": "pages/_error.js",
+  "/admin/events": "pages/admin/events.html",
+  "/api/events/admin-create": "pages/api/events/admin-create.js",
+  "/api/events/admin-list": "pages/api/events/admin-list.js",
+  "/api/events/admin-update": "pages/api/events/admin-update.js",
+  "/api/events/admin-vendors": "pages/api/events/admin-vendors.js",
+  "/api/vendor-images/sign": "pages/api/vendor-images/sign.js",
+  "/dashboard": "pages/dashboard.html",
+  "/dashboard/events": "pages/dashboard/events.html",
+  "/dashboard/help": "pages/dashboard/help.html",
+  "/dashboard/vendor/[id]": "pages/dashboard/vendor/[id].html",
+  "/events": "pages/events.html",
+  "/login": "pages/login.html",
+  "/pricing": "pages/pricing.html",
+  "/register": "pages/register.html",
+  "/vendor/[id]": "pages/vendor/[id].html",
+  "/404": "pages/404.html"
+}
