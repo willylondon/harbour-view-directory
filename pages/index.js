@@ -28,7 +28,16 @@ export default function Home() {
     const [premiumIndex, setPremiumIndex] = useState(0);
     const heroImageUrl = process.env.NEXT_PUBLIC_HERO_IMAGE_URL || '/hero.png';
 
-    const normalizeQuery = (value) => (value || '').toLowerCase().trim().replace(/\s+/g, ' ');
+    const normalizeQuery = (value) => {
+        if (!value || typeof value !== 'string') return '';
+        return value
+            .toLowerCase()
+            .normalize("NFD").replace(/[\\u0300-\\u036f]/g, "") // Strip accents
+            .replace(/['"’‘`´]/g, '') // Strip smart quotes/apostrophes
+            .replace(/[^a-z0-9\\s-]/g, '') // Remove special punctuation
+            .trim()
+            .replace(/\\s+/g, ' '); // Normalize spaces
+    };
 
     useEffect(() => {
         fetchVendors();
