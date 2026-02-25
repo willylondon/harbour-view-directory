@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+:root {
+  --bg-app: #080808;
+  --bg-card: #151515;
+  --bg-card-hover: #1c1c1c;
+  --bg-sidebar: #0e0e0e;
+
+  --text-main: #ffffff;
+  --text-muted: #8b8b8b;
+
+  --accent-green: #9bee4e;
+  --accent-orange: #f59e0b;
+  --accent-blue: #3b82f6;
+  --accent-purple: #8b5cf6;
+
+  --border-color: rgba(255, 255, 255, 0.05);
+}
+
+body {
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  font-family: "Outfit", "Inter", sans-serif;
+  /* Adding Outfit for the modern look */
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Matte Design System */
+.matte-card {
+  background-color: var(--bg-card);
+  border-radius: 1.5rem;
+  /* 24px - matching the image's rounded cards Check Box/Customer */
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.02), 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.matte-card:hover {
+  background-color: var(--bg-card-hover);
+}
+
+/* Small Pill Buttons (Date, Product, Profile) */
+.pill-btn {
+  background-color: #222222;
+  color: var(--text-muted);
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: color 0.2s ease, background-color 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.pill-btn:hover {
+  color: var(--text-main);
+  background-color: #2a2a2a;
+}
+
+/* Sidebar Icon Buttons */
+.nav-icon-btn {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.nav-icon-btn.active,
+.nav-icon-btn:hover {
+  background-color: #2a2a2a;
+  color: var(--text-main);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-app);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Charts Tooltip Override For Matte Theme */
+.recharts-default-tooltip {
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5) !important;
+  color: #fff !important;
+}

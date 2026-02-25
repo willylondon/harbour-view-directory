@@ -1,0 +1,8 @@
+Yes, you can absolutely add multiple TikTok accounts!
+
+To do this, we just need to add each account to the "TikTok Developer App Sandbox Test Users."
+
+The plan is:
+- Have the user add the multiple @usernames in the Sandbox menu.
+- Update the Next.js API to store an array of connected accounts (via cookies/localStorage) instead of just one.
+- Loop over the authenticated accounts and render them on the dashboard UI.
