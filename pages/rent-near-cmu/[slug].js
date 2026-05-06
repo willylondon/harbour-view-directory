@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
-import { getImageUrl, RENTAL_IMAGES_BUCKET } from '../../lib/supabase';
+import { supabase, getImageUrl, RENTAL_IMAGES_BUCKET } from '../../lib/supabase';
 
 const PUBLIC_RENTAL_DETAIL_COLUMNS = 'id, title, description, contact_name, whatsapp, type, price, deposit, location, available_date, utilities_included, furnished, distance_to_cmu, photos, house_rules, slug, created_at';
 
@@ -16,6 +16,7 @@ export async function getServerSideProps(context) {
             .select(PUBLIC_RENTAL_DETAIL_COLUMNS)
             .eq('slug', slug)
             .eq('status', 'approved')
+            .or(`expires_at.is.null,expires_at.gt.${new Date().toISOString()}`)
             .single();
 
         if (error || !rental) {
@@ -28,8 +29,6 @@ export async function getServerSideProps(context) {
         return { notFound: true };
     }
 }
-
-import { supabase } from '../../lib/supabase';
 
 export default function RentalDetailPage({ rental }) {
     const router = useRouter();
