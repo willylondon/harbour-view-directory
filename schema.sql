@@ -1,5 +1,19 @@
 -- Run this in the Supabase SQL Editor!
 
+-- ============================================================
+-- MIGRATION: Add missing columns to existing tables
+-- Run this FIRST if your tables already exist!
+-- ============================================================
+ALTER TABLE public.vendors ADD COLUMN IF NOT EXISTS is_approved BOOLEAN DEFAULT true;
+ALTER TABLE public.vendors ADD COLUMN IF NOT EXISTS slug TEXT UNIQUE;
+ALTER TABLE public.vendors ADD COLUMN IF NOT EXISTS meta_title TEXT;
+ALTER TABLE public.vendors ADD COLUMN IF NOT EXISTS meta_description TEXT;
+ALTER TABLE public.events ADD COLUMN IF NOT EXISTS is_approved BOOLEAN DEFAULT true;
+
+-- ============================================================
+-- FRESH SETUP: Run this for a brand new database
+-- ============================================================
+
 -- 1. Create Vendors Table
 CREATE TABLE IF NOT EXISTS public.vendors (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
