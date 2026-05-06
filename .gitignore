@@ -20,6 +20,24 @@
 # production
 /build
 
+# environment variables
+.env*.local
+.env
+!.env.example
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local development
+.DS_Store
+*.pem
+
+# vercel
+.vercel
+/build
+
 # misc
 .DS_Store
 *.pem
