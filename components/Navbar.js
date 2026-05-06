@@ -1,17 +1,60 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 
 export default function Navbar() {
     const router = useRouter();
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [session, setSession] = useState(null);
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [authReady, setAuthReady] = useState(false);
     const isActive = path => router.pathname === path || (path === '/' && router.pathname === '/');
+
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            setSession(session);
+            if (session) checkAdmin(session.user.id);
+            else setAuthReady(true);
+        });
+
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            setSession(session);
+            if (session) checkAdmin(session.user.id);
+            else { setIsAdmin(false); setAuthReady(true); }
+        });
+
+        return () => subscription.unsubscribe();
+    }, []);
+
+    async function checkAdmin(userId) {
+        try {
+            const { data } = await supabase
+                .from('profiles')
+                .select('role, is_admin')
+                .eq('id', userId)
+                .single();
+            setIsAdmin(data?.role === 'admin' || data?.is_admin === true);
+        } catch {
+            setIsAdmin(false);
+        } finally {
+            setAuthReady(true);
+        }
+    }
+
+    async function handleLogout() {
+        await supabase.auth.signOut();
+        setMobileOpen(false);
+        router.push('/');
+    }
 
     const links = [
         { href: '/', label: 'Directory' },
         { href: '/events', label: 'Events' },
         { href: '/pricing', label: 'Pricing' },
     ];
+
+    const loggedIn = !!session;
 
     return (
         <header className="bg-white/80 backdrop-blur-md border-b border-border sticky top-0 z-50">
@@ -33,12 +76,30 @@ export default function Navbar() {
                 </nav>
 
                 <div className="hidden md:flex items-center gap-2">
-                    <Link href="/login" className="text-sm font-medium text-text-soft hover:text-text px-4 py-2 rounded-btn transition">
-                        Login
-                    </Link>
-                    <Link href="/post-ad" className="bg-brand text-white text-sm font-bold px-5 py-2.5 rounded-btn hover:bg-brand-deep transition shadow-sm">
-                        List Your Business
-                    </Link>
+                    {!authReady ? (
+                        <div className="w-20 h-8 bg-bg-alt rounded-btn animate-pulse" />
+                    ) : loggedIn ? (
+                        <>
+                            <Link href="/dashboard" className={`text-sm font-medium px-4 py-2 rounded-btn transition ${
+                                isActive('/dashboard') ? 'bg-brand-soft text-brand' : 'text-text-soft hover:text-text hover:bg-bg-alt'
+                            }`}>Dashboard</Link>
+                            {isAdmin && (
+                                <Link href="/admin" className="text-sm font-medium px-4 py-2 rounded-btn transition bg-brand-warm/10 text-brand-warm hover:bg-brand-warm/20">
+                                    Admin
+                                </Link>
+                            )}
+                            <button onClick={handleLogout} className="text-sm font-medium text-text-soft hover:text-red-600 px-4 py-2 rounded-btn transition">
+                                Logout
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <Link href="/login" className="text-sm font-medium text-text-soft hover:text-text px-4 py-2 rounded-btn transition">Login</Link>
+                            <Link href="/post-ad" className="bg-brand text-white text-sm font-bold px-5 py-2.5 rounded-btn hover:bg-brand-deep transition shadow-sm">
+                                List Your Business
+                            </Link>
+                        </>
+                    )}
                 </div>
 
                 <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden p-2 text-text-soft hover:text-text">
@@ -55,8 +116,20 @@ export default function Navbar() {
                             }`}>{l.label}</Link>
                     ))}
                     <hr className="border-border" />
-                    <Link href="/login" onClick={() => setMobileOpen(false)} className="block px-4 py-2.5 rounded-btn text-sm font-medium text-text-soft">Login</Link>
-                    <Link href="/post-ad" onClick={() => setMobileOpen(false)} className="block bg-brand text-white text-center text-sm font-bold py-3 rounded-btn">List Your Business</Link>
+                    {loggedIn ? (
+                        <>
+                            <Link href="/dashboard" onClick={() => setMobileOpen(false)} className="block px-4 py-2.5 rounded-btn text-sm font-medium text-text-soft">Dashboard</Link>
+                            {isAdmin && (
+                                <Link href="/admin" onClick={() => setMobileOpen(false)} className="block px-4 py-2.5 rounded-btn text-sm font-medium text-brand-warm bg-brand-warm/5">Admin Panel</Link>
+                            )}
+                            <button onClick={handleLogout} className="block w-full text-left px-4 py-2.5 rounded-btn text-sm font-medium text-red-600">Logout</button>
+                        </>
+                    ) : (
+                        <>
+                            <Link href="/login" onClick={() => setMobileOpen(false)} className="block px-4 py-2.5 rounded-btn text-sm font-medium text-text-soft">Login</Link>
+                            <Link href="/post-ad" onClick={() => setMobileOpen(false)} className="block bg-brand text-white text-center text-sm font-bold py-3 rounded-btn">List Your Business</Link>
+                        </>
+                    )}
                 </div>
             )}
         </header>

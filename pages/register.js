@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { supabase } from '../lib/supabase';
 import Link from 'next/link';
 import Head from 'next/head';
+import PasswordInput from '../components/PasswordInput';
 
 export default function Register() {
     const [email, setEmail] = useState('');
@@ -47,16 +48,13 @@ export default function Register() {
                     {msg && <div className="bg-success-soft text-success p-3 rounded-btn mb-4 text-sm font-medium">{msg}</div>}
                     <form onSubmit={handleRegister} className="space-y-4">
                         <div>
-                            <label className="block text-sm font-bold text-text mb-1">Email</label>
-                            <input type="email" required value={email} onChange={e => setEmail(e.target.value)}
+                            <label htmlFor="reg-email" className="block text-sm font-bold text-text mb-1">Email</label>
+                            <input id="reg-email" type="email" required value={email} autoComplete="email"
+                                onChange={e => setEmail(e.target.value)}
                                 className="w-full px-4 py-3 border border-border rounded-btn focus:ring-2 focus:ring-brand outline-none transition text-text" />
                         </div>
-                        <div>
-                            <label className="block text-sm font-bold text-text mb-1">Password</label>
-                            <input type="password" required minLength={6} value={password} onChange={e => setPassword(e.target.value)}
-                                className="w-full px-4 py-3 border border-border rounded-btn focus:ring-2 focus:ring-brand outline-none transition text-text" />
-                            <p className="text-xs text-text-muted mt-1">At least 6 characters</p>
-                        </div>
+                        <PasswordInput id="reg-password" value={password} onChange={e => setPassword(e.target.value)}
+                            minLength={6} hint="At least 6 characters" />
                         <button type="submit" disabled={loading}
                             className="w-full bg-brand-warm text-white font-bold py-3 rounded-btn hover:bg-amber-500 transition disabled:opacity-50">
                             {loading ? 'Creating account...' : 'Create Account'}

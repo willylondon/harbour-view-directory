@@ -11,6 +11,47 @@ ALTER TABLE public.vendors ADD COLUMN IF NOT EXISTS meta_description TEXT;
 ALTER TABLE public.events ADD COLUMN IF NOT EXISTS is_approved BOOLEAN DEFAULT true;
 
 -- ============================================================
+-- PROFILES TABLE: Required for admin/user role detection
+-- ============================================================
+CREATE TABLE IF NOT EXISTS public.profiles (
+    id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+    email TEXT,
+    role TEXT DEFAULT 'user',
+    is_admin BOOLEAN DEFAULT false,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Enable RLS on profiles
+ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+
+-- Users can read their own profile
+CREATE POLICY "Users can read own profile"
+ON public.profiles FOR SELECT
+USING (auth.uid() = id);
+
+-- Admins can read all profiles (use the profiles table itself)
+CREATE POLICY "Admins can read all profiles"
+ON public.profiles FOR SELECT
+USING (
+    EXISTS (
+        SELECT 1 FROM public.profiles
+        WHERE id = auth.uid() AND (role = 'admin' OR is_admin = true)
+    )
+);
+
+-- ============================================================
+-- MAKE willardwells@gmail.com AN ADMIN
+-- Run this after creating the profiles table
+-- ============================================================
+INSERT INTO public.profiles (id, email, role, is_admin, created_at, updated_at)
+SELECT id, email, 'admin', true, NOW(), NOW()
+FROM auth.users
+WHERE LOWER(email) = LOWER('willardwells@gmail.com')
+ON CONFLICT (id)
+DO UPDATE SET role = 'admin', is_admin = true, updated_at = NOW();
+
+-- ============================================================
 -- FRESH SETUP: Run this for a brand new database
 -- ============================================================
 

@@ -3,6 +3,7 @@ import { supabase } from '../lib/supabase';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Head from 'next/head';
+import PasswordInput from '../components/PasswordInput';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -46,15 +47,12 @@ export default function Login() {
                     {error && <div className="bg-red-50 text-red-600 p-3 rounded-btn mb-4 text-sm">{error}</div>}
                     <form onSubmit={handleLogin} className="space-y-4">
                         <div>
-                            <label className="block text-sm font-bold text-text mb-1">Email</label>
-                            <input type="email" required value={email} onChange={e => setEmail(e.target.value)}
+                            <label htmlFor="email" className="block text-sm font-bold text-text mb-1">Email</label>
+                            <input id="email" type="email" required value={email} autoComplete="email"
+                                onChange={e => setEmail(e.target.value)}
                                 className="w-full px-4 py-3 border border-border rounded-btn focus:ring-2 focus:ring-brand outline-none transition text-text" />
                         </div>
-                        <div>
-                            <label className="block text-sm font-bold text-text mb-1">Password</label>
-                            <input type="password" required value={password} onChange={e => setPassword(e.target.value)}
-                                className="w-full px-4 py-3 border border-border rounded-btn focus:ring-2 focus:ring-brand outline-none transition text-text" />
-                        </div>
+                        <PasswordInput id="password" value={password} onChange={e => setPassword(e.target.value)} />
                         <button type="submit" disabled={loading}
                             className="w-full bg-brand text-white font-bold py-3 rounded-btn hover:bg-brand-deep transition disabled:opacity-50">
                             {loading ? 'Signing in...' : 'Sign In'}
