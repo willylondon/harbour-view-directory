@@ -38,17 +38,18 @@ CREATE TABLE public.rentals (
     contact_name        TEXT        NOT NULL,           -- shown publicly
     whatsapp            TEXT        NOT NULL,           -- normalized: +18761234567
     type                TEXT        NOT NULL,           -- see enum below
-    price               NUMERIC     NOT NULL,           -- JMD/month
+    price               NUMERIC     NOT NULL  CHECK (price > 0),
     deposit             NUMERIC,
     location            TEXT        NOT NULL,           -- general area only
     available_date      DATE,
     utilities_included  BOOLEAN     DEFAULT false,
     furnished           BOOLEAN     DEFAULT false,
     distance_to_cmu     TEXT,                          -- walking/<5 min/5–10 min/10–20 min/20+ min
-    distance_sort       INT,                           -- 1=walking, 2=<5min, 3=5-10min, 4=10-20min, 5=20+min
+    distance_sort       INT         CHECK (distance_sort BETWEEN 1 AND 5),
     photos              TEXT[],                        -- Supabase Storage public URLs
     house_rules         TEXT,
-    status              TEXT        DEFAULT 'pending', -- pending/approved/rejected/rented
+    status              TEXT        DEFAULT 'pending'
+                                    CHECK (status IN ('pending','approved','rejected','rented')),
     slug                TEXT        UNIQUE,
     approved_at         TIMESTAMPTZ,
     expires_at          TIMESTAMPTZ,
@@ -59,6 +60,20 @@ CREATE TABLE public.rentals (
     landlord_name       TEXT,
     admin_notes         TEXT
 );
+
+-- Indexes
+CREATE INDEX rentals_public_idx ON public.rentals(status, expires_at, distance_sort, created_at);
+CREATE INDEX rentals_slug_idx   ON public.rentals(slug);
+
+-- Auto-update updated_at on every row change
+CREATE OR REPLACE FUNCTION set_updated_at()
+RETURNS TRIGGER LANGUAGE plpgsql AS $$
+BEGIN NEW.updated_at = NOW(); RETURN NEW; END;
+$$;
+
+CREATE TRIGGER rentals_updated_at
+BEFORE UPDATE ON public.rentals
+FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 ```
 
 **Rental types:** `room`, `studio`, `shared room`, `1 bedroom`, `2 bedroom`, `whole house`, `other`
@@ -101,6 +116,7 @@ USING (
 /api/admin/rentals/[action]      POST — admin mutations (approve/reject/renew/rented)
 
 /admin?tab=rentals               Rentals tab inside existing admin page
+/admin/rentals/[id]/preview      Admin-only preview — uses service role to fetch any status listing (bypasses RLS)
 ```
 
 **Navbar order (updated):**
@@ -161,9 +177,9 @@ Directory → Rent Near CMU → Events → Deals *(placeholder)* → Safety *(pl
 
 **Server-side (`/api/rentals/submit`):**
 - Honeypot check — return 200, discard silently
-- IP rate limit: max 3 submissions/hour (in-memory, keyed by `x-forwarded-for`)
+- IP rate limit: max 3 submissions/hour (in-memory, keyed by `x-forwarded-for`) — **temporary; resets on cold start. Move to Redis/KV store post-launch if abuse occurs.**
 - Required field validation — return 400 with `{ errors: { field: message } }`
-- WhatsApp normalization: strip spaces/dashes, ensure starts with `+1` or `+876`; store as `+XXXXXXXXXXX`
+- WhatsApp normalization: strip spaces/dashes/parentheses; Jamaica numbers are `+1-876-XXX-XXXX` in E.164 → stored as `+18761234567`. Accept bare `876XXXXXXX` → prepend `+1`. Accept `+18761234567` as-is. Store as `+[country code][number]` (11 digits for Jamaica).
 - Photo validation: max 5 files, max 5MB each, image MIME types only
 - Upload photos to `rental-images` Supabase Storage bucket, collect public URLs
 - Generate slug: `${type}-${crypto.randomUUID().slice(0,8)}` lowercased/hyphenated — no extra dependency
@@ -231,7 +247,7 @@ submitted: created_at · photos: count
 |---|---|---|
 | Approve | `POST /api/admin/rentals/approve` | `status='approved'`, `approved_at=now()`, `expires_at=now()+90 days` |
 | Reject | `POST /api/admin/rentals/reject` | `status='rejected'` |
-| Preview | Link to `/rent-near-cmu/[slug]` (opens in new tab) | — |
+| Preview | Link to `/admin/rentals/[id]/preview` (opens in new tab) | Server-side route using service role — bypasses RLS so pending/rejected listings are visible to admin |
 | Renew 90 Days | `POST /api/admin/rentals/renew` | `expires_at=now()+90 days` |
 | Mark Rented | `POST /api/admin/rentals/rented` | `status='rented'` |
 
