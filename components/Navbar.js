@@ -28,7 +28,6 @@ export default function Navbar() {
     }, []);
 
     async function checkAdmin(s) {
-        // Check session metadata first (no table query needed)
         const meta = s?.user?.app_metadata || {};
         if (meta.role === 'admin' || meta.is_admin === true) {
             setIsAdmin(true);
@@ -36,7 +35,6 @@ export default function Navbar() {
             return;
         }
 
-        // Fallback: check profiles table
         try {
             const { data, error } = await supabase
                 .from('profiles')
@@ -61,8 +59,10 @@ export default function Navbar() {
 
     const links = [
         { href: '/', label: 'Directory' },
+        { href: '/rent-near-cmu', label: 'Rent Near CMU' },
         { href: '/events', label: 'Events' },
-        { href: '/pricing', label: 'Pricing' },
+        { href: '#', label: 'Deals' },
+        { href: '#', label: 'Safety' },
     ];
 
     const loggedIn = !!session;
@@ -77,8 +77,8 @@ export default function Navbar() {
 
                 <nav className="hidden md:flex items-center gap-1">
                     {links.map(l => (
-                        <Link key={l.href} href={l.href}
-                            className={`px-4 py-2 rounded-btn text-sm font-medium transition ${
+                        <Link key={l.label} href={l.href}
+                            className={`px-3 lg:px-4 py-2 rounded-btn text-sm font-medium transition ${
                                 isActive(l.href) ? 'bg-brand-soft text-brand' : 'text-text-soft hover:text-text hover:bg-bg-alt'
                             }`}>
                             {l.label}
@@ -107,7 +107,7 @@ export default function Navbar() {
                         <>
                             <Link href="/login" className="text-sm font-medium text-text-soft hover:text-text px-4 py-2 rounded-btn transition">Login</Link>
                             <Link href="/post-ad" className="bg-brand text-white text-sm font-bold px-5 py-2.5 rounded-btn hover:bg-brand-deep transition shadow-sm">
-                                List Your Business
+                                List Business
                             </Link>
                         </>
                     )}
@@ -119,9 +119,9 @@ export default function Navbar() {
             </div>
 
             {mobileOpen && (
-                <div className="md:hidden border-t border-border bg-surface px-6 py-4 space-y-2">
+                <div className="md:hidden border-t border-border bg-surface px-6 py-4 space-y-2 shadow-xl">
                     {links.map(l => (
-                        <Link key={l.href} href={l.href} onClick={() => setMobileOpen(false)}
+                        <Link key={l.label} href={l.href} onClick={() => setMobileOpen(false)}
                             className={`block px-4 py-2.5 rounded-btn text-sm font-medium ${
                                 isActive(l.href) ? 'bg-brand-soft text-brand' : 'text-text-soft hover:text-text'
                             }`}>{l.label}</Link>
@@ -138,7 +138,7 @@ export default function Navbar() {
                     ) : (
                         <>
                             <Link href="/login" onClick={() => setMobileOpen(false)} className="block px-4 py-2.5 rounded-btn text-sm font-medium text-text-soft">Login</Link>
-                            <Link href="/post-ad" onClick={() => setMobileOpen(false)} className="block bg-brand text-white text-center text-sm font-bold py-3 rounded-btn">List Your Business</Link>
+                            <Link href="/post-ad" onClick={() => setMobileOpen(false)} className="block bg-brand text-white text-center text-sm font-bold py-3 rounded-btn">List Business</Link>
                         </>
                     )}
                 </div>
