@@ -1,31 +1,35 @@
 const CATEGORIES = [
-    "All Categories",
-    "Home Maintenance & Repair",
-    "Food & Beverage",
-    "Professional Services",
-    "Retail Services",
-    "Accommodation & Transport",
-    "Other Community Services"
+    { label: 'All',                   value: ''                       },
+    { label: 'Food & Beverage',       value: 'Food & Beverage'        },
+    { label: 'Retail',                value: 'Retail'                 },
+    { label: 'Transport',             value: 'Transport'              },
+    { label: 'Professional Services', value: 'Professional Services'  },
+    { label: 'Home Services',         value: 'Home Services'          },
+    { label: 'Beauty & Wellness',     value: 'Beauty & Wellness'      },
+    { label: 'Emergency',             value: 'Emergency'              },
+    { label: 'Community',             value: 'Community'              },
 ];
 
 export default function CategoryFilter({ selectedCategory, onSelectCategory }) {
     return (
         <div className="w-full overflow-x-auto pb-4 pt-2 hide-scrollbar">
             <div className="flex gap-3 px-6 max-w-7xl mx-auto">
-                {CATEGORIES.map((category) => (
-                    <button
-                        key={category}
-                        onClick={() => onSelectCategory(category)}
-                        className={`whitespace-nowrap px-4 py-2 rounded-full text-sm font-semibold transition-all shadow-sm
-              ${selectedCategory === category || (!selectedCategory && category === "All Categories")
-                                ? "bg-brand-blue text-white ring-2 ring-brand-yellow/50 shadow-md"
-                                : "bg-white text-gray-600 hover:bg-gray-50 border border-gray-200 hover:border-gray-300"
-                            }
-            `}
-                    >
-                        {category}
-                    </button>
-                ))}
+                {CATEGORIES.map(({ label, value }) => {
+                    const isActive = selectedCategory === value || (!selectedCategory && value === '');
+                    return (
+                        <button
+                            key={value}
+                            onClick={() => onSelectCategory(value)}
+                            className={`whitespace-nowrap px-4 py-2 rounded-full text-sm font-semibold transition-all shadow-sm
+                                ${isActive
+                                    ? 'bg-brand text-white shadow-md'
+                                    : 'bg-white text-text-soft hover:bg-bg-alt border border-border hover:border-brand/30'
+                                }`}
+                        >
+                            {label}
+                        </button>
+                    );
+                })}
             </div>
         </div>
     );

@@ -7,7 +7,7 @@ import EmptyState from '../components/EmptyState';
 import SearchBar from '../components/SearchBar';
 import { supabase } from '../lib/supabase';
 
-const POPULAR_SEARCHES = ['Food & Dining', 'Professional Services', 'Beauty & Wellness', 'Automotive', 'Home Services', 'Retail Shops'];
+const POPULAR_SEARCHES = ['Food & Beverage', 'Professional Services', 'Beauty & Wellness', 'Transport', 'Home Services', 'Retail'];
 
 export async function getServerSideProps() {
     try {
@@ -57,10 +57,10 @@ export default function Home({ initialVendors }) {
     return (
         <div className="min-h-screen bg-bg">
             <Head>
-                <title>Harbour View Directory — Trusted Local Directory | Kingston, Jamaica</title>
-                <meta name="description" content="Discover local businesses, services, food, shops, and events in Harbour View, Kingston Jamaica. Browse the trusted community directory." />
+                <title>Harbour View Directory — Businesses, Services & Events | Kingston, Jamaica</title>
+                <meta name="description" content="Harbour View's trusted local directory for businesses, rentals near CMU, services, events, deals, and community notices. Kingston, Jamaica." />
                 <meta property="og:title" content="Harbour View Directory — Trusted Local Directory" />
-                <meta property="og:description" content="Harbour View's trusted community marketplace. Find local businesses, food, services, and events." />
+                <meta property="og:description" content="Harbour View's trusted local directory for businesses, rentals near CMU, services, events, deals, and community notices." />
                 <meta property="og:url" content="https://harbourviewdirectory.online" />
                 <link rel="canonical" href="https://harbourviewdirectory.online" />
             </Head>
@@ -78,11 +78,10 @@ export default function Home({ initialVendors }) {
                             </div>
                             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-5 leading-tight">
                                 Harbour View's<br />
-                                <span className="text-brand-warm">trusted local directory</span>
+                                <span className="text-brand-warm">Trusted Local Directory</span>
                             </h1>
                             <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">
-                                Discover the best businesses, services, food, shops &amp; events in our community.
-                                From patty shops to auto repairs — find it all here.
+                                For businesses, rentals near CMU, services, events, deals, and community notices.
                             </p>
                             <div className="flex flex-wrap justify-center gap-3 mt-8">
                                 <a href="#directory" className="bg-white text-brand-deep font-bold px-8 py-3.5 rounded-btn shadow-elevated hover:bg-gray-50 transition">

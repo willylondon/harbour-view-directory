@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
-import { supabase } from '../../lib/supabase';
+import { supabase, getImageUrl } from '../../lib/supabase';
 
 export async function getServerSideProps(context) {
     const { slug } = context.params;
@@ -87,6 +87,20 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, erro
     const [rating, setRating] = useState(5);
     const [comment, setComment] = useState('');
     const [userName, setUserName] = useState('');
+    const [heroImgError, setHeroImgError] = useState(false);
+
+    const categoryIcons = {
+        'Food & Beverage':       '🍽️',
+        'Professional Services': '💼',
+        'Transport':             '🚗',
+        'Beauty & Wellness':     '💆',
+        'Home Services':         '🏠',
+        'Retail':                '🛍️',
+        'Emergency':             '🚨',
+        'Community':             '🏘️',
+    };
+    const heroImageUrl = getImageUrl(vendor?.images?.[0]);
+    const catEmoji = categoryIcons[vendor?.category] || '🏢';
 
     if (router.isFallback) {
         return (
@@ -214,27 +228,18 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, erro
                 <div className="max-w-4xl mx-auto px-6">
                     <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden mb-8">
                         <div className="relative h-64 w-full bg-gray-100 flex items-center justify-center">
-                            {vendor.images && vendor.images.length > 0 && vendor.images[0] !== '/placeholder.png' ? (
-                                <Image 
-                                    src={vendor.images[0]} 
-                                    alt={vendor.business_name} 
-                                    fill 
-                                    className="object-cover" 
+                            {heroImageUrl && !heroImgError ? (
+                                <Image
+                                    src={heroImageUrl}
+                                    alt={vendor.business_name}
+                                    fill
+                                    className="object-cover"
                                     sizes="(max-width: 768px) 100vw, 768px"
+                                    onError={() => setHeroImgError(true)}
                                 />
                             ) : (
                                 <div className="text-center">
-                                    <div className="text-7xl opacity-50">
-                                        {vendor.category === 'Food & Dining' && '🍽️'}
-                                        {vendor.category === 'Professional Services' && '💼'}
-                                        {vendor.category === 'Automotive' && '🔧'}
-                                        {vendor.category === 'Beauty & Wellness' && '💆'}
-                                        {vendor.category === 'Home Services' && '🏠'}
-                                        {vendor.category === 'Retail Shops' && '🛍️'}
-                                        {vendor.category === 'Health & Medical' && '🏥'}
-                                        {vendor.category === 'Education' && '📚'}
-                                        {!['Food & Dining', 'Professional Services', 'Automotive', 'Beauty & Wellness', 'Home Services', 'Retail Shops', 'Health & Medical', 'Education'].includes(vendor.category) && '🏢'}
-                                    </div>
+                                    <div className="text-7xl opacity-50">{catEmoji}</div>
                                     <span className="text-text-muted text-sm font-medium mt-2 block">{vendor.category}</span>
                                 </div>
                             )}

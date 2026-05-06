@@ -1,6 +1,10 @@
+import { useState } from 'react';
 import Link from 'next/link';
+import { getImageUrl } from '../lib/supabase';
 
 export default function ListingCard({ vendor }) {
+    const [imgError, setImgError] = useState(false);
+
     const {
         id,
         business_name,
@@ -17,30 +21,33 @@ export default function ListingCard({ vendor }) {
     } = vendor || {};
 
     const categoryIcons = {
-        'Food & Dining': { emoji: '🍽️', bg: 'bg-orange-50', border: 'border-orange-200' },
-        'Professional Services': { emoji: '💼', bg: 'bg-blue-50', border: 'border-blue-200' },
-        'Automotive': { emoji: '🔧', bg: 'bg-slate-50', border: 'border-slate-200' },
-        'Beauty & Wellness': { emoji: '💆', bg: 'bg-pink-50', border: 'border-pink-200' },
-        'Home Services': { emoji: '🏠', bg: 'bg-emerald-50', border: 'border-emerald-200' },
-        'Retail Shops': { emoji: '🛍️', bg: 'bg-violet-50', border: 'border-violet-200' },
-        'Health & Medical': { emoji: '🏥', bg: 'bg-red-50', border: 'border-red-200' },
-        'Education': { emoji: '📚', bg: 'bg-amber-50', border: 'border-amber-200' },
+        'Food & Beverage':       { emoji: '🍽️', bg: 'bg-orange-50',  border: 'border-orange-200' },
+        'Professional Services': { emoji: '💼',  bg: 'bg-blue-50',   border: 'border-blue-200'   },
+        'Transport':             { emoji: '🚗',  bg: 'bg-slate-50',  border: 'border-slate-200'  },
+        'Beauty & Wellness':     { emoji: '💆',  bg: 'bg-pink-50',   border: 'border-pink-200'   },
+        'Home Services':         { emoji: '🏠',  bg: 'bg-emerald-50',border: 'border-emerald-200'},
+        'Retail':                { emoji: '🛍️', bg: 'bg-violet-50', border: 'border-violet-200' },
+        'Emergency':             { emoji: '🚨',  bg: 'bg-red-50',    border: 'border-red-200'    },
+        'Community':             { emoji: '🏘️', bg: 'bg-amber-50',  border: 'border-amber-200'  },
     };
+
     const cat = categoryIcons[category] || { emoji: '🏢', bg: 'bg-gray-50', border: 'border-gray-200' };
     const vendorUrl = slug ? `/vendor/${slug}` : `/vendor/${id}`;
-    const hasImage = images && images.length > 0;
+    const imageUrl = images && images.length > 0 ? getImageUrl(images[0]) : null;
+    const showImage = imageUrl && !imgError;
 
     return (
         <Link href={vendorUrl} className="block group">
             <article className={`card-premium overflow-hidden ${is_top_ad ? 'ring-2 ring-brand-warm/60 ring-offset-2 ring-offset-bg' : ''}`}>
                 {/* Image / Placeholder */}
-                <div className={`relative h-48 ${hasImage ? '' : cat.bg} flex items-center justify-center border-b ${cat.border}`}>
-                    {hasImage ? (
+                <div className={`relative h-48 ${showImage ? '' : cat.bg} flex items-center justify-center border-b ${cat.border}`}>
+                    {showImage ? (
                         <img
-                            src={images[0]}
-                            alt={business_name}
+                            src={imageUrl}
+                            alt={business_name || 'Business'}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             loading="lazy"
+                            onError={() => setImgError(true)}
                         />
                     ) : (
                         <span className="text-6xl opacity-60">{cat.emoji}</span>
