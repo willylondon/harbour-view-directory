@@ -34,7 +34,7 @@ export default function Dashboard() {
         try {
             const { data, error } = await supabase
                 .from('vendors')
-                .select('*')
+                .select('id, business_name, category, slug, is_approved, created_at')
                 .eq('user_id', userId);
 
             if (error) throw error;
@@ -102,7 +102,7 @@ export default function Dashboard() {
                                         <p className="text-sm text-gray-500">{vendor.category}</p>
                                     </div>
                                     <div className="flex gap-2">
-                                        <Link href={`/vendor/${vendor.id}`} className="text-brand-blue font-semibold text-sm hover:underline px-3 py-1">View</Link>
+                                        <Link href={`/vendor/${vendor.slug || vendor.id}`} className="text-brand-blue font-semibold text-sm hover:underline px-3 py-1">View</Link>
                                         <button className="text-gray-600 font-semibold text-sm hover:underline px-3 py-1">Edit</button>
                                     </div>
                                 </div>

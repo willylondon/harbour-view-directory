@@ -194,12 +194,12 @@ Completed a comprehensive audit and fix of harbourviewdirectory.online to make i
 
 ## Files Modified
 - `pages/index.js` - Homepage improvements
-- `pages/vendor/[id].js` - Server-side rendering
-- `pages/vendor/[slug].js` - New slug-based route
+- `pages/vendor/[slug].js` - Slug-based route with server-side rendering
 - `components/Navbar.js` - Navigation updates
 - `components/VendorCard.js` - Slug support & placeholders
 - `components/SearchBar.js` - Accessibility improvements
 - `pages/_app.js` - Added ErrorBoundary
+- `pages/dashboard.js` - Updated for slug URLs
 - Plus all new pages and components listed above
 
 The site is now production-ready with proper SEO, UX, and business functionality.
