@@ -1,16 +1,59 @@
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { supabase } from '../lib/supabase';
-import { requireAdmin } from '../lib/admin';
 
-export async function getServerSideProps(context) {
-    const result = await requireAdmin(context);
-    if (result.redirect) return result;
-    return { props: { user: { email: result.session.user.email } } };
-}
+export default function AdminPage() {
+    const router = useRouter();
+    const [authorized, setAuthorized] = useState(false);
+    const [user, setUser] = useState(null);
+    const [checking, setChecking] = useState(true);
 
-export default function AdminPage({ user }) {
+    useEffect(() => {
+        checkAccess();
+    }, []);
+
+    async function checkAccess() {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) { router.push('/login'); return; }
+
+        // Check app_metadata first
+        const meta = session.user.app_metadata || {};
+        if (meta.role === 'admin' || meta.is_admin === true) {
+            setUser(session.user);
+            setAuthorized(true);
+            setChecking(false);
+            return;
+        }
+
+        // Fallback: check profiles table
+        try {
+            const { data } = await supabase
+                .from('profiles')
+                .select('role, is_admin')
+                .eq('id', session.user.id)
+                .maybeSingle();
+            if (data?.role === 'admin' || data?.is_admin === true) {
+                setUser(session.user);
+                setAuthorized(true);
+                setChecking(false);
+                return;
+            }
+        } catch {}
+
+        router.push('/dashboard');
+    }
+
+    if (checking || !authorized) {
+        return (
+            <div className="min-h-screen bg-bg flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand" />
+            </div>
+        );
+    }
+
     return (
         <div className="min-h-screen bg-bg">
             <Head><title>Admin Panel | Harbour View Directory</title></Head>
@@ -21,7 +64,7 @@ export default function AdminPage({ user }) {
                         <span className="bg-brand-warm text-white text-xs font-bold px-3 py-1.5 rounded-full">Admin</span>
                         <h1 className="text-3xl font-extrabold text-text">Admin Panel</h1>
                     </div>
-                    <p className="text-text-soft mb-6">Logged in as <strong>{user.email}</strong></p>
+                    <p className="text-text-soft mb-6">Logged in as <strong>{user?.email}</strong></p>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                         <div className="card-premium p-6">
