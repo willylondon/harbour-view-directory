@@ -12,35 +12,31 @@ function formatDate(d) {
     return date.toLocaleDateString('en-JM', { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
 }
 
-export default function EventsPage() {
-    const [events, setEvents] = useState([]);
-    const [displayEvents, setDisplayEvents] = useState([]);
+export async function getServerSideProps() {
+    try {
+        const { data: events, error } = await supabase
+            .from('events')
+            .select('*')
+            .eq('is_approved', true)
+            .gte('start_date', new Date().toISOString())
+            .order('start_date', { ascending: true })
+            .limit(30);
+        if (error) throw error;
+        return { props: { initialEvents: events || [] } };
+    } catch (err) {
+        console.error('Events SSR error:', err.message);
+        return { props: { initialEvents: [] } };
+    }
+}
+
+export default function EventsPage({ initialEvents }) {
+    const [events, setEvents] = useState(initialEvents);
+    const [displayEvents, setDisplayEvents] = useState(initialEvents);
     const [activeCategory, setActiveCategory] = useState('All Events');
     const [search, setSearch] = useState('');
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
-    useEffect(() => { fetchEvents(); }, []);
     useEffect(() => { filterEvents(); }, [events, activeCategory, search]);
-
-    async function fetchEvents() {
-        try {
-            setLoading(true);
-            const { data, error } = await supabase
-                .from('events')
-                .select('*')
-                .eq('is_approved', true)
-                .gte('start_date', new Date().toISOString())
-                .order('start_date', { ascending: true })
-                .limit(30);
-            if (error) throw error;
-            setEvents(data || []);
-        } catch (err) {
-            console.error(err);
-            setEvents([]);
-        } finally {
-            setLoading(false);
-        }
-    }
 
     function filterEvents() {
         let filtered = [...events];
@@ -57,7 +53,7 @@ export default function EventsPage() {
     }
 
     const featuredEvent = events.find(e => e.is_featured) || displayEvents[0];
-    const hasNoEvents = events.length === 0 && !loading;
+    const hasNoEvents = events.length === 0;
 
     return (
         <div className="min-h-screen bg-bg">

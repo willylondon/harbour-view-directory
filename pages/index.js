@@ -9,35 +9,32 @@ import { supabase } from '../lib/supabase';
 
 const POPULAR_SEARCHES = ['Food & Dining', 'Professional Services', 'Beauty & Wellness', 'Automotive', 'Home Services', 'Retail Shops'];
 
-export default function Home() {
-    const [vendors, setVendors] = useState([]);
-    const [displayVendors, setDisplayVendors] = useState([]);
+export async function getServerSideProps() {
+    try {
+        const { data: vendors, error } = await supabase
+            .from('vendors')
+            .select('*')
+            .eq('is_approved', true)
+            .order('is_top_ad', { ascending: false })
+            .order('is_featured', { ascending: false })
+            .order('created_at', { ascending: false })
+            .limit(50);
+        if (error) throw error;
+        return { props: { initialVendors: vendors || [] } };
+    } catch (err) {
+        console.error('SSR fetch error:', err.message);
+        return { props: { initialVendors: [] } };
+    }
+}
+
+export default function Home({ initialVendors }) {
+    const [vendors, setVendors] = useState(initialVendors);
+    const [displayVendors, setDisplayVendors] = useState(initialVendors);
     const [searchQuery, setSearchQuery] = useState('');
     const [activeCategory, setActiveCategory] = useState('');
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
-    useEffect(() => { fetchVendors(); }, []);
     useEffect(() => { filterVendors(); }, [vendors, searchQuery, activeCategory]);
-
-    async function fetchVendors() {
-        try {
-            setLoading(true);
-            const { data, error } = await supabase
-                .from('vendors')
-                .select('*')
-                .eq('is_approved', true)
-                .order('is_top_ad', { ascending: false })
-                .order('is_featured', { ascending: false })
-                .limit(50);
-            if (error) throw error;
-            setVendors(data && data.length > 0 ? data : []);
-        } catch (err) {
-            console.error('Fetch error:', err.message);
-            setVendors([]);
-        } finally {
-            setLoading(false);
-        }
-    }
 
     function filterVendors() {
         let filtered = [...vendors];
@@ -54,8 +51,8 @@ export default function Home() {
     }
 
     const featuredVendors = vendors.filter(v => v.is_featured || v.is_top_ad).slice(0, 3);
-    const hasNoVendors = vendors.length === 0 && !loading;
-    const hasNoResults = vendors.length > 0 && displayVendors.length === 0 && !loading;
+    const hasNoVendors = vendors.length === 0;
+    const hasNoResults = vendors.length > 0 && displayVendors.length === 0;
 
     return (
         <div className="min-h-screen bg-bg">

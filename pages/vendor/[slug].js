@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Image from 'next/image';
 import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
 import { supabase } from '../../lib/supabase';
 
 export async function getServerSideProps(context) {
@@ -223,16 +224,18 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, erro
                                 />
                             ) : (
                                 <div className="text-center">
-                                    <div className="text-6xl mb-4">
+                                    <div className="text-7xl opacity-50">
                                         {vendor.category === 'Food & Dining' && '🍽️'}
                                         {vendor.category === 'Professional Services' && '💼'}
-                                        {vendor.category === 'Automotive' && '🚗'}
-                                        {vendor.category === 'Beauty & Wellness' && '💅'}
+                                        {vendor.category === 'Automotive' && '🔧'}
+                                        {vendor.category === 'Beauty & Wellness' && '💆'}
                                         {vendor.category === 'Home Services' && '🏠'}
                                         {vendor.category === 'Retail Shops' && '🛍️'}
-                                        {!['Food & Dining', 'Professional Services', 'Automotive', 'Beauty & Wellness', 'Home Services', 'Retail Shops'].includes(vendor.category) && '🏢'}
+                                        {vendor.category === 'Health & Medical' && '🏥'}
+                                        {vendor.category === 'Education' && '📚'}
+                                        {!['Food & Dining', 'Professional Services', 'Automotive', 'Beauty & Wellness', 'Home Services', 'Retail Shops', 'Health & Medical', 'Education'].includes(vendor.category) && '🏢'}
                                     </div>
-                                    <span className="text-gray-400 font-medium">No Image Available</span>
+                                    <span className="text-text-muted text-sm font-medium mt-2 block">{vendor.category}</span>
                                 </div>
                             )}
                         </div>
@@ -389,8 +392,10 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, erro
                                     </div>
                                 ))
                             ) : (
-                                <div className="text-center py-8 text-gray-500">
-                                    <p>No reviews yet. Be the first to review this business!</p>
+                                <div className="text-center py-10 bg-bg-alt rounded-btn">
+                                    <div className="text-4xl mb-3">⭐</div>
+                                    <p className="text-text font-semibold mb-1">No reviews yet</p>
+                                    <p className="text-text-muted text-sm">Be the first to share your experience with this business.</p>
                                 </div>
                             )}
                         </div>
@@ -405,22 +410,7 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, erro
                 </div>
             </main>
 
-            <footer className="bg-white border-t border-gray-100 py-12">
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-                        <div>
-                            <p className="text-gray-500">© {new Date().getFullYear()} Harbour View Directory</p>
-                            <p className="text-gray-400 text-sm mt-1">Supporting local businesses in Harbour View</p>
-                        </div>
-                        <div className="flex gap-6">
-                            <a href="/" className="text-gray-500 hover:text-brand-blue transition">Home</a>
-                            <a href="/events" className="text-gray-500 hover:text-brand-blue transition">Events</a>
-                            <a href="/pricing" className="text-gray-500 hover:text-brand-blue transition">Pricing</a>
-                            <a href="/contact" className="text-gray-500 hover:text-brand-blue transition">Contact</a>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+            <Footer />
         </div>
     );
 }
