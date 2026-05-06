@@ -25,8 +25,14 @@ export default function Navbar() {
                     <Link href="/">
                         <span className="cursor-pointer hover:text-brand-yellow transition">Directory</span>
                     </Link>
-                    <Link href="/dashboard">
-                        <span className="cursor-pointer hover:text-brand-blue bg-brand-yellow text-gray-900 px-5 py-2 rounded-md transition font-bold shadow-sm">Post Ad</span>
+                    <Link href="/events">
+                        <span className="cursor-pointer hover:text-brand-yellow transition">Events</span>
+                    </Link>
+                    <Link href="/pricing">
+                        <span className="cursor-pointer hover:text-brand-yellow transition">Pricing</span>
+                    </Link>
+                    <Link href="/post-ad">
+                        <span className="cursor-pointer hover:text-brand-blue bg-brand-yellow text-gray-900 px-5 py-2 rounded-md transition font-bold shadow-sm">List Business</span>
                     </Link>
                     <Link href="/login">
                         <span className="cursor-pointer bg-white text-brand-blue px-5 py-2 rounded-md hover:bg-gray-100 transition shadow-sm font-bold">Login</span>

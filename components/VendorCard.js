@@ -11,29 +11,47 @@ export default function VendorCard({ vendor }) {
         is_top_ad,
         images,
         rating = 0,
-        reviewCount = 0
+        reviewCount = 0,
+        slug
     } = vendor || {};
 
-    const imageUrl = images && images.length > 0 ? images[0] : '/placeholder.png';
+    const getPlaceholderImage = () => {
+        const placeholders = {
+            'Food & Dining': '🍽️',
+            'Professional Services': '💼',
+            'Automotive': '🚗',
+            'Beauty & Wellness': '💅',
+            'Home Services': '🏠',
+            'Retail Shops': '🛍️'
+        };
+        return placeholders[category] || '🏢';
+    };
+
+    const imageUrl = images && images.length > 0 ? images[0] : null;
+    const vendorUrl = slug ? `/vendor/${slug}` : `/vendor/${id}`;
 
     return (
-        <Link href={`/vendor/${id}`} className="block group">
+        <Link href={vendorUrl} className="block group">
             <div
                 className={`bg-bg-card rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border 
           ${is_top_ad ? 'border-brand-yellow ring-2 ring-brand-yellow/50' : 'border-gray-200 group-hover:border-brand-blue/30'}
         `}
             >
                 <div className="flex flex-col sm:flex-row p-4 gap-4 items-start sm:items-center">
-                    <div className="relative w-full sm:w-28 h-48 sm:h-28 rounded-lg overflow-hidden shrink-0 bg-white flex items-center justify-center border border-gray-100">
-                        {imageUrl === '/placeholder.png' ? (
-                            <span className="text-gray-400 font-medium text-sm">No Image</span>
-                        ) : (
+                    <div className="relative w-full sm:w-28 h-48 sm:h-28 rounded-lg overflow-hidden shrink-0 bg-gradient-to-br from-blue-50 to-gray-50 flex items-center justify-center border border-gray-200 group-hover:border-brand-blue/50 transition-colors">
+                        {imageUrl ? (
                             <Image
                                 src={imageUrl}
                                 alt={business_name}
                                 fill
                                 className="object-cover group-hover:scale-105 transition-transform duration-300"
+                                sizes="(max-width: 768px) 100vw, 112px"
                             />
+                        ) : (
+                            <div className="text-center p-4">
+                                <div className="text-4xl mb-2">{getPlaceholderImage()}</div>
+                                <span className="text-gray-400 font-medium text-xs block">{category}</span>
+                            </div>
                         )}
                         {is_top_ad && (
                             <div className="absolute top-2 left-2 sm:hidden bg-brand-yellow text-gray-900 text-xs font-bold px-2 py-1 rounded shadow-sm">

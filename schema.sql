@@ -17,6 +17,10 @@ CREATE TABLE IF NOT EXISTS public.vendors (
     tier TEXT DEFAULT 'free',
     rating NUMERIC(3, 1) DEFAULT 0,
     "reviewCount" INTEGER DEFAULT 0,
+    is_approved BOOLEAN DEFAULT true,  -- New field for admin approval
+    slug TEXT UNIQUE,  -- For SEO-friendly URLs
+    meta_title TEXT,
+    meta_description TEXT,
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -30,14 +34,32 @@ CREATE TABLE IF NOT EXISTS public.reviews (
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 3. Enable RLS
+-- 3. Create Events Table
+CREATE TABLE IF NOT EXISTS public.events (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    title TEXT NOT NULL,
+    description TEXT,
+    location TEXT,
+    start_date TIMESTAMPTZ NOT NULL,
+    end_date TIMESTAMPTZ,
+    category TEXT,
+    organizer TEXT,
+    contact_info TEXT,
+    images TEXT[],
+    is_featured BOOLEAN DEFAULT false,
+    is_approved BOOLEAN DEFAULT true,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- 4. Enable RLS
 ALTER TABLE public.vendors ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.reviews ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.events ENABLE ROW LEVEL SECURITY;
 
--- 4. RLS Policies for Vendors Table
--- Anyone can read active vendors
+-- 5. RLS Policies for Vendors Table
+-- Anyone can read approved vendors
 CREATE POLICY "Public profiles are viewable by everyone." 
-ON public.vendors FOR SELECT USING (true);
+ON public.vendors FOR SELECT USING (is_approved = true);
 
 -- Authenticated users can insert their own vendor profile
 CREATE POLICY "Users can insert their own vendor." 

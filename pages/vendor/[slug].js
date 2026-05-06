@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Image from 'next/image';
@@ -6,115 +6,111 @@ import Navbar from '../../components/Navbar';
 import { supabase } from '../../lib/supabase';
 
 export async function getServerSideProps(context) {
-    const { id } = context.params;
+    const { slug } = context.params;
     
     try {
-        // Fetch vendor data on server side
+        // Try to find vendor by slug first
         const { data: vendor, error: vendorError } = await supabase
             .from('vendors')
-            .select('*')
-            .eq('id', id)
+            .select('*, reviews(*)')
+            .eq('slug', slug)
+            .eq('is_approved', true)
             .single();
 
-        if (vendorError) throw vendorError;
+        if (vendorError) {
+            // If not found by slug, try by ID (for backward compatibility)
+            const { data: vendorById, error: idError } = await supabase
+                .from('vendors')
+                .select('*, reviews(*)')
+                .eq('id', slug)
+                .eq('is_approved', true)
+                .single();
 
-        // Fetch reviews for this vendor
-        const { data: reviews, error: reviewsError } = await supabase
-            .from('reviews')
-            .select('*')
-            .eq('vendor_id', id)
-            .order('created_at', { ascending: false });
+            if (idError) {
+                throw new Error('Vendor not found');
+            }
 
-        if (reviewsError) throw reviewsError;
+            // If found by ID but has no slug, redirect to slug URL if possible
+            if (vendorById && !vendorById.slug) {
+                // Generate slug from business name
+                const generatedSlug = vendorById.business_name
+                    .toLowerCase()
+                    .replace(/[^\w\s-]/g, '')
+                    .replace(/\s+/g, '-')
+                    .replace(/-+/g, '-')
+                    .trim();
+
+                // Update vendor with slug
+                await supabase
+                    .from('vendors')
+                    .update({ slug: generatedSlug })
+                    .eq('id', vendorById.id);
+
+                return {
+                    redirect: {
+                        destination: `/vendor/${generatedSlug}`,
+                        permanent: true,
+                    },
+                };
+            }
+
+            return {
+                props: {
+                    vendor: vendorById,
+                    reviews: vendorById.reviews || [],
+                    error: null
+                }
+            };
+        }
 
         return {
             props: {
-                vendor: vendor || null,
-                reviews: reviews || [],
+                vendor,
+                reviews: vendor.reviews || [],
                 error: null
             }
         };
     } catch (error) {
         console.error('Error fetching vendor data:', error.message);
         
-        // Return fallback data for SEO
         return {
-            props: {
-                vendor: {
-                    id,
-                    business_name: 'Local Business in Harbour View',
-                    category: 'Professional Services',
-                    description: 'Local business serving the Harbour View community in Kingston Jamaica.',
-                    address: 'Harbour View, Kingston, Jamaica',
-                    phone: '',
-                    whatsapp: '',
-                    images: ['/placeholder.png'],
-                    rating: 4.0,
-                    reviewCount: 0,
-                    is_approved: true
-                },
-                reviews: [],
-                error: error.message
-            }
+            notFound: true,
         };
     }
 }
 
-export default function VendorDetail({ vendor: initialVendor, reviews: initialReviews, error }) {
+export default function VendorDetailSlug({ vendor, reviews: initialReviews, error }) {
     const router = useRouter();
-    const { id } = router.query;
-    const [vendor, setVendor] = useState(initialVendor);
     const [reviews, setReviews] = useState(initialReviews);
-    const [loading, setLoading] = useState(false);
-
     const [showReviewForm, setShowReviewForm] = useState(false);
     const [rating, setRating] = useState(5);
     const [comment, setComment] = useState('');
     const [userName, setUserName] = useState('');
 
-    // Client-side fallback if needed
-    useEffect(() => {
-        if (error && id) {
-            fetchVendor();
-            fetchReviews();
-        }
-    }, [id, error]);
-
-    async function fetchVendor() {
-        try {
-            setLoading(true);
-            const { data, error } = await supabase
-                .from('vendors')
-                .select('*')
-                .eq('id', id)
-                .single();
-
-            if (error) throw error;
-            if (data) setVendor(data);
-        } catch (error) {
-            console.error('Error fetching vendor:', error.message);
-        } finally {
-            setLoading(false);
-        }
+    if (router.isFallback) {
+        return (
+            <div className="min-h-screen bg-bg-primary">
+                <Navbar />
+                <div className="pt-32 flex justify-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-blue"></div>
+                </div>
+            </div>
+        );
     }
 
-    async function fetchReviews() {
-        try {
-            const { data, error } = await supabase
-                .from('reviews')
-                .select('*')
-                .eq('vendor_id', id)
-                .order('created_at', { ascending: false });
-
-            if (error) throw error;
-            if (data) setReviews(data);
-        } catch (error) {
-            console.error('Error fetching reviews:', error.message);
-            setReviews([
-                { id: '1', user_name: 'John Doe', rating: 5, comment: 'Great service! Highly recommended.', created_at: new Date().toISOString() },
-                { id: '2', user_name: 'Jane Smith', rating: 4, comment: 'Good prints, but a bit slow today.', created_at: new Date(Date.now() - 86400000).toISOString() }
-            ]);
-        }
+    if (!vendor) {
+        return (
+            <div className="min-h-screen bg-bg-primary">
+                <Navbar />
+                <div className="pt-32 text-center">
+                    <h1 className="text-2xl font-bold text-gray-900">Vendor not found</h1>
+                    <p className="text-gray-600 mt-2">This business listing may have been removed or doesn't exist.</p>
+                    <a href="/" className="inline-block mt-6 text-brand-blue font-bold hover:underline">
+                        ← Back to directory
+                    </a>
+                </div>
+            </div>
+        );
     }
 
     async function submitReview(e) {
@@ -123,7 +119,7 @@ export default function VendorDetail({ vendor: initialVendor, reviews: initialRe
             const { data, error } = await supabase
                 .from('reviews')
                 .insert([{
-                    vendor_id: id,
+                    vendor_id: vendor.id,
                     user_name: userName || 'Anonymous',
                     rating,
                     comment
@@ -156,17 +152,6 @@ export default function VendorDetail({ vendor: initialVendor, reviews: initialRe
         }
     }
 
-    if (loading || !vendor) {
-        return (
-            <div className="min-h-screen bg-bg-primary">
-                <Navbar />
-                <div className="pt-32 flex justify-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-blue"></div>
-                </div>
-            </div>
-        );
-    }
-
     // Generate JSON-LD structured data
     const jsonLd = {
         '@context': 'https://schema.org',
@@ -181,7 +166,7 @@ export default function VendorDetail({ vendor: initialVendor, reviews: initialRe
             addressCountry: 'JM'
         },
         telephone: vendor.phone,
-        url: `https://harbourviewdirectory.online/vendor/${id}`,
+        url: `https://harbourviewdirectory.online/vendor/${vendor.slug || vendor.id}`,
         image: vendor.images && vendor.images.length > 0 ? vendor.images[0] : '/placeholder.png',
         aggregateRating: {
             '@type': 'AggregateRating',
@@ -207,7 +192,7 @@ export default function VendorDetail({ vendor: initialVendor, reviews: initialRe
                 <meta property="og:title" content={pageTitle} />
                 <meta property="og:description" content={pageDescription} />
                 <meta property="og:type" content="business.business" />
-                <meta property="og:url" content={`https://harbourviewdirectory.online/vendor/${id}`} />
+                <meta property="og:url" content={`https://harbourviewdirectory.online/vendor/${vendor.slug || vendor.id}`} />
                 {vendor.images && vendor.images.length > 0 && vendor.images[0] !== '/placeholder.png' && (
                     <meta property="og:image" content={vendor.images[0]} />
                 )}
@@ -216,7 +201,7 @@ export default function VendorDetail({ vendor: initialVendor, reviews: initialRe
                 <meta property="business:contact_data:region" content="Kingston" />
                 <meta property="business:contact_data:postal_code" content="JMAAW01" />
                 <meta property="business:contact_data:country_name" content="Jamaica" />
-                <link rel="canonical" href={`https://harbourviewdirectory.online/vendor/${id}`} />
+                <link rel="canonical" href={`https://harbourviewdirectory.online/vendor/${vendor.slug || vendor.id}`} />
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -229,9 +214,26 @@ export default function VendorDetail({ vendor: initialVendor, reviews: initialRe
                     <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden mb-8">
                         <div className="relative h-64 w-full bg-gray-100 flex items-center justify-center">
                             {vendor.images && vendor.images.length > 0 && vendor.images[0] !== '/placeholder.png' ? (
-                                <Image src={vendor.images[0]} alt={vendor.business_name} fill className="object-cover" />
+                                <Image 
+                                    src={vendor.images[0]} 
+                                    alt={vendor.business_name} 
+                                    fill 
+                                    className="object-cover" 
+                                    sizes="(max-width: 768px) 100vw, 768px"
+                                />
                             ) : (
-                                <span className="text-gray-400 font-medium h-full flex items-center">No Image Available</span>
+                                <div className="text-center">
+                                    <div className="text-6xl mb-4">
+                                        {vendor.category === 'Food & Dining' && '🍽️'}
+                                        {vendor.category === 'Professional Services' && '💼'}
+                                        {vendor.category === 'Automotive' && '🚗'}
+                                        {vendor.category === 'Beauty & Wellness' && '💅'}
+                                        {vendor.category === 'Home Services' && '🏠'}
+                                        {vendor.category === 'Retail Shops' && '🛍️'}
+                                        {!['Food & Dining', 'Professional Services', 'Automotive', 'Beauty & Wellness', 'Home Services', 'Retail Shops'].includes(vendor.category) && '🏢'}
+                                    </div>
+                                    <span className="text-gray-400 font-medium">No Image Available</span>
+                                </div>
                             )}
                         </div>
 
@@ -260,12 +262,36 @@ export default function VendorDetail({ vendor: initialVendor, reviews: initialRe
                             <div className="bg-bg-card rounded-xl p-6 border border-gray-100">
                                 <h3 className="text-lg font-bold text-gray-900 mb-4">Contact Information</h3>
                                 <div className="space-y-3 text-gray-600">
-                                    {vendor.address && <p><strong>Address:</strong> {vendor.address}</p>}
-                                    {vendor.phone && <p><strong>Phone:</strong> {vendor.phone}</p>}
+                                    {vendor.address && (
+                                        <div className="flex items-start">
+                                            <span className="mr-3">📍</span>
+                                            <div>
+                                                <strong className="block text-sm font-bold text-gray-700">Address</strong>
+                                                <p>{vendor.address}</p>
+                                            </div>
+                                        </div>
+                                    )}
+                                    {vendor.phone && (
+                                        <div className="flex items-start">
+                                            <span className="mr-3">📞</span>
+                                            <div>
+                                                <strong className="block text-sm font-bold text-gray-700">Phone</strong>
+                                                <a href={`tel:${vendor.phone}`} className="hover:text-brand-blue">{vendor.phone}</a>
+                                            </div>
+                                        </div>
+                                    )}
                                     {vendor.whatsapp && (
-                                        <a href={vendor.whatsapp} target="_blank" rel="noopener noreferrer" className="inline-block mt-2 bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600 transition shadow-sm">
-                                            Message on WhatsApp
-                                        </a>
+                                        <div className="mt-4">
+                                            <a 
+                                                href={vendor.whatsapp} 
+                                                target="_blank" 
+                                                rel="noopener noreferrer" 
+                                                className="inline-flex items-center gap-2 bg-green-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-600 transition shadow-sm"
+                                            >
+                                                <span>💬</span>
+                                                Message on WhatsApp
+                                            </a>
+                                        </div>
                                     )}
                                 </div>
                             </div>
@@ -296,7 +322,8 @@ export default function VendorDetail({ vendor: initialVendor, reviews: initialRe
                                         type="text"
                                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue outline-none"
                                         placeholder="John Doe"
-                                        value={userName} onChange={e => setUserName(e.target.value)}
+                                        value={userName} 
+                                        onChange={e => setUserName(e.target.value)}
                                         required
                                     />
                                 </div>
@@ -305,7 +332,8 @@ export default function VendorDetail({ vendor: initialVendor, reviews: initialRe
                                     <label className="block text-sm font-bold text-gray-700 mb-1">Rating</label>
                                     <select
                                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue outline-none"
-                                        value={rating} onChange={e => setRating(Number(e.target.value))}
+                                        value={rating} 
+                                        onChange={e => setRating(Number(e.target.value))}
                                     >
                                         <option value="5">5 - Excellent</option>
                                         <option value="4">4 - Very Good</option>
@@ -321,7 +349,8 @@ export default function VendorDetail({ vendor: initialVendor, reviews: initialRe
                                         rows="3"
                                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue outline-none"
                                         placeholder="Tell us about your experience..."
-                                        value={comment} onChange={e => setComment(e.target.value)}
+                                        value={comment} 
+                                        onChange={e => setComment(e.target.value)}
                                         required
                                     ></textarea>
                                 </div>
@@ -349,22 +378,49 @@ export default function VendorDetail({ vendor: initialVendor, reviews: initialRe
                                             <h4 className="font-bold text-gray-900">{review.user_name}</h4>
                                             <span className="text-brand-yellow font-medium">★ {review.rating}</span>
                                         </div>
-                                        <p className="text-gray-600 mb-1">{review.comment}</p>
-                                        <span className="text-xs text-gray-400">
-                                            {new Date(review.created_at).toLocaleDateString()}
-                                        </span>
+                                        <p className="text-gray-600">{review.comment}</p>
+                                        <p className="text-gray-400 text-sm mt-2">
+                                            {new Date(review.created_at).toLocaleDateString('en-JM', {
+                                                year: 'numeric',
+                                                month: 'long',
+                                                day: 'numeric'
+                                            })}
+                                        </p>
                                     </div>
                                 ))
                             ) : (
-                                <div className="text-center py-8 text-gray-500 border border-dashed border-gray-300 rounded-xl">
-                                    <p>No reviews yet. Be the first to leave a review!</p>
+                                <div className="text-center py-8 text-gray-500">
+                                    <p>No reviews yet. Be the first to review this business!</p>
                                 </div>
                             )}
                         </div>
                     </div>
 
+                    {/* Back to directory */}
+                    <div className="mt-8 text-center">
+                        <a href="/" className="inline-flex items-center gap-2 text-brand-blue font-bold hover:underline">
+                            ← Back to Harbour View Directory
+                        </a>
+                    </div>
                 </div>
             </main>
+
+            <footer className="bg-white border-t border-gray-100 py-12">
+                <div className="max-w-7xl mx-auto px-6">
+                    <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+                        <div>
+                            <p className="text-gray-500">© {new Date().getFullYear()} Harbour View Directory</p>
+                            <p className="text-gray-400 text-sm mt-1">Supporting local businesses in Harbour View</p>
+                        </div>
+                        <div className="flex gap-6">
+                            <a href="/" className="text-gray-500 hover:text-brand-blue transition">Home</a>
+                            <a href="/events" className="text-gray-500 hover:text-brand-blue transition">Events</a>
+                            <a href="/pricing" className="text-gray-500 hover:text-brand-blue transition">Pricing</a>
+                            <a href="/contact" className="text-gray-500 hover:text-brand-blue transition">Contact</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
     );
 }
