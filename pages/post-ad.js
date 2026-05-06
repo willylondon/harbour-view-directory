@@ -1,268 +1,118 @@
 import { useState } from 'react';
 import Head from 'next/head';
 import Navbar from '../components/Navbar';
-import Link from 'next/link';
+import Footer from '../components/Footer';
 
 export default function PostAdPage() {
-    const [selectedPlan, setSelectedPlan] = useState('free');
-
-    const plans = [
-        {
-            id: 'free',
-            name: 'Free Listing',
-            price: 'Free',
-            period: 'Forever',
-            features: [
-                'Basic business listing',
-                'Contact information',
-                'Category listing',
-                'Community reviews',
-                'Approval within 48 hours',
-                'Limited to 3 images'
-            ],
-            cta: 'Get Started Free',
-            color: 'bg-blue-50 border-blue-200',
-            buttonColor: 'bg-brand-blue hover:bg-blue-700'
-        },
-        {
-            id: 'featured',
-            name: 'Featured',
-            price: 'JMD $2,500',
-            period: 'per month',
-            features: [
-                'Everything in Free, plus:',
-                '⭐ Featured badge',
-                'Top of category listings',
-                'Priority approval',
-                'Up to 10 images',
-                'WhatsApp contact button',
-                'Basic analytics'
-            ],
-            cta: 'Choose Featured',
-            color: 'bg-yellow-50 border-yellow-200',
-            buttonColor: 'bg-yellow-500 hover:bg-yellow-600'
-        },
-        {
-            id: 'premium',
-            name: 'Premium',
-            price: 'JMD $5,000',
-            period: 'per month',
-            features: [
-                'Everything in Featured, plus:',
-                '🔥 Top Ad placement',
-                'Homepage visibility',
-                'Unlimited images',
-                'Advanced analytics',
-                'Social media promotion',
-                'Priority support',
-                'Verified badge'
-            ],
-            cta: 'Go Premium',
-            color: 'bg-purple-50 border-purple-200',
-            buttonColor: 'bg-purple-600 hover:bg-purple-700'
-        }
-    ];
+    const [tab, setTab] = useState('business');
 
     return (
-        <div className="min-h-screen bg-bg-primary">
+        <div className="min-h-screen bg-bg">
             <Head>
                 <title>List Your Business | Harbour View Directory</title>
-                <meta name="description" content="List your business in the Harbour View Directory. Choose from free, featured, or premium listings to reach local customers." />
+                <meta name="description" content="List your business in the Harbour View Directory. Choose Free, Featured, or Premium. Simple WhatsApp payment workflow." />
                 <link rel="canonical" href="https://harbourviewdirectory.online/post-ad" />
             </Head>
-
             <Navbar />
-
-            <main className="pt-24 pb-16">
-                <div className="max-w-6xl mx-auto px-6">
-                    {/* Hero Section */}
-                    <div className="text-center mb-12">
-                        <h1 className="text-5xl font-black text-gray-900 mb-6">
-                            List Your Business in Harbour View
-                        </h1>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-                            Reach thousands of local customers. Choose the perfect listing plan for your business.
-                        </p>
-                        <div className="flex flex-wrap justify-center gap-4">
-                            <a href="#pricing" className="bg-brand-blue text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 transition">
-                                View Pricing Plans
-                            </a>
-                            <a href="#how-it-works" className="bg-white text-brand-blue border-2 border-brand-blue px-8 py-3 rounded-lg font-bold hover:bg-blue-50 transition">
-                                How It Works
-                            </a>
-                        </div>
+            <main>
+                <section className="bg-gradient-to-br from-brand-deep to-brand pt-28 pb-14 px-6 text-center text-white">
+                    <div className="container-premium max-w-2xl">
+                        <h1 className="text-4xl md:text-5xl font-extrabold mb-4">List Your Business in Harbour View</h1>
+                        <p className="text-lg text-white/80">Reach thousands of local customers. Start free or go premium — it only takes a few minutes.</p>
                     </div>
+                </section>
 
-                    {/* How It Works */}
-                    <div id="how-it-works" className="mb-16">
-                        <h2 className="text-3xl font-bold text-center text-gray-900 mb-10">How It Works</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            <div className="bg-white rounded-2xl p-6 border border-gray-200 text-center">
-                                <div className="text-4xl mb-4">1️⃣</div>
-                                <h3 className="text-xl font-bold text-gray-900 mb-3">Choose Your Plan</h3>
-                                <p className="text-gray-600">
-                                    Select from Free, Featured, or Premium listings based on your business needs and budget.
-                                </p>
-                            </div>
-                            <div className="bg-white rounded-2xl p-6 border border-gray-200 text-center">
-                                <div className="text-4xl mb-4">2️⃣</div>
-                                <h3 className="text-xl font-bold text-gray-900 mb-3">Submit Your Details</h3>
-                                <p className="text-gray-600">
-                                    Fill out your business information, upload photos, and provide contact details.
-                                </p>
-                            </div>
-                            <div className="bg-white rounded-2xl p-6 border border-gray-200 text-center">
-                                <div className="text-4xl mb-4">3️⃣</div>
-                                <h3 className="text-xl font-bold text-gray-900 mb-3">Go Live & Get Customers</h3>
-                                <p className="text-gray-600">
-                                    Your listing goes live, and customers can find and contact you immediately.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* WhatsApp Payment Info */}
-                    <div className="mb-16 bg-green-50 border border-green-200 rounded-2xl p-8">
-                        <div className="flex flex-col md:flex-row items-center gap-6">
-                            <div className="text-6xl">💬</div>
-                            <div className="flex-1">
-                                <h3 className="text-2xl font-bold text-gray-900 mb-3">Easy WhatsApp Payments</h3>
-                                <p className="text-gray-700 mb-4">
-                                    For Featured and Premium plans, payment is simple and secure via WhatsApp. After submitting your listing, we'll send you a payment request on WhatsApp. Once confirmed, your listing goes live immediately!
-                                </p>
-                                <div className="flex flex-wrap gap-3">
-                                    <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">Secure Payment</span>
-                                    <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">Instant Activation</span>
-                                    <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">Receipt Provided</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Pricing Plans */}
-                    <div id="pricing" className="mb-16">
-                        <h2 className="text-3xl font-bold text-center text-gray-900 mb-10">Choose Your Plan</h2>
-                        
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            {plans.map((plan) => (
-                                <div 
-                                    key={plan.id} 
-                                    className={`rounded-2xl border-2 p-8 transition-all ${selectedPlan === plan.id ? 'scale-105 shadow-xl' : 'shadow-sm'} ${plan.color}`}
-                                >
-                                    <div className="text-center mb-6">
-                                        <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
-                                        <div className="mb-4">
-                                            <span className="text-4xl font-black text-gray-900">{plan.price}</span>
-                                            <span className="text-gray-600 ml-2">{plan.period}</span>
-                                        </div>
-                                    </div>
-
-                                    <ul className="space-y-3 mb-8">
-                                        {plan.features.map((feature, index) => (
-                                            <li key={index} className="flex items-start">
-                                                <span className="text-green-500 mr-2">✓</span>
-                                                <span className="text-gray-700">{feature}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-
-                                    <div className="text-center">
-                                        <Link 
-                                            href={`/register?plan=${plan.id}`}
-                                            className={`inline-block w-full text-white font-bold py-3 px-6 rounded-lg transition ${plan.buttonColor}`}
-                                        >
-                                            {plan.cta}
-                                        </Link>
-                                        {plan.id === 'free' && (
-                                            <p className="text-gray-500 text-sm mt-3">No payment required</p>
-                                        )}
-                                    </div>
-                                </div>
+                <section className="section-spacing px-6">
+                    <div className="container-premium max-w-4xl">
+                        <div className="flex flex-wrap justify-center gap-3 mb-10">
+                            {[
+                                { key: 'business', icon: '🏢', label: 'List a Business' },
+                                { key: 'event', icon: '📅', label: 'Promote an Event' },
+                                { key: 'featured', icon: '⭐', label: 'Go Featured / Premium' }
+                            ].map(opt => (
+                                <button key={opt.key} onClick={() => setTab(opt.key)}
+                                    className={`card-premium px-6 py-4 text-left flex items-center gap-3 min-w-[200px] transition ${tab === opt.key ? 'ring-2 ring-brand' : ''}`}>
+                                    <span className="text-2xl">{opt.icon}</span>
+                                    <span className="font-bold text-text">{opt.label}</span>
+                                </button>
                             ))}
                         </div>
 
-                        <div className="text-center mt-8">
-                            <p className="text-gray-600">
-                                All plans include a 30-day money-back guarantee for paid listings.
-                            </p>
-                        </div>
-                    </div>
+                        {tab === 'business' && (
+                            <div className="card-premium p-8 max-w-2xl mx-auto">
+                                <h2 className="text-2xl font-extrabold text-text mb-4">🏢 List Your Business</h2>
+                                <p className="text-text-soft mb-6">Create a listing for your business — restaurant, shop, service provider, or any local enterprise.</p>
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+                                    {[
+                                        { name: 'Free', desc: 'Basic listing, forever free', cls: 'bg-brand text-white' },
+                                        { name: 'Featured', desc: 'JMD $2,500/mo', cls: 'bg-brand text-white' },
+                                        { name: 'Premium', desc: 'JMD $5,000/mo', cls: 'bg-brand-warm text-white' }
+                                    ].map(p => (
+                                        <div key={p.name} className="border border-border rounded-btn p-4 text-center">
+                                            <div className="font-bold text-text">{p.name}</div>
+                                            <div className="text-xs text-text-muted mb-3">{p.desc}</div>
+                                            <a href="/pricing" className={`block text-sm font-semibold py-1.5 rounded-btn ${p.cls}`}>Learn More</a>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="bg-brand-soft rounded-btn p-5 mb-6">
+                                    <h4 className="font-bold text-brand-deep mb-2">How to get listed:</h4>
+                                    <ol className="text-sm text-text-soft space-y-1.5 list-decimal list-inside">
+                                        <li>Register an account or log in</li>
+                                        <li>Fill in your business details</li>
+                                        <li>For paid plans: we'll WhatsApp you a payment link</li>
+                                        <li>Once approved, your listing goes live</li>
+                                    </ol>
+                                </div>
+                                <div className="flex flex-wrap gap-3">
+                                    <a href="/register" className="bg-brand text-white font-bold px-8 py-3 rounded-btn hover:bg-brand-deep transition">Register &amp; Start</a>
+                                    <a href="/login" className="border-2 border-brand text-brand font-bold px-8 py-3 rounded-btn hover:bg-brand-soft transition">Login</a>
+                                    <a href="https://wa.me/18765550100" target="_blank" rel="noopener" className="bg-success text-white font-bold px-8 py-3 rounded-btn hover:bg-emerald-600 transition">WhatsApp Us</a>
+                                </div>
+                            </div>
+                        )}
 
-                    {/* FAQ */}
-                    <div className="mb-16">
-                        <h2 className="text-3xl font-bold text-center text-gray-900 mb-10">Frequently Asked Questions</h2>
-                        <div className="max-w-3xl mx-auto space-y-6">
-                            <div className="bg-white rounded-xl p-6 border border-gray-200">
-                                <h3 className="text-xl font-bold text-gray-900 mb-3">How long does approval take?</h3>
-                                <p className="text-gray-600">
-                                    Free listings: 24-48 hours. Featured/Premium listings: Instant after payment confirmation.
-                                </p>
+                        {tab === 'event' && (
+                            <div className="card-premium p-8 max-w-2xl mx-auto">
+                                <h2 className="text-2xl font-extrabold text-text mb-4">📅 Promote an Event</h2>
+                                <p className="text-text-soft mb-6">List your community event, workshop, market, or gathering for free.</p>
+                                <div className="bg-brand-soft rounded-btn p-5 mb-6">
+                                    <h4 className="font-bold text-brand-deep mb-2">How it works:</h4>
+                                    <ol className="text-sm text-text-soft space-y-1.5 list-decimal list-inside">
+                                        <li>Register or log in to your account</li>
+                                        <li>Fill in event details (date, location, description)</li>
+                                        <li>Submit for approval — typically within 24 hours</li>
+                                        <li>Your event appears on the Events page</li>
+                                    </ol>
+                                </div>
+                                <a href="/register" className="bg-brand text-white font-bold px-8 py-3 rounded-btn hover:bg-brand-deep transition inline-block">Register &amp; Submit Event</a>
                             </div>
-                            <div className="bg-white rounded-xl p-6 border border-gray-200">
-                                <h3 className="text-xl font-bold text-gray-900 mb-3">Can I upgrade my plan later?</h3>
-                                <p className="text-gray-600">
-                                    Yes! You can upgrade from Free to Featured or Premium at any time. The change takes effect immediately.
-                                </p>
-                            </div>
-                            <div className="bg-white rounded-xl p-6 border border-gray-200">
-                                <h3 className="text-xl font-bold text-gray-900 mb-3">What payment methods do you accept?</h3>
-                                <p className="text-gray-600">
-                                    We accept payments via WhatsApp (most common), bank transfer, or credit/debit card for premium plans.
-                                </p>
-                            </div>
-                            <div className="bg-white rounded-xl p-6 border border-gray-200">
-                                <h3 className="text-xl font-bold text-gray-900 mb-3">Can I edit my listing after submission?</h3>
-                                <p className="text-gray-600">
-                                    Yes, you can edit all aspects of your listing anytime through your dashboard.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                        )}
 
-                    {/* CTA Section */}
-                    <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-10 text-center text-white">
-                        <h2 className="text-3xl font-bold mb-6">Ready to Grow Your Business?</h2>
-                        <p className="text-xl mb-8 max-w-2xl mx-auto">
-                            Join hundreds of local businesses already reaching customers through Harbour View Directory.
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <Link 
-                                href="/register?plan=free"
-                                className="bg-white text-blue-600 px-8 py-4 rounded-lg font-bold hover:bg-blue-50 transition text-lg"
-                            >
-                                Start Free Listing
-                            </Link>
-                            <a 
-                                href="https://wa.me/18765551234?text=Hi!%20I'm%20interested%20in%20listing%20my%20business%20on%20Harbour%20View%20Directory."
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="bg-green-500 text-white px-8 py-4 rounded-lg font-bold hover:bg-green-600 transition text-lg inline-flex items-center justify-center gap-2"
-                            >
-                                💬 Chat on WhatsApp
-                            </a>
-                        </div>
-                        <p className="text-blue-100 text-sm mt-6">
-                            Need help choosing? Our team is available on WhatsApp to guide you.
-                        </p>
+                        {tab === 'featured' && (
+                            <div className="card-premium p-8 max-w-2xl mx-auto">
+                                <h2 className="text-2xl font-extrabold text-text mb-4">⭐ Go Featured or Premium</h2>
+                                <p className="text-text-soft mb-6">Want maximum visibility? Upgrade your existing listing to Featured or Premium.</p>
+                                <div className="space-y-4 mb-6">
+                                    <div className="border border-brand rounded-btn p-5">
+                                        <h4 className="font-bold text-text">Featured — JMD $2,500/month</h4>
+                                        <p className="text-sm text-text-soft mt-1">Top of category, featured badge, WhatsApp button, priority approval, 10 images, basic analytics.</p>
+                                    </div>
+                                    <div className="bg-brand-deep text-white rounded-btn p-5">
+                                        <h4 className="font-bold">Premium — JMD $5,000/month</h4>
+                                        <p className="text-sm opacity-80 mt-1">Top Ad placement on homepage, unlimited images, advanced analytics, social promotion, verified badge.</p>
+                                    </div>
+                                </div>
+                                <div className="flex flex-wrap gap-3">
+                                    <a href="/register" className="bg-brand text-white font-bold px-8 py-3 rounded-btn hover:bg-brand-deep transition">Get Started</a>
+                                    <a href="https://wa.me/18765550100" target="_blank" rel="noopener" className="bg-success text-white font-bold px-8 py-3 rounded-btn hover:bg-emerald-600 transition">WhatsApp to Upgrade</a>
+                                </div>
+                            </div>
+                        )}
                     </div>
-                </div>
+                </section>
             </main>
-
-            <footer className="bg-white border-t border-gray-100 py-12">
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-                        <div>
-                            <p className="text-gray-500">© {new Date().getFullYear()} Harbour View Directory</p>
-                            <p className="text-gray-400 text-sm mt-1">Helping local businesses thrive</p>
-                        </div>
-                        <div className="flex gap-6">
-                            <a href="/terms" className="text-gray-500 hover:text-brand-blue transition">Terms</a>
-                            <a href="/privacy" className="text-gray-500 hover:text-brand-blue transition">Privacy</a>
-                            <a href="/contact" className="text-gray-500 hover:text-brand-blue transition">Contact</a>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+            <Footer />
         </div>
     );
 }

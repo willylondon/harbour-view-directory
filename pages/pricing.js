@@ -1,342 +1,120 @@
 import Head from 'next/head';
 import Navbar from '../components/Navbar';
-import Link from 'next/link';
+import Footer from '../components/Footer';
 
 export default function PricingPage() {
-    const paymentSteps = [
+    const plans = [
         {
-            step: 1,
-            title: 'Choose Your Plan',
-            description: 'Select Free, Featured (JMD $2,500/month), or Premium (JMD $5,000/month) listing.',
-            icon: '📋'
+            name: 'Free', price: 'Free', period: 'forever', accent: 'bg-bg-alt border-border', btn: 'bg-brand text-white hover:bg-brand-deep',
+            features: ['Business listing', 'Contact details', 'Category placement', 'Community reviews', '48-hour approval']
         },
         {
-            step: 2,
-            title: 'Submit Business Details',
-            description: 'Fill out your business information through our simple online form.',
-            icon: '🏢'
+            name: 'Featured', price: 'JMD $2,500', period: '/month', accent: 'ring-2 ring-brand border-brand', btn: 'bg-brand text-white hover:bg-brand-deep',
+            features: ['Everything in Free', '⭐ Featured badge', 'Top of category', 'Priority approval', 'WhatsApp button', '10 images', 'Basic analytics'],
+            popular: true
         },
         {
-            step: 3,
-            title: 'Receive WhatsApp Payment Request',
-            description: 'We send you a secure payment request via WhatsApp with payment details.',
-            icon: '💬'
-        },
-        {
-            step: 4,
-            title: 'Confirm Payment',
-            description: 'Make payment via bank transfer, mobile money, or credit card as instructed.',
-            icon: '✅'
-        },
-        {
-            step: 5,
-            title: 'Instant Activation',
-            description: 'Your listing goes live immediately after payment confirmation.',
-            icon: '⚡'
-        },
-        {
-            step: 6,
-            title: 'Receive Receipt & Support',
-            description: 'Get payment receipt and dedicated support for your listing.',
-            icon: '📧'
+            name: 'Premium', price: 'JMD $5,000', period: '/month', accent: 'bg-gradient-to-b from-brand-deep to-brand text-white', btn: 'bg-white text-brand-deep hover:bg-gray-100',
+            features: ['Everything in Featured', '🔥 Top Ad placement', 'Homepage visibility', 'Unlimited images', 'Advanced analytics', 'Social promotion', 'Verified badge']
         }
     ];
 
-    const benefits = [
-        'Reach thousands of Harbour View residents',
-        'Increase local visibility and credibility',
-        'Get customer reviews and feedback',
-        'WhatsApp direct messaging from customers',
-        'Monthly performance analytics',
-        'Priority customer support'
-    ];
-
     return (
-        <div className="min-h-screen bg-bg-primary">
+        <div className="min-h-screen bg-bg">
             <Head>
-                <title>Pricing & Plans | Harbour View Directory</title>
-                <meta name="description" content="Affordable pricing plans for listing your business in Harbour View Directory. Free, Featured, and Premium options with easy WhatsApp payments." />
+                <title>Pricing &amp; Plans | Harbour View Directory</title>
+                <meta name="description" content="Simple, transparent pricing for listing your business in Harbour View. Free, Featured (JMD $2,500/mo), and Premium (JMD $5,000/mo) plans with WhatsApp payments." />
                 <link rel="canonical" href="https://harbourviewdirectory.online/pricing" />
             </Head>
-
             <Navbar />
-
-            <main className="pt-24 pb-16">
-                <div className="max-w-6xl mx-auto px-6">
-                    {/* Hero Section */}
-                    <div className="text-center mb-16">
-                        <h1 className="text-5xl font-black text-gray-900 mb-6">
-                            Simple, Transparent Pricing
-                        </h1>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                            Choose the perfect plan to grow your local business. All plans include our easy WhatsApp payment workflow.
-                        </p>
+            <main>
+                <section className="bg-gradient-to-br from-brand-deep to-brand pt-28 pb-16 px-6 text-center text-white">
+                    <div className="container-premium max-w-2xl">
+                        <h1 className="text-4xl md:text-5xl font-extrabold mb-4">Simple, Transparent Pricing</h1>
+                        <p className="text-lg text-white/80 mb-6">Choose the right plan to grow your business in Harbour View. Pay via WhatsApp — fast and secure.</p>
                     </div>
+                </section>
 
-                    {/* Pricing Cards */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                        {/* Free Plan */}
-                        <div className="bg-white rounded-2xl border-2 border-blue-200 p-8">
-                            <div className="text-center mb-6">
-                                <h3 className="text-2xl font-bold text-gray-900 mb-2">Free Listing</h3>
-                                <div className="mb-4">
-                                    <span className="text-4xl font-black text-gray-900">Free</span>
-                                    <span className="text-gray-600 ml-2">Forever</span>
+                <section className="section-spacing px-6 -mt-16">
+                    <div className="container-premium grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {plans.map(plan => (
+                            <div key={plan.name} className={`card-premium p-8 relative ${plan.accent}`}>
+                                {plan.popular && (
+                                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-warm text-white text-xs font-bold px-4 py-1 rounded-full">Most Popular</div>
+                                )}
+                                <h3 className="text-xl font-bold text-text mb-1">{plan.name}</h3>
+                                <div className="mb-6">
+                                    <span className="text-4xl font-extrabold text-text">{plan.price}</span>
+                                    <span className="text-text-muted ml-1">{plan.period}</span>
                                 </div>
-                                <p className="text-gray-600">Perfect for getting started</p>
+                                <ul className="space-y-2.5 mb-8">
+                                    {plan.features.map(f => (
+                                        <li key={f} className="flex items-start gap-2 text-sm text-text-soft">
+                                            <span className="text-success shrink-0 mt-0.5">✓</span> {f}
+                                        </li>
+                                    ))}
+                                </ul>
+                                <a href="/post-ad" className={`block text-center font-bold py-3 rounded-btn transition ${plan.btn}`}>Get Started</a>
                             </div>
-
-                            <ul className="space-y-3 mb-8">
-                                <li className="flex items-start">
-                                    <span className="text-green-500 mr-2">✓</span>
-                                    <span className="text-gray-700">Basic business listing</span>
-                                </li>
-                                <li className="flex items-start">
-                                    <span className="text-green-500 mr-2">✓</span>
-                                    <span className="text-gray-700">Contact information</span>
-                                </li>
-                                <li className="flex items-start">
-                                    <span className="text-green-500 mr-2">✓</span>
-                                    <span className="text-gray-700">Category listing</span>
-                                </li>
-                                <li className="flex items-start">
-                                    <span className="text-green-500 mr-2">✓</span>
-                                    <span className="text-gray-700">Community reviews</span>
-                                </li>
-                                <li className="flex items-start">
-                                    <span className="text-green-500 mr-2">✓</span>
-                                    <span className="text-gray-700">48-hour approval</span>
-                                </li>
-                                <li className="flex items-start">
-                                    <span className="text-green-500 mr-2">✓</span>
-                                    <span className="text-gray-700">3 images maximum</span>
-                                </li>
-                            </ul>
-
-                            <div className="text-center">
-                                <Link 
-                                    href="/register?plan=free"
-                                    className="inline-block w-full bg-brand-blue text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition"
-                                >
-                                    Start Free Listing
-                                </Link>
-                            </div>
-                        </div>
-
-                        {/* Featured Plan */}
-                        <div className="bg-white rounded-2xl border-2 border-yellow-300 shadow-xl p-8 relative">
-                            <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                                <span className="bg-yellow-500 text-white px-4 py-1 rounded-full text-sm font-bold">
-                                    MOST POPULAR
-                                </span>
-                            </div>
-                            <div className="text-center mb-6">
-                                <h3 className="text-2xl font-bold text-gray-900 mb-2">Featured</h3>
-                                <div className="mb-4">
-                                    <span className="text-4xl font-black text-gray-900">JMD $2,500</span>
-                                    <span className="text-gray-600 ml-2">/month</span>
-                                </div>
-                                <p className="text-gray-600">Best for growing businesses</p>
-                            </div>
-
-                            <ul className="space-y-3 mb-8">
-                                <li className="flex items-start">
-                                    <span className="text-green-500 mr-2">✓</span>
-                                    <span className="text-gray-700 font-medium">Everything in Free, plus:</span>
-                                </li>
-                                <li className="flex items-start">
-                                    <span className="text-yellow-500 mr-2">⭐</span>
-                                    <span className="text-gray-700">Featured badge</span>
-                                </li>
-                                <li className="flex items-start">
-                                    <span className="text-green-500 mr-2">✓</span>
-                                    <span className="text-gray-700">Top of category listings</span>
-                                </li>
-                                <li className="flex items-start">
-                                    <span className="text-green-500 mr-2">✓</span>
-                                    <span className="text-gray-700">Priority approval</span>
-                                </li>
-                                <li className="flex items-start">
-                                    <span className="text-green-500 mr-2">✓</span>
-                                    <span className="text-gray-700">Up to 10 images</span>
-                                </li>
-                                <li className="flex items-start">
-                                    <span className="text-green-500 mr-2">✓</span>
-                                    <span className="text-gray-700">WhatsApp contact button</span>
-                                </li>
-                                <li className="flex items-start">
-                                    <span className="text-green-500 mr-2">✓</span>
-                                    <span className="text-gray-700">Basic analytics</span>
-                                </li>
-                            </ul>
-
-                            <div className="text-center">
-                                <Link 
-                                    href="/register?plan=featured"
-                                    className="inline-block w-full bg-yellow-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-yellow-600 transition"
-                                >
-                                    Choose Featured
-                                </Link>
-                                <p className="text-gray-500 text-sm mt-3">30-day money-back guarantee</p>
-                            </div>
-                        </div>
-
-                        {/* Premium Plan */}
-                        <div className="bg-white rounded-2xl border-2 border-purple-300 p-8">
-                            <div className="text-center mb-6">
-                                <h3 className="text-2xl font-bold text-gray-900 mb-2">Premium</h3>
-                                <div className="mb-4">
-                                    <span className="text-4xl font-black text-gray-900">JMD $5,000</span>
-                                    <span className="text-gray-600 ml-2">/month</span>
-                                </div>
-                                <p className="text-gray-600">Maximum visibility & features</p>
-                            </div>
-
-                            <ul className="space-y-3 mb-8">
-                                <li className="flex items-start">
-                                    <span className="text-green-500 mr-2">✓</span>
-                                    <span className="text-gray-700 font-medium">Everything in Featured, plus:</span>
-                                </li>
-                                <li className="flex items-start">
-                                    <span className="text-red-500 mr-2">🔥</span>
-                                    <span className="text-gray-700">Top Ad placement</span>
-                                </li>
-                                <li className="flex items-start">
-                                    <span className="text-green-500 mr-2">✓</span>
-                                    <span className="text-gray-700">Homepage visibility</span>
-                                </li>
-                                <li className="flex items-start">
-                                    <span className="text-green-500 mr-2">✓</span>
-                                    <span className="text-gray-700">Unlimited images</span>
-                                </li>
-                                <li className="flex items-start">
-                                    <span className="text-green-500 mr-2">✓</span>
-                                    <span className="text-gray-700">Advanced analytics</span>
-                                </li>
-                                <li className="flex items-start">
-                                    <span className="text-green-500 mr-2">✓</span>
-                                    <span className="text-gray-700">Social media promotion</span>
-                                </li>
-                                <li className="flex items-start">
-                                    <span className="text-green-500 mr-2">✓</span>
-                                    <span className="text-gray-700">Priority support</span>
-                                </li>
-                                <li className="flex items-start">
-                                    <span className="text-green-500 mr-2">✓</span>
-                                    <span className="text-gray-700">Verified badge</span>
-                                </li>
-                            </ul>
-
-                            <div className="text-center">
-                                <Link 
-                                    href="/register?plan=premium"
-                                    className="inline-block w-full bg-purple-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-purple-700 transition"
-                                >
-                                    Go Premium
-                                </Link>
-                                <p className="text-gray-500 text-sm mt-3">30-day money-back guarantee</p>
-                            </div>
-                        </div>
+                        ))}
                     </div>
+                </section>
 
-                    {/* WhatsApp Payment Workflow */}
-                    <div className="mb-16">
-                        <h2 className="text-3xl font-bold text-center text-gray-900 mb-10">Easy WhatsApp Payment Workflow</h2>
-                        
-                        <div className="bg-green-50 border border-green-200 rounded-2xl p-8 mb-8">
-                            <div className="flex flex-col md:flex-row items-center gap-6">
-                                <div className="text-6xl">💬</div>
-                                <div className="flex-1">
-                                    <h3 className="text-2xl font-bold text-gray-900 mb-3">Why WhatsApp Payments?</h3>
-                                    <p className="text-gray-700 mb-4">
-                                        We use WhatsApp for payments because it's familiar, secure, and convenient for Jamaican businesses. 
-                                        You get instant communication, payment confirmation, and support all in one place.
-                                    </p>
-                                    <div className="flex flex-wrap gap-3">
-                                        <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">Familiar & Easy</span>
-                                        <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">Secure & Private</span>
-                                        <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">Instant Support</span>
-                                        <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">Payment Receipts</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {paymentSteps.map((step) => (
-                                <div key={step.step} className="bg-white rounded-xl p-6 border border-gray-200">
-                                    <div className="flex items-center gap-4 mb-4">
-                                        <div className="bg-brand-blue text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">
-                                            {step.step}
-                                        </div>
-                                        <div className="text-3xl">{step.icon}</div>
-                                    </div>
-                                    <h4 className="text-xl font-bold text-gray-900 mb-2">{step.title}</h4>
-                                    <p className="text-gray-600">{step.description}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Benefits Section */}
-                    <div className="mb-16">
-                        <h2 className="text-3xl font-bold text-center text-gray-900 mb-10">Benefits of Listing With Us</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {benefits.map((benefit, index) => (
-                                <div key={index} className="bg-white rounded-xl p-6 border border-gray-200">
-                                    <div className="flex items-center gap-3">
-                                        <div className="text-2xl text-green-500">✓</div>
-                                        <h4 className="text-lg font-bold text-gray-900">{benefit}</h4>
+                <section className="section-spacing bg-surface border-y border-border px-6">
+                    <div className="container-premium max-w-3xl">
+                        <h2 className="text-3xl font-extrabold text-text text-center mb-12">How Our WhatsApp Payment Works</h2>
+                        <div className="space-y-8">
+                            {[
+                                { step: 1, title: 'Choose Your Plan', desc: 'Pick Free, Featured, or Premium on this page.' },
+                                { step: 2, title: 'Fill Business Details', desc: 'Complete the simple online form with your business info.' },
+                                { step: 3, title: 'Receive WhatsApp Invoice', desc: 'We send a secure payment request via WhatsApp with all details.' },
+                                { step: 4, title: 'Pay & Confirm', desc: 'Pay via bank transfer, mobile money, or card — then send us the confirmation.' },
+                                { step: 5, title: 'Go Live Instantly', desc: 'Your listing is activated immediately after payment verification.' },
+                                { step: 6, title: 'Get Support', desc: 'Receive your receipt and dedicated support for your listing.' }
+                            ].map(item => (
+                                <div key={item.step} className="flex gap-5 items-start">
+                                    <div className="w-10 h-10 rounded-full bg-brand text-white flex items-center justify-center font-bold text-sm shrink-0">{item.step}</div>
+                                    <div>
+                                        <h4 className="font-bold text-text">{item.title}</h4>
+                                        <p className="text-text-soft text-sm">{item.desc}</p>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     </div>
+                </section>
 
-                    {/* CTA Section */}
-                    <div className="bg-gradient-to-r from-blue-600 to-green-600 rounded-2xl p-10 text-center text-white">
-                        <h2 className="text-3xl font-bold mb-6">Start Reaching Customers Today</h2>
-                        <p className="text-xl mb-8 max-w-2xl mx-auto">
-                            Join the growing community of Harbour View businesses connecting with local customers.
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <Link 
-                                href="/post-ad"
-                                className="bg-white text-blue-600 px-8 py-4 rounded-lg font-bold hover:bg-blue-50 transition text-lg"
-                            >
-                                Compare All Plans
-                            </Link>
-                            <a 
-                                href="https://wa.me/18765551234?text=Hi!%20I%20have%20questions%20about%20Harbour%20View%20Directory%20pricing."
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="bg-green-500 text-white px-8 py-4 rounded-lg font-bold hover:bg-green-600 transition text-lg inline-flex items-center justify-center gap-2"
-                            >
-                                💬 Chat on WhatsApp
-                            </a>
+                <section className="section-spacing px-6">
+                    <div className="container-premium max-w-2xl">
+                        <h2 className="text-3xl font-extrabold text-text text-center mb-10">Frequently Asked Questions</h2>
+                        <div className="space-y-4">
+                            {[
+                                { q: 'How long does approval take?', a: 'Free listings: ~48 hours. Featured/Premium: within 12 hours.' },
+                                { q: 'Can I switch plans later?', a: 'Yes — upgrade anytime. Just WhatsApp us and we\'ll adjust your listing.' },
+                                { q: 'What payment methods are accepted?', a: 'Bank transfer, mobile money (JMMB, NCB, Scotia), and credit/debit cards via WhatsApp link.' },
+                                { q: 'Can I cancel anytime?', a: 'Absolutely. Featured/Premium plans are month-to-month with no long-term commitment.' }
+                            ].map(faq => (
+                                <details key={faq.q} className="card-premium p-5 group">
+                                    <summary className="font-bold text-text cursor-pointer list-none flex justify-between items-center">
+                                        {faq.q}
+                                        <span className="text-text-muted group-open:rotate-45 transition-transform">＋</span>
+                                    </summary>
+                                    <p className="text-text-soft text-sm mt-3">{faq.a}</p>
+                                </details>
+                            ))}
                         </div>
-                        <p className="text-blue-100 text-sm mt-6">
-                            Have questions? Our team is available on WhatsApp to help you choose the right plan.
-                        </p>
                     </div>
-                </div>
+                </section>
+
+                <section className="section-spacing bg-brand-deep text-white px-6 text-center">
+                    <div className="container-premium max-w-xl">
+                        <h2 className="text-3xl font-extrabold mb-3">Ready to grow your business?</h2>
+                        <p className="text-white/80 mb-8">Start with a free listing or go premium for maximum visibility in Harbour View.</p>
+                        <a href="/post-ad" className="inline-block bg-brand-warm text-white font-bold px-10 py-4 rounded-btn hover:bg-amber-500 transition shadow-elevated">List Your Business Now</a>
+                    </div>
+                </section>
             </main>
-
-            <footer className="bg-white border-t border-gray-100 py-12">
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-                        <div>
-                            <p className="text-gray-500">© {new Date().getFullYear()} Harbour View Directory</p>
-                            <p className="text-gray-400 text-sm mt-1">Affordable local business marketing</p>
-                        </div>
-                        <div className="flex gap-6">
-                            <a href="/terms" className="text-gray-500 hover:text-brand-blue transition">Terms</a>
-                            <a href="/privacy" className="text-gray-500 hover:text-brand-blue transition">Privacy</a>
-                            <a href="/contact" className="text-gray-500 hover:text-brand-blue transition">Contact</a>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+            <Footer />
         </div>
     );
 }

@@ -1,26 +1,23 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Navbar from '../components/Navbar';
-import VendorCard from '../components/VendorCard';
-import CategoryFilter from '../components/CategoryFilter';
+import Footer from '../components/Footer';
+import ListingCard from '../components/VendorCard';
+import EmptyState from '../components/EmptyState';
 import SearchBar from '../components/SearchBar';
-import LoadingSkeleton from '../components/LoadingSkeleton';
 import { supabase } from '../lib/supabase';
+
+const POPULAR_SEARCHES = ['Food & Dining', 'Professional Services', 'Beauty & Wellness', 'Automotive', 'Home Services', 'Retail Shops'];
 
 export default function Home() {
     const [vendors, setVendors] = useState([]);
-    const [filteredVendors, setFilteredVendors] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState('All Categories');
+    const [displayVendors, setDisplayVendors] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
+    const [activeCategory, setActiveCategory] = useState('');
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        fetchVendors();
-    }, []);
-
-    useEffect(() => {
-        filterVendors();
-    }, [vendors, selectedCategory, searchQuery]);
+    useEffect(() => { fetchVendors(); }, []);
+    useEffect(() => { filterVendors(); }, [vendors, searchQuery, activeCategory]);
 
     async function fetchVendors() {
         try {
@@ -28,231 +25,206 @@ export default function Home() {
             const { data, error } = await supabase
                 .from('vendors')
                 .select('*')
-                .eq('is_approved', true)  // Only show approved vendors
+                .eq('is_approved', true)
                 .order('is_top_ad', { ascending: false })
                 .order('is_featured', { ascending: false })
-                .order('created_at', { ascending: false })
-                .limit(50);  // Limit results for performance
-
-            if (error) {
-                throw error;
-            }
-
-            if (data && data.length > 0) {
-                setVendors(data);
-            } else {
-                // Show sample vendors for empty state
-                setVendors(getSampleVendors());
-            }
-        } catch (error) {
-            console.error('Error fetching vendors:', error.message);
-            // Show sample vendors on error
-            setVendors(getSampleVendors());
+                .limit(50);
+            if (error) throw error;
+            setVendors(data && data.length > 0 ? data : []);
+        } catch (err) {
+            console.error('Fetch error:', err.message);
+            setVendors([]);
         } finally {
             setLoading(false);
         }
     }
 
-    function getSampleVendors() {
-        return [
-            {
-                id: '1',
-                business_name: 'Willy London Graphics',
-                category: 'Professional Services',
-                description: 'Local graphic design and printing services for Harbour View residents.',
-                is_top_ad: true,
-                is_featured: true,
-                rating: 4.8,
-                reviewCount: 12,
-                address: 'Shop 4, Harbour View Shopping Centre',
-                phone: '876-555-0100',
-                whatsapp: 'https://wa.me/18765550100'
-            },
-            {
-                id: '2',
-                business_name: 'Harbour View Patty Shop',
-                category: 'Food & Dining',
-                description: 'The best patties in Kingston East. Family-owned since 1995.',
-                is_featured: true,
-                rating: 4.9,
-                reviewCount: 85,
-                address: '123 Harbour View Main Road',
-                phone: '876-555-0200',
-                whatsapp: 'https://wa.me/18765550200'
-            },
-            {
-                id: '3',
-                business_name: 'Island Auto Repairs',
-                category: 'Automotive',
-                description: 'Expert auto repair and maintenance services. Free estimates.',
-                is_top_ad: true,
-                rating: 4.7,
-                reviewCount: 34,
-                address: '45 Auto Lane, Harbour View',
-                phone: '876-555-0300',
-                whatsapp: 'https://wa.me/18765550300'
-            },
-            {
-                id: '4',
-                business_name: 'Blue Waters Salon',
-                category: 'Beauty & Wellness',
-                description: 'Professional hair, nails, and beauty services.',
-                rating: 4.6,
-                reviewCount: 28,
-                address: '78 Beauty Plaza, Harbour View',
-                phone: '876-555-0400',
-                whatsapp: 'https://wa.me/18765550400'
-            }
-        ];
-    }
-
     function filterVendors() {
-        let result = vendors;
-
-        if (selectedCategory && selectedCategory !== 'All Categories') {
-            result = result.filter(v => v.category === selectedCategory);
-        }
-
+        let filtered = [...vendors];
+        if (activeCategory) filtered = filtered.filter(v => v.category === activeCategory);
         if (searchQuery) {
-            const query = searchQuery.toLowerCase();
-            result = result.filter(v =>
-                (v.business_name && v.business_name.toLowerCase().includes(query)) ||
-                (v.description && v.description.toLowerCase().includes(query)) ||
-                (v.category && v.category.toLowerCase().includes(query))
+            const q = searchQuery.toLowerCase();
+            filtered = filtered.filter(v =>
+                v.business_name?.toLowerCase().includes(q) ||
+                v.category?.toLowerCase().includes(q) ||
+                v.description?.toLowerCase().includes(q)
             );
         }
-
-        setFilteredVendors(result);
+        setDisplayVendors(filtered);
     }
 
+    const featuredVendors = vendors.filter(v => v.is_featured || v.is_top_ad).slice(0, 3);
+    const hasNoVendors = vendors.length === 0 && !loading;
+    const hasNoResults = vendors.length > 0 && displayVendors.length === 0 && !loading;
+
     return (
-        <div className="min-h-screen bg-bg-primary">
+        <div className="min-h-screen bg-bg">
             <Head>
-                <title>Harbour View Directory | Find Local Businesses & Services in Harbour View Kingston Jamaica</title>
-                <meta name="description" content="Discover trusted Harbour View businesses, services, and events. The official community directory for Harbour View Kingston Jamaica. Search restaurants, shops, professionals and more." />
-                <meta name="keywords" content="Harbour View directory, Harbour View businesses, Harbour View services, Kingston Jamaica, local businesses, community directory" />
-                <meta property="og:title" content="Harbour View Directory | Find Local Businesses & Services" />
-                <meta property="og:description" content="Discover trusted Harbour View businesses, services, and events in Kingston Jamaica." />
-                <meta property="og:type" content="website" />
+                <title>Harbour View Directory — Trusted Local Directory | Kingston, Jamaica</title>
+                <meta name="description" content="Discover local businesses, services, food, shops, and events in Harbour View, Kingston Jamaica. Browse the trusted community directory." />
+                <meta property="og:title" content="Harbour View Directory — Trusted Local Directory" />
+                <meta property="og:description" content="Harbour View's trusted community marketplace. Find local businesses, food, services, and events." />
                 <meta property="og:url" content="https://harbourviewdirectory.online" />
-                <meta property="og:image" content="https://harbourviewdirectory.online/og-image.png" />
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:title" content="Harbour View Directory | Find Local Businesses & Services" />
-                <meta name="twitter:description" content="Discover trusted Harbour View businesses, services, and events in Kingston Jamaica." />
                 <link rel="canonical" href="https://harbourviewdirectory.online" />
             </Head>
 
             <Navbar />
 
-            <main className="pt-24 pb-16">
-                {/* Hero Section */}
-                <div className="max-w-6xl mx-auto px-6 text-center py-16">
-                    <h1 className="text-5xl md:text-6xl font-black text-gray-900 tracking-tight mb-6">
-                        Harbour View Community Directory
-                    </h1>
-                    <p className="text-xl text-gray-600 mb-10 max-w-3xl mx-auto">
-                        Find trusted local businesses, services, and events in Harbour View Kingston Jamaica. Support our community by discovering and reviewing local vendors.
-                    </p>
-                    <SearchBar onSearch={setSearchQuery} initialValue={searchQuery} />
-                    <div className="mt-10 flex flex-wrap justify-center gap-4">
-                        <a href="/post-ad" className="bg-brand-blue text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 transition shadow-lg">
-                            List Your Business
-                        </a>
-                        <a href="#categories" className="bg-white text-brand-blue border-2 border-brand-blue px-8 py-3 rounded-lg font-bold hover:bg-blue-50 transition">
-                            Browse Categories
-                        </a>
-                        <a href="/events" className="bg-green-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-green-700 transition">
-                            View Local Events
-                        </a>
-                    </div>
-                </div>
-
-                {/* Categories Showcase */}
-                <div id="categories" className="bg-white py-12">
-                    <div className="max-w-7xl mx-auto px-6">
-                        <h2 className="text-3xl font-bold text-center text-gray-900 mb-10">Popular Categories in Harbour View</h2>
-                        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                            {['Food & Dining', 'Professional Services', 'Automotive', 'Beauty & Wellness', 'Home Services', 'Retail Shops'].map((category) => (
-                                <button
-                                    key={category}
-                                    onClick={() => setSelectedCategory(category)}
-                                    className={`p-4 rounded-xl border-2 text-center transition-all hover:scale-105 ${selectedCategory === category ? 'border-brand-blue bg-blue-50 text-brand-blue' : 'border-gray-200 hover:border-brand-blue'}`}
-                                >
-                                    <div className="text-2xl mb-2">
-                                        {category === 'Food & Dining' && '🍽️'}
-                                        {category === 'Professional Services' && '💼'}
-                                        {category === 'Automotive' && '🚗'}
-                                        {category === 'Beauty & Wellness' && '💅'}
-                                        {category === 'Home Services' && '🏠'}
-                                        {category === 'Retail Shops' && '🛍️'}
-                                    </div>
-                                    <span className="font-medium">{category}</span>
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-
-                {/* Filters */}
-                <div className="border-y border-gray-100 bg-white sticky top-16 z-40">
-                    <CategoryFilter
-                        selectedCategory={selectedCategory}
-                        onSelectCategory={setSelectedCategory}
-                    />
-                </div>
-
-                {/* Vendor Grid */}
-                <div className="max-w-7xl mx-auto px-6 py-12">
-                    <div className="flex justify-between items-end mb-6">
-                        <h2 className="text-2xl font-bold text-gray-900">{selectedCategory}</h2>
-                        <p className="text-gray-500 text-sm font-medium">Showing {filteredVendors.length} results</p>
-                    </div>
-
-                    {loading ? (
-                        <LoadingSkeleton type="vendor" count={6} />
-                    ) : filteredVendors.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                            {filteredVendors.map((vendor) => (
-                                <VendorCard key={vendor.id} vendor={vendor} />
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="text-center py-20 bg-gradient-to-br from-blue-50 to-white rounded-2xl border-2 border-dashed border-blue-200">
-                            <div className="max-w-md mx-auto">
-                                <div className="text-6xl mb-6">🏪</div>
-                                <h3 className="text-2xl font-bold text-gray-800 mb-3">No vendors found</h3>
-                                <p className="text-gray-600 mb-6">
-                                    {searchQuery || selectedCategory !== 'All Categories' 
-                                        ? `No vendors match "${searchQuery}" in ${selectedCategory}. Try a different search or category.`
-                                        : 'Be the first to list your business in Harbour View!'}
-                                </p>
-                                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                                    <button
-                                        onClick={() => { setSearchQuery(''); setSelectedCategory('All Categories'); }}
-                                        className="bg-brand-blue text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition"
-                                    >
-                                        Show All Vendors
-                                    </button>
-                                    <a href="/post-ad" className="bg-white text-brand-blue border-2 border-brand-blue px-6 py-3 rounded-lg font-bold hover:bg-blue-50 transition">
-                                        List Your Business
-                                    </a>
-                                </div>
+            <main>
+                {/* ── Hero ── */}
+                <section className="relative bg-gradient-to-br from-brand-deep via-brand to-brand-soft pt-28 pb-20 px-6 overflow-hidden">
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-white/10 to-transparent" />
+                    <div className="container-premium relative z-10">
+                        <div className="max-w-3xl mx-auto text-center mb-10">
+                            <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm text-white text-sm font-medium px-4 py-1.5 rounded-full mb-6">
+                                🏘️ Harbour View, Kingston Jamaica
+                            </div>
+                            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-5 leading-tight">
+                                Harbour View's<br />
+                                <span className="text-brand-warm">trusted local directory</span>
+                            </h1>
+                            <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">
+                                Discover the best businesses, services, food, shops &amp; events in our community.
+                                From patty shops to auto repairs — find it all here.
+                            </p>
+                            <div className="flex flex-wrap justify-center gap-3 mt-8">
+                                <a href="#directory" className="bg-white text-brand-deep font-bold px-8 py-3.5 rounded-btn shadow-elevated hover:bg-gray-50 transition">
+                                    Browse Directory
+                                </a>
+                                <a href="/post-ad" className="bg-brand-warm text-white font-bold px-8 py-3.5 rounded-btn shadow-elevated hover:bg-amber-500 transition">
+                                    List Your Business
+                                </a>
                             </div>
                         </div>
-                    )}
-                </div>
+
+                        {/* Floating Search Card */}
+                        <div className="max-w-2xl mx-auto card-premium p-5 shadow-elevated -mb-32 relative z-20">
+                            <SearchBar value={searchQuery} onChange={setSearchQuery} />
+                            <div className="flex flex-wrap gap-2 mt-4">
+                                <span className="text-xs text-text-muted mr-1 pt-1">Popular:</span>
+                                {POPULAR_SEARCHES.map(cat => (
+                                    <button
+                                        key={cat}
+                                        onClick={() => { setActiveCategory(activeCategory === cat ? '' : cat); setSearchQuery(''); }}
+                                        className={`text-xs font-medium px-3 py-1 rounded-full transition ${
+                                            activeCategory === cat
+                                                ? 'bg-brand text-white'
+                                                : 'bg-bg-alt text-text-soft hover:bg-brand-soft hover:text-brand'
+                                        }`}
+                                    >
+                                        {cat}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* ── Directory Section ── */}
+                <section id="directory" className="section-spacing pt-44 pb-16 px-6">
+                    <div className="container-premium">
+                        <div className="mb-10">
+                            <h2 className="text-3xl font-extrabold text-text mb-2">
+                                {activeCategory ? `${activeCategory} in Harbour View` : 'Explore Local Businesses'}
+                            </h2>
+                            <p className="text-text-soft">
+                                {activeCategory
+                                    ? `Showing ${activeCategory.toLowerCase()} businesses in Harbour View.`
+                                    : 'Discover trusted businesses serving the Harbour View community.'}
+                            </p>
+                        </div>
+
+                        {/* Loading state */}
+                        {loading && (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {[1, 2, 3, 4, 5, 6].map(i => (
+                                    <div key={i} className="card-premium overflow-hidden animate-pulse">
+                                        <div className="h-48 bg-bg-alt" />
+                                        <div className="p-5 space-y-3">
+                                            <div className="h-4 bg-bg-alt rounded w-1/3" />
+                                            <div className="h-5 bg-bg-alt rounded w-3/4" />
+                                            <div className="h-3 bg-bg-alt rounded w-full" />
+                                            <div className="h-3 bg-bg-alt rounded w-2/3" />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        {/* Empty database */}
+                        {hasNoVendors && (
+                            <EmptyState
+                                icon="🏪"
+                                title="No businesses listed yet"
+                                description="Be the first! Harbour View Directory is new, and we're looking for our first local businesses to feature."
+                                ctaText="List Your Business — It's Free"
+                                ctaHref="/post-ad"
+                            />
+                        )}
+
+                        {/* No search results */}
+                        {hasNoResults && (
+                            <EmptyState
+                                icon="🔍"
+                                title="No results found"
+                                description={`No businesses match "${searchQuery || activeCategory}". Try a different search or category.`}
+                                ctaText="Clear Filters"
+                                ctaHref="#"
+                                secondaryCtaText="Browse All"
+                                secondaryCtaHref="#directory"
+                                onCtaClick={(e) => { e.preventDefault(); setSearchQuery(''); setActiveCategory(''); }}
+                            />
+                        )}
+
+                        {/* Vendor Grid */}
+                        {displayVendors.length > 0 && (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {displayVendors.map(vendor => (
+                                    <ListingCard key={vendor.id} vendor={vendor} />
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                </section>
+
+                {/* ── Featured Section ── */}
+                {featuredVendors.length > 0 && (
+                    <section className="section-spacing-sm bg-surface border-y border-border px-6">
+                        <div className="container-premium">
+                            <div className="text-center mb-10">
+                                <span className="text-brand-warm text-sm font-bold tracking-wide uppercase">Featured</span>
+                                <h2 className="text-3xl font-extrabold text-text mt-1">Top Businesses This Week</h2>
+                                <p className="text-text-soft mt-2">Premium and featured listings from the Harbour View community.</p>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                {featuredVendors.map(vendor => (
+                                    <ListingCard key={vendor.id} vendor={vendor} />
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+                )}
+
+                {/* ── Community CTA ── */}
+                <section className="section-spacing bg-gradient-to-br from-brand-deep to-brand text-white px-6 text-center">
+                    <div className="container-premium max-w-2xl">
+                        <h2 className="text-3xl font-extrabold mb-4">Part of the Harbour View community?</h2>
+                        <p className="text-lg text-white/80 mb-8 leading-relaxed">
+                            List your business, promote an event, or let neighbours know what you offer. It starts free.
+                        </p>
+                        <div className="flex flex-wrap justify-center gap-3">
+                            <a href="/post-ad" className="bg-white text-brand-deep font-bold px-8 py-3.5 rounded-btn shadow-elevated hover:bg-gray-50 transition">
+                                List Your Business
+                            </a>
+                            <a href="/pricing" className="bg-transparent border-2 border-white/30 text-white font-bold px-8 py-3.5 rounded-btn hover:bg-white/10 transition">
+                                View Pricing
+                            </a>
+                        </div>
+                    </div>
+                </section>
             </main>
 
-            <footer className="bg-white border-t border-gray-100 py-12 text-center text-gray-500">
-                <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p>© {new Date().getFullYear()} Harbour View Digital Directory. Built for our community.</p>
-                    <div className="flex gap-6">
-                        <a href="#" className="hover:text-brand-blue transition">Terms</a>
-                        <a href="#" className="hover:text-brand-blue transition">Privacy</a>
-                        <a href="#" className="hover:text-brand-blue transition">Contact</a>
-                    </div>
-                </div>
-            </footer>
+            <Footer />
         </div>
     );
 }
