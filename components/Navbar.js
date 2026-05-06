@@ -29,13 +29,16 @@ export default function Navbar() {
 
     async function checkAdmin(userId) {
         try {
-            const { data } = await supabase
+            const { data, error } = await supabase
                 .from('profiles')
                 .select('role, is_admin')
                 .eq('id', userId)
-                .single();
-            setIsAdmin(data?.role === 'admin' || data?.is_admin === true);
-        } catch {
+                .maybeSingle();
+            if (error) console.warn('Admin check error:', error.message);
+            const admin = data?.role === 'admin' || data?.is_admin === true;
+            setIsAdmin(admin);
+        } catch (err) {
+            console.warn('Admin check failed:', err.message);
             setIsAdmin(false);
         } finally {
             setAuthReady(true);

@@ -25,18 +25,28 @@ CREATE TABLE IF NOT EXISTS public.profiles (
 -- Enable RLS on profiles
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 
--- Users can read their own profile
+-- Users can read their own profile (this MUST work for admin detection)
 CREATE POLICY "Users can read own profile"
 ON public.profiles FOR SELECT
 USING (auth.uid() = id);
 
--- Admins can read all profiles (use the profiles table itself)
+-- Admins can read all profiles
 CREATE POLICY "Admins can read all profiles"
 ON public.profiles FOR SELECT
 USING (
     EXISTS (
-        SELECT 1 FROM public.profiles
-        WHERE id = auth.uid() AND (role = 'admin' OR is_admin = true)
+        SELECT 1 FROM public.profiles p2
+        WHERE p2.id = auth.uid() AND (p2.role = 'admin' OR p2.is_admin = true)
+    )
+);
+
+-- Admins can update any profile
+CREATE POLICY "Admins can update profiles"
+ON public.profiles FOR UPDATE
+USING (
+    EXISTS (
+        SELECT 1 FROM public.profiles p2
+        WHERE p2.id = auth.uid() AND (p2.role = 'admin' OR p2.is_admin = true)
     )
 );
 
