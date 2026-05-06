@@ -12,31 +12,39 @@ export default function Navbar() {
     const isActive = path => router.pathname === path || (path === '/' && router.pathname === '/');
 
     useEffect(() => {
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            setSession(session);
-            if (session) checkAdmin(session.user.id);
+        supabase.auth.getSession().then(({ data: { session: s } }) => {
+            setSession(s);
+            if (s) checkAdmin(s);
             else setAuthReady(true);
         });
 
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-            setSession(session);
-            if (session) checkAdmin(session.user.id);
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, s) => {
+            setSession(s);
+            if (s) checkAdmin(s);
             else { setIsAdmin(false); setAuthReady(true); }
         });
 
         return () => subscription.unsubscribe();
     }, []);
 
-    async function checkAdmin(userId) {
+    async function checkAdmin(s) {
+        // Check session metadata first (no table query needed)
+        const meta = s?.user?.app_metadata || {};
+        if (meta.role === 'admin' || meta.is_admin === true) {
+            setIsAdmin(true);
+            setAuthReady(true);
+            return;
+        }
+
+        // Fallback: check profiles table
         try {
             const { data, error } = await supabase
                 .from('profiles')
                 .select('role, is_admin')
-                .eq('id', userId)
+                .eq('id', s.user.id)
                 .maybeSingle();
             if (error) console.warn('Admin check error:', error.message);
-            const admin = data?.role === 'admin' || data?.is_admin === true;
-            setIsAdmin(admin);
+            setIsAdmin(data?.role === 'admin' || data?.is_admin === true);
         } catch (err) {
             console.warn('Admin check failed:', err.message);
             setIsAdmin(false);

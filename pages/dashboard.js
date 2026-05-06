@@ -37,7 +37,7 @@ export default function Dashboard() {
                 .from('profiles')
                 .select('role, is_admin')
                 .eq('id', userId)
-                .single();
+                .maybeSingle();
             setIsAdmin(data?.role === 'admin' || data?.is_admin === true);
         } catch {
             setIsAdmin(false);
