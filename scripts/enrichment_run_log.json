@@ -1,0 +1,2271 @@
+{
+  "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+  "run_date": "2026-05-07",
+  "mode": "apply",
+  "actions": [
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "RevUP Caribbean Limited",
+      "google_place_id": "ChIJW8GESghB244Rd3Gx8MlNZSE",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "insert_new",
+      "name": "Harbour View Roundabout",
+      "slug": "harbour-view-roundabout",
+      "google_place_id": "ChIJZ1w-2EVH244RCF-s7uR3mn4",
+      "confidence_score": 100,
+      "reason": "Coordinates inside Harbour View geofence; Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Kashic Consulting Limited: Business & Personal Support Services",
+      "google_place_id": "ChIJ-VNAUxY_244RGYy7bIU2vsA",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "The Business District Ltd",
+      "google_place_id": "ChIJTRkBFaE_244REcXX0UE5GgU",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Frontier Business Advisory Limited",
+      "google_place_id": "ChIJoZqm930eFYcRgqJlAHLKQfc",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Business Works Collective",
+      "google_place_id": "ChIJcyztPpo_244RLpasAMyWs7A",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "update_existing",
+      "vendor_id": "4756ffe6-041c-4b92-9a8c-88d401ec3e67",
+      "name": "DANNY'S MARINA",
+      "slug": "dannys-marina",
+      "google_place_id": "ChIJvdC7S05H244RL8_QXwgzJz8",
+      "fields_updated": [
+        {
+          "field": "google_place_id",
+          "old": null,
+          "new": "ChIJvdC7S05H244RL8_QXwgzJz8"
+        },
+        {
+          "field": "latitude",
+          "old": null,
+          "new": 17.9539387
+        },
+        {
+          "field": "longitude",
+          "old": null,
+          "new": -76.72533179999999
+        },
+        {
+          "field": "google_maps_url",
+          "old": null,
+          "new": "https://maps.google.com/?cid=4550662059541450543"
+        },
+        {
+          "field": "business_status",
+          "old": null,
+          "new": "OPERATIONAL"
+        },
+        {
+          "field": "opening_hours",
+          "old": null,
+          "new": {
+            "weekday_text": [
+              "Monday: 11:00 AM – 12:00 AM",
+              "Tuesday: 11:00 AM – 12:00 AM",
+              "Wednesday: 11:00 AM – 12:00 AM",
+              "Thursday: 11:00 AM – 12:00 AM",
+              "Friday: 11:00 AM – 1:00 AM",
+              "Saturday: 11:00 AM – 12:00 AM",
+              "Sunday: 12:00 PM – 12:00 AM"
+            ]
+          }
+        },
+        {
+          "field": "price_level",
+          "old": null,
+          "new": 2
+        },
+        {
+          "field": "rating",
+          "old": 0,
+          "new": 3.7
+        },
+        {
+          "field": "review_count",
+          "old": null,
+          "new": 971
+        },
+        {
+          "field": "last_verified_date",
+          "old": null,
+          "new": "2026-05-07"
+        },
+        {
+          "field": "confidence_score",
+          "old": 0,
+          "new": 100
+        }
+      ],
+      "images_added": [
+        "Ab43m-vgdb6GqIwfUgaF3EwoyEvyhIwYyWQRPa-GYn4Z3FecL83iUEIyJl6EyVUbxmjtnfr-E9OO3UiYJ-u32I8Y-RChTMEz2zYE-awg2NdCK8Mxslix1S21Otjac494ip8nGu60XCPwKa9QwhzArQrqlWO06YEXs69FqXPMsJdfNIMcOrIgBjfUesVDNYTuVvgMlVaxTKODNMYmVy_KHgB-9r_y7MlzSYm0V21M4KnI8ulxNxBn3-Tp0iOraAZ40ZUJzAku6Svdx5-z4il-acDEbQjre27wIebZtYSbcl9db244bAGM-A3FDCoqp-58OiUoMP1umRQYcq-ezXppRoVf8sC_CzhFdouxiWYkfgz_ZvmvcTpFTmYBT4hmSdoVfJye-NZYLor8fD0wLEqzGeKwPkTM1q6laLmc1uZfs3sbFGqrRnRd",
+        "Ab43m-sbjJ7R1Plhophyxhh58Mcpye3JAAkiBJFRQNfCmIwBElFO9PoPCV9qmf5O7LWl_p5E_2I9ORnC0MSDikd7E5KdZCko-zk9kXrP4zMvd-nPJAoFbnX-BcV3i_cAYjSTVpWCcbvTX34rsvOYrQ-Xa7GQsXQfKNpaPGwDYtQ-To-2yqBEdOdT897Iz8d9ryAaLONb4HwoelOJtMSf7En1o9t5h0hsrAeAny7Qfdwbkz4ZjRFGBiumg7xwEY6jnWJTeTeVqHGkbvDi8FBmN1bS2GHDT7hEAfOkiIJaBFZtAOMnyzzhRwNNwXdFR5t7rEmwjQdpQMigdZ3-5Dd476OQaicaEVfG9E4N2gQxYkWDerhB50gQRWA-wP-1HdeOc64TiTESH2AakmkWXrO4EXyJuzK5pSlOfk3GhRFBWjUuJULvgeg2",
+        "Ab43m-uj60RqC4Jwc5ms9NuMd4OnQMPj2STqbiqBKJZuWtGWJc1HKNdJcfH3V5fiu8svu1bS8HKBDmR0UHYJgvqTymuKyelVFg1z2dWJV7wRPTccEbUeILlcPK8LFC5NeL8sIOrMTf1xa7e_Y9F-tdOtxNU0kpBqCcnOjfxm_vby5JSSR_U6Wv9zD-OncpLcMdoNIgbi4x61uP2hoO2L9Cox97nhpvmDY3jYB84e0MzIHYD2izhWKNOL2okmV8Csw6irime1zpGzN2ocONlazgaLazDazasMMv5vPQIWHUsPlnBM2jalHNecpzTsPOLxWPQ3t_ECeP61daNXkbPDVGtcE8ft5lnLHbmCIl1AiM63PWBYKLOpUZD3aqmoSmYk2s-NicX6qt6CiG1gdcrkf5aduh__PiLHQ5dVQsZ4Mr_6P2xVvVIWpHL2K-8s_MKBpZO2",
+        "Ab43m-uSneBOTe2QvIchB3EFIIcH52oR4FzUkmCXfR7FKAi-MhFaYp1fWTXJ2poLmj52623JY8LI86IkjSw9MYL1PpQkt-sKVBPpYc3UAxePHBpp58_PL1pkz77VxrBJWJ_ij_NvhJdIJTCk_YOU4S48LhYZuHeEIWXhdKUsYtaU6Uvr5vM8AxyQ53OGbkT6RQE566sSlIM4jFOUgC0qY4RjVtpNKaL50dnHCpJnXvMvDYR_vn3FlFuto5oMjDoRzAedZRum3Fne-0saMor6MdKWNDMVY6xlsixYwZayeCApj-AhHg8ghCPJlqWoWIieLKTuqKb0jmQEq1Zi5Zup0XKOIJ2gQYIc1yhidYAiWN2yUDkdsLZRdZhFbNUz0XxVwjOOSj66byaPA1ZE0AmH5ozfqOpWoHAG-iHfWprHpPcBvImYmL1MQCjzQj7-Z-hU357p",
+        "Ab43m-t-_SZgykYvhkz8fUArmP1THQH3an-r0iY40u_O_qu54hZnasx6uO-yF8Hdd6INMNrzwd_fHTlRYO81P-yjjTfZB1BBYv302mbfc7WEYETRWEW0H0PzCQbNb1OaMiWn818cAnMpzTRkPfnUYoaXUMm1lckEcYF1m2fkpY_pz5vkFdbvseJbrX84KBkqnCG6ofjYbLO9VNC8Cg-PL0xcBMeB4mKErwUejvxwT_iAXgv7bgRmJ8KWLmVnCuNVDHyyOvFvrim5Xouo3UGskYdw_NW7kBwHJNNsUOAABgguMyHGH4ISvQ63IPKTYKbzGhQQF2t-aQfI9YNxk7BwuXJlZ7T9aDGSujBDb5Zis5TpodFqevdVYJlmPwXvATU1yySWTl9zvP_2EWC1-QBEicI_nXgYXrxZF9iUHJ3Qp6jlZfDZcg"
+      ],
+      "confidence_score": 100,
+      "reason": "Matched by phone",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Supreme Management Business Solution",
+      "google_place_id": "ChIJdb7jR7s_244RTMR6T9Y1Cps",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "insert_new",
+      "name": "Shopper's Fair Supermarket Harbour View",
+      "slug": "shoppers-fair-supermarket-harbour-view",
+      "google_place_id": "ChIJXfnUtkVH244RAZ6hJViQAqk",
+      "confidence_score": 100,
+      "reason": "Coordinates inside Harbour View geofence; Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "BodyBior Cosmetics",
+      "google_place_id": "ChIJXevEbR09244RkJILON4tjaM",
+      "confidence_score": 40,
+      "reason": "Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "ECSolutions",
+      "google_place_id": "ChIJ6UqU9dEfACURu9FLxbj7ztA",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Eagle Business Advisors",
+      "google_place_id": "ChIJZXsOWx4_244Rg8gdzjKXHkI",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Almar Hardware ltd.",
+      "google_place_id": "ChIJnXWUFmE_244R6MtlzQRVb1I",
+      "confidence_score": 0,
+      "reason": "Excluded",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "ASAP Express",
+      "google_place_id": "ChIJ1SptQOw_244R0fg0kqy736w",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "insert_new",
+      "name": "Earth Birth Konnection",
+      "slug": "earth-birth-konnection",
+      "google_place_id": "ChIJzcdlu_pH244RqdLd88nh1oI",
+      "confidence_score": 100,
+      "reason": "Coordinates inside Harbour View geofence; Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Mezza Luna Kingston",
+      "google_place_id": "ChIJU4ulfgA_244Rsw-Fc8amsDM",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Offshore Rooftop Lounge",
+      "google_place_id": "ChIJFSPI_-I_244RJ-PW_DzjhUE",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Sea Krave",
+      "google_place_id": "ChIJa41Tjuo_244RN7e1SnaOIRs",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Ocean 7 Rooftop Bar and Grill",
+      "google_place_id": "ChIJ4ZXoRvZB244RmZb1TiIInfA",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Reggae Mountain Lounge",
+      "google_place_id": "ChIJ-RCYA-k_244RwZTxvU-iiLg",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Blue Brews Bistro",
+      "google_place_id": "ChIJsWkx6R49244RkLJ4MUw-WSI",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Bamboo Bar & Lounge",
+      "google_place_id": "ChIJlc9waCg_244RUBQKems0zLU",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Clubhouse Brewery",
+      "google_place_id": "ChIJZeDJesI_244RP8GVlShc2iQ",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Island Vibz",
+      "google_place_id": "ChIJwUEpwgM_244RpTTxozvYEjA",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Ribbiz Ocean Lounge",
+      "google_place_id": "ChIJF-K8m7xB244RCvdXQ6Mka6E",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "South Avenue Grill",
+      "google_place_id": "ChIJvfBKxrI_244RFK32_rft5Iw",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "RawBar | Restaurant & Lounge",
+      "google_place_id": "ChIJc1z3J3w_244Rv_ck5gVBIWk",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "The Steak House on The Verandah",
+      "google_place_id": "ChIJsRWen60_244R6xNC89qBTl8",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Di Lot | Restaurant & Bar",
+      "google_place_id": "ChIJYTda6vI_244R3E0qto1Z2w0",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Cellar8",
+      "google_place_id": "ChIJl3kxwG8-244RRxPSF94RjgE",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "TRIO",
+      "google_place_id": "ChIJL2GQSvc_244RYQ2tWvtnXv0",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "CHILLIN’ Restaurant and Bar",
+      "google_place_id": "ChIJYZXuNkU_244RGvIa9yEKSjQ",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Irish Town Cafe",
+      "google_place_id": "ChIJy_PlRMM5244RNnqZ98EEcR4",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Uncorked!",
+      "google_place_id": "ChIJCyCrf-Q-244RpXD2uc6xsYg",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "insert_new",
+      "name": "Harbour View Family Pharmacy",
+      "slug": "harbour-view-family-pharmacy",
+      "google_place_id": "ChIJ34BelUVH244Rc2R-7Y7iG3I",
+      "confidence_score": 100,
+      "reason": "Coordinates inside Harbour View geofence; Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "insert_new",
+      "name": "Dowski cut barber salon",
+      "slug": "dowski-cut-barber-salon",
+      "google_place_id": "ChIJjUEn5JFH244RZtMu4LjtAuc",
+      "confidence_score": 100,
+      "reason": "Coordinates inside Harbour View geofence; Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Mario's Barber and Beauty Salon",
+      "google_place_id": "ChIJQwDNveM-244RGI8zK0IbQUA",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "NAZEEM SHARPKUTTBARBER",
+      "google_place_id": "ChIJ8_rMSJgV244RX7rsn6fq0_E",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Northside Barbers",
+      "google_place_id": "ChIJtcU8Dqk_244RL6XN9mt3I6k",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Jason's barber zone",
+      "google_place_id": "ChIJ51JIhOo_244RZL1cMDafTsc",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Lance Cutting Edge Barber",
+      "google_place_id": "ChIJkepHLYU_244RfPBPyK82UCU",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "insert_new",
+      "name": "SB Hair & More",
+      "slug": "sb-hair-more",
+      "google_place_id": "ChIJ-8sOcbZH244RwX8-llVjZwE",
+      "confidence_score": 100,
+      "reason": "Coordinates inside Harbour View geofence; Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Barbernico",
+      "google_place_id": "ChIJy0bMXB4_244RFwlsa3GZNaM",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "KingBarber876",
+      "google_place_id": "ChIJ9Yat4J4_244RlUCm6OvzssA",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Uppercut Barbershop and Salon",
+      "google_place_id": "ChIJtcR-3G4-244RUYCEQqHkYoQ",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Uptown Barbers",
+      "google_place_id": "ChIJt2uWWQA_244RF-hJWoNHmTQ",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Upper Cut Barbers/Images Hair Shoppe",
+      "google_place_id": "ChIJC0Jw6Pw-244RuAFt51WD_m8",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Milligan Barber & Beauty",
+      "google_place_id": "ChIJX-yg7e8_244RiYB3rJErvW8",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Xplosion Barbershop",
+      "google_place_id": "ChIJp8lNrhg_244R47sn57sOLLg",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "ShearHolders (Barbershop & Grooming Salon)",
+      "google_place_id": "ChIJi-QXC6s_244RsVRGNtKdjQI",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Cruz Barber and Spa",
+      "google_place_id": "ChIJ13ZF0bA_244RgCi5H2i-LQI",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Bosskut barbers",
+      "google_place_id": "ChIJoQT-960_244RPXKGrzuvFkw",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "RAEZA | BARBER | KINGSTON",
+      "google_place_id": "ChIJM9gY4BE_244RnTRzRgE51Fw",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "New Level Barber Shop",
+      "google_place_id": "ChIJE8v6W0s_244RDmKYA2ZoP4g",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Charmaine's Day Spa & Barber Centre",
+      "google_place_id": "ChIJuybPV0E-244RBIBqof2p5zA",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "update_existing",
+      "vendor_id": "5f62bd1f-6931-4f04-aba1-0563026eca1b",
+      "name": "MEIKA",
+      "slug": "meika",
+      "google_place_id": "ChIJObN3ZM9H244RNsCNuCbWSd8",
+      "fields_updated": [
+        {
+          "field": "google_place_id",
+          "old": null,
+          "new": "ChIJObN3ZM9H244RNsCNuCbWSd8"
+        },
+        {
+          "field": "latitude",
+          "old": null,
+          "new": 17.9543028
+        },
+        {
+          "field": "longitude",
+          "old": null,
+          "new": -76.7200952
+        },
+        {
+          "field": "website",
+          "old": null,
+          "new": "https://www.fresha.com/book-now/virtuous-shine-beauty-services-iuvbcp9t/all-offer?share&pId=747992"
+        },
+        {
+          "field": "google_maps_url",
+          "old": null,
+          "new": "https://maps.google.com/?cid=16089626605551206454"
+        },
+        {
+          "field": "business_status",
+          "old": null,
+          "new": "OPERATIONAL"
+        },
+        {
+          "field": "opening_hours",
+          "old": null,
+          "new": {
+            "weekday_text": [
+              "Monday: 9:00 AM – 10:00 PM",
+              "Tuesday: Closed",
+              "Wednesday: 9:00 AM – 10:00 PM",
+              "Thursday: Closed",
+              "Friday: Open 24 hours",
+              "Saturday: 8:00 AM – 10:00 PM",
+              "Sunday: 10:00 AM – 8:00 PM"
+            ]
+          }
+        },
+        {
+          "field": "rating",
+          "old": 0,
+          "new": 4
+        },
+        {
+          "field": "review_count",
+          "old": null,
+          "new": 2
+        },
+        {
+          "field": "last_verified_date",
+          "old": null,
+          "new": "2026-05-07"
+        },
+        {
+          "field": "confidence_score",
+          "old": 0,
+          "new": 100
+        }
+      ],
+      "images_added": [
+        "Ab43m-tS8i3aRkF1kvdC8G84RlBRiLWwyfZmI4aiDeGXLzG7OVJO8fuuJGnf1QY2U4c58CL2BfUmcisyetxOtcUhPD_RuKK5LHFdwRsJHhqPtk4nbw_iJAh6bOWOOYDQ8DYDbd3le1AJGGDKh6ahdQSLEiR5VxQ6K1QWS4F0mxsRJ_aHJbxh3TiisgI168LWWaI5PdAKmTzQ8BasQnQI6pcis3zQAvF5lTGKjJYmFUQthiHg4eQTX6wggWQEwOJq67ZB7KWqIMYFZtuHH_A5gGtfgh77Zu5gI6VzVPyb_yhymDg1aqy_4L5L-nI1uYOwoRr_Dpge1VrDEvtWZV4JqCBIHOpN0MGcrsHFMz4xlXdlen6qK62Lcp11KRw7Bqgb-8j38CZKkHqQHL9K6KPNN1dZcNI3plHIYpDR1y4G_YeqNkO4bCgr3HeqpheL4zBB24Fr",
+        "Ab43m-tPfVCKOqaEKbd-pg4DSQJfYm3o91OQeV_2-bsLYU8vZ6gEfoISRiCkEdA9o_JNaSN8tUQVYx3mPq5fqyakwW0hkAbXT8oeAzkTaOEN7LQFBz70hUjLDZUlcXhRr7yaNKZaUgKkF_7HTSFYzaoC5NgJ8vRvF4eP0b-rDNTEWnkDlx_pfT_MbWMdZPoZHFlAODIQoPdhP8nKOo7NO0aaVh6ZW80BvHnElg9BE9FX66bO47rAu4qGPWrlc8tp46r2Tmh460oRz7gmDq5ZUn7ob6UOJ9pa9cl0NHG3HJaDkZpc3F2plnzd5vBsnwcJP_kI-JFtLcTGdFbDIwQ-IxJJUVe-LB0kkq_Oh7_sG8O0pvaQf4ROgEHvlS1wUsZNXK8uEhwGJ9_RHjYVBjls4pHNcFQhQFnNCg-7wsDGAo1o5h4vxRXPjP7BN3kmGi8Gww",
+        "Ab43m-uQJAeRMyjzxsXXD5tW3-_CS-E2AmVNt4rj1wsgvz4hGlw4jq6uejjok-BEgV_U80bDIp3f-WlOV6zWPjYXio_j2S-GRo9i5Vh5m0gUNfktL-wqAwsCqtICfu-93pHbAd8wBjPOXOyEybE9xflw0KEYTJgQ1lrI6QEwNLGMo7dFUsUo3e8JXjgYrInknpKHOMiRl7oJXhZpGSpRnXW_f3kg3Cnm8j7PcRq9HKlV1Stst0VszkcstDfGzCBGdKuXqOF77kC9dp4zciTTRS1YqQWzggDT7968D5WUqOTCluzBolhX3UcZaIOrwWyjNv8w6Sm5KGs-9rgXa0oIcvXdQI0OZHMKWj9hCJZWOePL7TfE2lPmpy-1TNHIwPj5ov6my1FPaAmShIgyE_kIoEoJJpB0iFaAto5POZRl19MHuXTlTYBvCJeuPO0cCEePffzw",
+        "Ab43m-vyBSljjzQLTQwn-FBU81Ugy03hHa74urQQw_X8JR18QEgYMIsHo69AiAAJKlCl4oebmREIestEjbf7yoh9zJqo-UDTfzveGFGrzUUNFoR5OxnlycPvfjH--KbHfTejdn1YCN2Ksj7wlPrsaoyIifs2toE9voGMF4NGFalYKccl_OpKEdlohbIS8T_tXIF8tXep5YcVOFaBcx3w03GflVqnUtTqjhbOhChwQ57Sb59kMBdMI6c4nVFqs0aqePdyyr_GwV1b9agrT5nguYg-UUsfpYzXPAwAfUMBgpA4osykFyJQqhTvCndfcSsFkmHx8pLf17kCAuw_18pwSf6HpQhyeg8Q1iFNIsylJTMnM-QmMgcBzyYzqmHSRDw9e5oJ_0bjE9VWb6i50gDpTfUcGsZW2gqr1ZP2c8WjeDfx9gKpHIO3kjBv1_prYcCh107y",
+        "Ab43m-vxQfPoWsYowvqASFSLRv72xhRszdKiUeK6CTQ7FCJ1PnDBOtmTbVBhUSecDEIxQDVxr2r9ObKN9SfMKZN9Ayy5JC3tOFVivxFlnAPBv_nHDIqKa5b1rrTqsXY-ePDQN5XojdoCtnpxBxSwQnado3upfgoon2jtnoxz8taTccxnmT_qDlCx-OcWpua_ySByOEFp9kZg6A8D3By0UXlUduUwbiQx6jPoVY78G0b8wHgerAn9eevzpvlPUDayy3gMHxl60xp1eJLcBROxGM9yYRKCIbbglqnUx8vXp4qrMxDPKGJVLUgU6_ag99vusK1wtMr3FASeCOG49Kb-ThzLOB4sTQ5OHZGS8RzroVacM_QZkSWxOwW01rNQjL9GEU4K7KfMDaA5xwci219BNthJRy4puMAIaeNehVXAs5_HMqR5FGbAEHZG4Nj0VQlHxARj"
+      ],
+      "confidence_score": 100,
+      "reason": "Matched by phone",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Nailsby_hash",
+      "google_place_id": "ChIJe23idnNH244RYhmdLUUwtes",
+      "confidence_score": 40,
+      "reason": "Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "H J HARDWARE AND SUPPLY",
+      "google_place_id": "ChIJvzjMKStH244RPXBQTq39wqs",
+      "confidence_score": 40,
+      "reason": "Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Roshmar Hardware & Variety Store",
+      "google_place_id": "ChIJ-wyFDU0_244RoRh77TuLpC4",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Super Valu Home Centre",
+      "google_place_id": "ChIJFUM4uuM-244RVRXWW5Mm33A",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "HIGHWAY HARDWARE & PLUMBING LTD",
+      "google_place_id": "ChIJTZuDr6g_244RL-0KemOXZzg",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Homes General Supplies And Hardware Ltd",
+      "google_place_id": "ChIJIU66iZ9H244RUTla5PamPyU",
+      "confidence_score": 40,
+      "reason": "Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "New Local Hardware",
+      "google_place_id": "ChIJTRxZm9E9244RBO2HcUGs3Aw",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "First Class Hardware",
+      "google_place_id": "ChIJ1wZmzbU_244RAaXRHjb5EcY",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "H&L Rapid True Value",
+      "google_place_id": "ChIJ9bV_lW8-244RKm3jkRKkM8c",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Lloyd's Hardware",
+      "google_place_id": "ChIJ_Zq-ljk-244Rg5aQGg4MqII",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Tools Hardware & Supplies",
+      "google_place_id": "ChIJOU8vduA_244RHEdkSAWbS4U",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "All You Need Hardware & Supplies",
+      "google_place_id": "ChIJB5MY3is-244Rv8Flk1CDEGI",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "New Budget Supplies",
+      "google_place_id": "ChIJGUqfWt4_244RxQsFCiLNHJU",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Irie Hardware Ltd",
+      "google_place_id": "ChIJaXQfBPc-244RE4TQcgJfMPU",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "H&L Rapid True Value gardening",
+      "google_place_id": "ChIJDbNyQLM_244R1UCTzTtFUkk",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Hardware & Lumber",
+      "google_place_id": "ChIJme6sq5k_244R_gtXMEZ5vyg",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Kong's Hardware Ltd",
+      "google_place_id": "ChIJt0BJnpg_244R3OkA6Ma5WiQ",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "N &S Hardware",
+      "google_place_id": "ChIJ43mzX8g_244RKDW0AoOaUbg",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Handy's Hardware",
+      "google_place_id": "ChIJoztm78w_244RYPIIHghOa0Y",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "insert_new",
+      "name": "Build Master Supplies & Hardware",
+      "slug": "build-master-supplies-hardware",
+      "google_place_id": "ChIJnwYAzBhH244RACyg1WXurTY",
+      "confidence_score": 100,
+      "reason": "Coordinates inside Harbour View geofence; Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Harbour View Medical Centre",
+      "google_place_id": "ChIJTbSolkVH244RotKPP4eWrZ0",
+      "confidence_score": 55,
+      "reason": "Coordinates inside Harbour View geofence; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "insert_new",
+      "name": "Health Point Medical Centre",
+      "slug": "health-point-medical-centre",
+      "google_place_id": "ChIJiXSppGJH244R833tKN7gjjM",
+      "confidence_score": 100,
+      "reason": "Coordinates inside Harbour View geofence; Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Seaview Gardens Health Centre",
+      "google_place_id": "ChIJ8wNW9mUV244RYLfHPXxfIR4",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Clear View Ophthalmic Group",
+      "google_place_id": "ChIJJ83wOzs_244R2yD20DNp5DU",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "insert_new",
+      "name": "Harbour View Health Center",
+      "slug": "harbour-view-health-center",
+      "google_place_id": "ChIJX784du9H244RV8UXvDueFbE",
+      "confidence_score": 100,
+      "reason": "Coordinates inside Harbour View geofence; Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Dunrobin Medical & Wellness Centre",
+      "google_place_id": "ChIJId3jkUk-244Rjse4T30rVDk",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Sunrise Health Center",
+      "google_place_id": "ChIJ8f7vyiI-244R_kLbY0w_1c8",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Quick Clinic",
+      "google_place_id": "ChIJpd9f-0A_244R-MdIiWmLthQ",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "insert_new",
+      "name": "Harbour View Primary School",
+      "slug": "harbour-view-primary-school",
+      "google_place_id": "ChIJ7QxjNkVH244RxQcbK0qLMvM",
+      "confidence_score": 100,
+      "reason": "Coordinates inside Harbour View geofence; Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "insert_new",
+      "name": "Harbour View Gospel Chapel",
+      "slug": "harbour-view-gospel-chapel",
+      "google_place_id": "ChIJI087pv1H244Rmy-B9AsCJk4",
+      "confidence_score": 100,
+      "reason": "Coordinates inside Harbour View geofence; Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Harbour View Congregation Of J W",
+      "google_place_id": "ChIJe3RKLWhH244R49GtmmvL8AU",
+      "confidence_score": 40,
+      "reason": "Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Harbour View united church",
+      "google_place_id": "ChIJVVVVVZU-244RM2DH_NMqWYg",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Meadowbrook United Church",
+      "google_place_id": "ChIJNbIQaRc-244RWJZsRVsOLHQ",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "insert_new",
+      "name": "Harbour View Moravian Church",
+      "slug": "harbour-view-moravian-church",
+      "google_place_id": "ChIJJQg7yU9H244REvRGxOY7xIk",
+      "confidence_score": 100,
+      "reason": "Coordinates inside Harbour View geofence; Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Church on the Rock Kingston",
+      "google_place_id": "ChIJX9QxPGo-244RsRUIFA8bWrs",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "insert_new",
+      "name": "Church of the Open Bible",
+      "slug": "church-of-the-open-bible",
+      "google_place_id": "ChIJv2f0nVpH244R_sJsIcBztko",
+      "confidence_score": 100,
+      "reason": "Coordinates inside Harbour View geofence; Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Harbour View Seventh-day Adventist Church",
+      "google_place_id": "ChIJVVVlm2lH244RVRUI9uwI0To",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Seventh-day Adventist Church, Hill Top",
+      "google_place_id": "ChIJx4McOFg_244REG-pec7dcUQ",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "St. Jude's Anglican Church, Stony Hill",
+      "google_place_id": "ChIJhy7-e8Q9244Ryo9fIFm9XiU",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Potter’s House St Andrew",
+      "google_place_id": "ChIJZWleo2g_244RWGPpRItue7A",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Liberty Live Church - Harbour View",
+      "google_place_id": "ChIJQwCePsqfuokRdwWulVeBsEU",
+      "confidence_score": 40,
+      "reason": "Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Harbour View United Church",
+      "google_place_id": "ChIJNbh_dGlH244RAnXhTBGfyu8",
+      "confidence_score": 40,
+      "reason": "Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Clifton New Testament Church of God",
+      "google_place_id": "ChIJ1UuXyEE-244RLpH8yotPuvA",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "New Life Assembly of God",
+      "google_place_id": "ChIJCf9aN2g-244RQMiZk7kWAl0",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Havenhill (Independent) Baptist Church",
+      "google_place_id": "ChIJ79kZxUE-244Rxv7ns4tgFoE",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "St. Matthews Church",
+      "google_place_id": "ChIJn7kLxL4-244Ro607BxxLzso",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Church Of God Of Prophecy Stony Hill",
+      "google_place_id": "ChIJCx0JiMY9244RJcOQOuOtW7c",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "St. Andrew Church Of Christ",
+      "google_place_id": "ChIJVV6M7H0_244Rzo8ZFu-4I0A",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Richie's Auto Repairs & Diagnostics Center",
+      "google_place_id": "ChIJD0Hrfsg_244RCQTjsX_kA_4",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "876 Auto Care and Repairs",
+      "google_place_id": "ChIJpZjIk6I_244RSoy5GtSsZX8",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Highway Auto Repair",
+      "google_place_id": "ChIJQSgSzcs_244R19DirvWPPcY",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Lowe's Mobile Auto Mechanic Service",
+      "google_place_id": "ChIJ5WQK8LI_244R8n4fnjeL93Q",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "AV Complete Auto Body Repairs Ltd",
+      "google_place_id": "ChIJ_bShjCY_244Rk5NvzbTV2JA",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Welder and sons automotive",
+      "google_place_id": "ChIJV_Hzy9Q_244RRrpZAl7AEuc",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Auto Maintenance Ltd",
+      "google_place_id": "ChIJKeLBGDU_244Rf-s23P6yefM",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Rapid Repairs Automotive Refinishers And Collison Specialist",
+      "google_place_id": "ChIJB7jIlY0_244RESr14H-lTos",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Gifted Hands Auto Repairs",
+      "google_place_id": "ChIJobwrHJs_244Rm_Mu6-akeq0",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Harris Garage & Repairs",
+      "google_place_id": "ChIJ6yfPvAs_244R-XlJhmCS5fc",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Auto diagnostics,repair &rental",
+      "google_place_id": "ChIJ8SXItGU_244RZqA8X7d5nas",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Oxford Service Centre",
+      "google_place_id": "ChIJ07h8TwQ_244R6pC9CkcAG94",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "D Car Repair Doc",
+      "google_place_id": "ChIJhRT84Jc_244R3clK7ZqQ3ls",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Cheers Automotive Repairs & Servicing",
+      "google_place_id": "ChIJ5UyoPWk_244RI4Y_8fm4N8I",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Continental Garage Limited",
+      "google_place_id": "ChIJwxNU1KM_244R2XBpW0gCC2s",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Chucky's AUTO shop A/C",
+      "google_place_id": "ChIJb2Xemtw_244RRWMtgoZs-GQ",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Marley's Auto Repair and Performance Services",
+      "google_place_id": "ChIJ8XWzFtp1244RwNN1DSzPVHE",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Charsight Auto Service (Hyundai / Kia trained technician)",
+      "google_place_id": "ChIJpYdojhg_244R9157JjjUeGQ",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Kipling Auto Services and Body Repair",
+      "google_place_id": "ChIJ8f7vyiI-244RoPQ5blObBb8",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Tyre Warehouse Ltd",
+      "google_place_id": "ChIJGwCcKaE_244R0TQg5Z5CDfs",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Tyre Warehouse Ltd",
+      "google_place_id": "ChIJ5w2zZ24_244Rro4Yn5PaqG8",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "TYREHUBJA",
+      "google_place_id": "ChIJC8pnJHc_244RgNcF0u5fcJo",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Tyre Warehouse",
+      "google_place_id": "ChIJ2YMLd_w_244RM_fEx32Oknc",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "B D Gregg & Bro. Ltd.",
+      "google_place_id": "ChIJqdB0ez0_244REm5afp5uUV0",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Jacan Rubber Ltd",
+      "google_place_id": "ChIJJ07RrYE_244Rc09GJuHIins",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "B. D. Gregg & Bros.",
+      "google_place_id": "ChIJ62nvZoI_244R3C97qEWOljc",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Tyre Warehouse (Tyres R US Ltd)",
+      "google_place_id": "ChIJ88O5ywoV244RMH7gS5vlSug",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Black Chiney Tire Repair Shop",
+      "google_place_id": "ChIJd58dUXVH244RnmLzeUWKt3M",
+      "confidence_score": 40,
+      "reason": "Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "TC's Auto Solutions",
+      "google_place_id": "ChIJu686JCo_244Rw3ay9l-y_WA",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Tyre Express",
+      "google_place_id": "ChIJ87ZG-QI_244RJN6over1eJA",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Worldnet Tyres & Accessories",
+      "google_place_id": "ChIJIT814sY_244RXM0brv8t9eM",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Tyre Shop",
+      "google_place_id": "ChIJn4E28R8_244RJvUshHLIfKo",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Tyre Warehouse",
+      "google_place_id": "ChIJBy86pbQ_244R_zybpj3iq6Q",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "TyreMac",
+      "google_place_id": "ChIJ25EezDI_244RL4wXHEyBQwI",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Tyre Warehouse",
+      "google_place_id": "ChIJO2RPesU_244RzKQzk5-dU7Y",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Tyre Shop",
+      "google_place_id": "ChIJtSesDZ4_244RT0o3XkfpxXg",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Tyre Warehouse Ltd.",
+      "google_place_id": "ChIJtWSjwz1r244ROMrNmI5bUAM",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Tyre Zone Auto Parts",
+      "google_place_id": "ChIJvXrs3DE-244RPeOUd-LiNbI",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "A&A Tyre And Vulcanizing Co Ltd (Goodyear)",
+      "google_place_id": "ChIJo4uRksg_244RGnI1wTnCz0w",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "TotalEnergies, Harbour View Seashore Place",
+      "google_place_id": "ChIJv7Jn60VH244RtZ54LgkynlA",
+      "confidence_score": 55,
+      "reason": "Coordinates inside Harbour View geofence; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "insert_new",
+      "name": "TotalEnergies, Harbour View Shopping Centre",
+      "slug": "totalenergies-harbour-view-shopping-centre",
+      "google_place_id": "ChIJTSuhzkVH244RFokY5S7sXJw",
+      "confidence_score": 100,
+      "reason": "Coordinates inside Harbour View geofence; Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "insert_new",
+      "name": "Harbour Diesel Depot",
+      "slug": "harbour-diesel-depot",
+      "google_place_id": "ChIJT_OY_ltH244Rp9bz4za_fYc",
+      "confidence_score": 100,
+      "reason": "Coordinates inside Harbour View geofence; Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "TotalEnergies, Liguanea",
+      "google_place_id": "ChIJJZoOJeM-244R4X7_3CwGqGc",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "TotalEnergies, Manor Park",
+      "google_place_id": "ChIJxWXRl28-244Rk5FJWaxadZg",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Fesco Stony Hill",
+      "google_place_id": "ChIJNdgHVcE9244RjWMw_DeZ0hw",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "TotalEnergies, Cross Roads",
+      "google_place_id": "ChIJlVjf7KI_244RPwuxezGgVVU",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "TotalEnergies, New Kingston",
+      "google_place_id": "ChIJK9X-mqU_244RbzaAQI6xHOo",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "TotalEnergies, Mona",
+      "google_place_id": "ChIJhSsmxiM_244RSW9HkuLB9G0",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "TotalEnergies, Gilmour Drive",
+      "google_place_id": "ChIJu1HR5Ss-244RwHkQW6Bsgf0",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "TotalEnergies, Stanton Terrace",
+      "google_place_id": "ChIJL3-t3AU_244Rnm1hq-cJvj8",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "RUBiS Gore Terrace",
+      "google_place_id": "ChIJzd6DHEw-244RItBmXkFujUk",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "TotalEnergies, Mackville Terrace",
+      "google_place_id": "ChIJHwbzdR8-244RTP3mSv0h8SI",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "TotalEnergies, Red Hills Road",
+      "google_place_id": "ChIJZVTKDzs-244RjOa5f_wIhM8",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "TotalEnergies, Shortwood Road",
+      "google_place_id": "ChIJp4SQMFs-244RJn7DbkkqEWw",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "RUBiS Harbour Street (BD Gregg & Bros)",
+      "google_place_id": "ChIJlXtXrHBA244R4M9REmRZ7Ag",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "General Cooking Gas Company",
+      "google_place_id": "ChIJp6UZDqk_244RAlIh3jLzUqo",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "CWH Gas",
+      "google_place_id": "ChIJ2aegqgg_244Rdt5QNHEuUGE",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Gas Pro Jamaica",
+      "google_place_id": "ChIJ_Qe-2Vc_244R-5eP_8XVR_c",
+      "confidence_score": 0,
+      "reason": "Excluded",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Value Gas",
+      "google_place_id": "ChIJ9QxLv2k_244RR1zrs74UPEo",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "G Vespak Cooking Gas",
+      "google_place_id": "ChIJDyfxyU8_244ROwKuAuIg50E",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Cooking Gas Supplies",
+      "google_place_id": "ChIJwSszpTQ-244R7nM4l3jlGIs",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Bob's Cooking Gas",
+      "google_place_id": "ChIJww96PIgV244Rb6FTWhnNY7c",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Old Harbour bay Square cooking gas",
+      "google_place_id": "ChIJG5-9JGlz244Rx9k9c2xPc0s",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Bobby cooking gas",
+      "google_place_id": "ChIJFQ3uLQAV244RsxNaTlm4FHM",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Old Harbour Cooking Gas",
+      "google_place_id": "ChIJJb9pRMt1244Rcf7VSAaoo1M",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "IGL Blue Limited",
+      "google_place_id": "ChIJ8U0bMXUV244R-3kYQ3eUPxM",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Online Cooking Gas",
+      "google_place_id": "ChIJdUAMIi4V244R5058wYSZF3Q",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Greater Portmore Cooking Gas Outlet",
+      "google_place_id": "ChIJuUGpSXdr244Raj1wQDnu7no",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "James cooking gas and more LTD",
+      "google_place_id": "ChIJ4wfPA6p1244RmOhptU4eteo",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Micheal & Meka Gas Retail",
+      "google_place_id": "ChIJ55E3W1Q_244RlD143KgoaM0",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Fesgas",
+      "google_place_id": "ChIJ1Ww0GIQ_244RfV-cByuEQx0",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Scotiabank Atm Drive Thru",
+      "google_place_id": "ChIJKQgFyDE-244R_aLvvhZdWOg",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Scotia ATM",
+      "google_place_id": "ChIJRbVxiq8_244RacplMIDdOck",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Scotiabank ATM Upper Manor Plaza",
+      "google_place_id": "ChIJzT9Fvm8-244RHjFz3aNvgHA",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "insert_new",
+      "name": "JN Bank ATM",
+      "slug": "jn-bank-atm",
+      "google_place_id": "ChIJhcFrxUVH244RFIe7AN-qTpM",
+      "confidence_score": 100,
+      "reason": "Coordinates inside Harbour View geofence; Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Scotia Bank ATM",
+      "google_place_id": "ChIJSSUpA-M-244R7OCm4HNmrRw",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "ScotiaBank ATM",
+      "google_place_id": "ChIJxySGztc-244Ri1Pg4ZKiDKE",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Scotia Bank ATM",
+      "google_place_id": "ChIJ9wdYKq8_244R8bo3rMA1vxk",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Scotiabank ATM - Hagley Park Plaza",
+      "google_place_id": "ChIJhQGnCLc_244R7mBl9fYLhPE",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Scotiabank ATM MegaMart",
+      "google_place_id": "ChIJo077B04-244RJcyuKEclkuU",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Scotiabank ATM",
+      "google_place_id": "ChIJ50z64ys-244R34mJB5zxdN8",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Scotiabank ATM Langley's Texaco",
+      "google_place_id": "ChIJC3-0Mvc-244RgqFIOGJliDI",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Scotia ATM",
+      "google_place_id": "ChIJ32FXBLQ_244Rbg9443fb3a0",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Scotia ATM Loshushan Plaza",
+      "google_place_id": "ChIJ93OGnPc-244RNpyKfuwKhS8",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "insert_new",
+      "name": "NCB ATM",
+      "slug": "ncb-atm",
+      "google_place_id": "ChIJu04aS05H244RPvQzoHtwL-4",
+      "confidence_score": 100,
+      "reason": "Coordinates inside Harbour View geofence; Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Scotiabank ATM Pavilion Mall",
+      "google_place_id": "ChIJtUCkH7Q_244RN--MQjSzaPQ",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Scotiabank ATM Cross Roads Texaco",
+      "google_place_id": "ChIJTyh_wqI_244RnfW-vn0BLgY",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Scotiabank ATM",
+      "google_place_id": "ChIJlW4iQbM_244RLjTTvxlKdxI",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "CIBC ATM - Half Way Tree Branch",
+      "google_place_id": "ChIJa9ijjNM_244RGZ5iUssrYFQ",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "SCOTIA ATM",
+      "google_place_id": "ChIJz0GmQoA_244RSb0OXUo16jE",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "update_existing",
+      "vendor_id": "88f77b76-4fb2-4ee5-9438-1948b27e2839",
+      "name": "KNUTSFORD",
+      "slug": "knutsford",
+      "google_place_id": "ChIJmz8CPk9H244RM5mBSnNNKHc",
+      "fields_updated": [
+        {
+          "field": "google_place_id",
+          "old": null,
+          "new": "ChIJmz8CPk9H244RM5mBSnNNKHc"
+        },
+        {
+          "field": "latitude",
+          "old": null,
+          "new": 17.9515896
+        },
+        {
+          "field": "longitude",
+          "old": null,
+          "new": -76.7201991
+        },
+        {
+          "field": "website",
+          "old": null,
+          "new": "http://www.knutsfordexpress.com/"
+        },
+        {
+          "field": "google_maps_url",
+          "old": null,
+          "new": "https://maps.google.com/?cid=8586197847148435763"
+        },
+        {
+          "field": "business_status",
+          "old": null,
+          "new": "OPERATIONAL"
+        },
+        {
+          "field": "opening_hours",
+          "old": null,
+          "new": {
+            "weekday_text": [
+              "Monday: 9:00 AM – 5:00 PM",
+              "Tuesday: 9:00 AM – 5:00 PM",
+              "Wednesday: 9:00 AM – 5:00 PM",
+              "Thursday: 9:00 AM – 5:00 PM",
+              "Friday: 9:00 AM – 5:00 PM",
+              "Saturday: 9:00 AM – 5:00 PM",
+              "Sunday: Closed"
+            ]
+          }
+        },
+        {
+          "field": "rating",
+          "old": 0,
+          "new": 4
+        },
+        {
+          "field": "review_count",
+          "old": null,
+          "new": 11
+        },
+        {
+          "field": "last_verified_date",
+          "old": null,
+          "new": "2026-05-07"
+        },
+        {
+          "field": "confidence_score",
+          "old": 0,
+          "new": 100
+        }
+      ],
+      "images_added": [
+        "Ab43m-tQhw1EMG1BbU41-7z73OGvsJcKFK8aTP2hsjva5wF_P1kB_1-Ro5jST2UoDcbY3tdKYrBtXCndAAGRaFPCuObZb1o10vNzT9loLqPyQVsthLlJSVkTZf9U6JY77RVX0xSN63yRDA6sQvhf60-VYuEh5EmOC_uiBSFmQ1N5yu0gzWq0iFVbDZgZ5uRBdlDcBIanlUOZ960pbdPzkC4OLFVAr_JU1l8NoTG_ZIAywc_gIDtP64rl3RNxAcfcovIXNby-yKhahEa8lLISd6GCbeba5M2IWsZ0o7zZdQS6lhGfGg",
+        "Ab43m-voCKRGkgSn0lcZO3x2yp6sG4SbwA25FgX2lFoxklKpmgrZ0Ersvdxop8LxbkIPof3zzbJSHJLBUTvDTvaOAtZo3lELNgunMHy5GS3JRL4ZyCN3pyBQ9NPrbsXHRIwg7Ffqx9ecqbREp-PURY-SCFgnjtPNxiGG3hc_eZgc2LTaQzYfKrkRp03Y5rzTNsF10krzshDdXULPu3JTDgn_F7JVEuBUW7vQtC8CA1rl7Jyb8vC5sR_pyswp8-BirTCNev4p_9iy8j-vt3O7_TN_s4suJdpD0RKGzpp2y_lQmT-lkw",
+        "Ab43m-uCBoPWk8LUY6doqe_XI0RGu5Jp3Bwzn_lVWTwmLrzuYnH8ffOUIHFooIal7COl8OkC2U36W1iJXVlPzzvIRAaE46TFU2_k1VwkePmVOuQzsf7343TWZfHLUU205tX9wFw8tD5IoMHWQh_TNBjqwemHJ3G1xOIoqFM8iKyPwHoJjWoWEUalaamhP8uRXRh0EqP3EDsFGM4zXIw1qbf26Nr_A52RfCI6KZ9HINXxkC_W3NN5HxwlSSTerL2uafxZgLiGajZJaar872DXEERs9o20VXj0IY6nrU50-4CNheCyCA",
+        "Ab43m-uJ2Q7ae9g9_Bp3TTITdX9ySKoy8apojS40zD_A8QxP8NLp4QtOoht1qWVq2ZFL3jhlSrzdxJyzoLvbj2eQuAQNuBqNJf1R0P_E6SOaxbXlanohxyd4I59sTlW3-xmNRx4R_fVcQljU9B3cqCSfnVHYYqTJK-3s3811P1I0Cj-YMJZccTAFw28hjRE5Yy8BxKo8pPd7p7CA6mvtLJgKW_I9hG-2BSErQz3Pc8RB8rrzptWGLcg1g85gN1ISvhd9NgcIomP963n596nvebtJybuKJn4qEGEJtwx0h_t1Rmsa6w",
+        "Ab43m-uBod6XGODWGyefDTuj0e93cijWgWoBqfHgDX652ELgQL1Cd4T7bnbeP_92JxBXn0zWsjFfx9HdZ8w_F2cTyG-Qq7tU7VmiAi4iApYP1r9I88atDRBYW0sFcN-6dTPGFonimbHgSejBwfRMrEQOEOuC3pE9Ia1K0Xniobx4QIyrMTT6dZhTn7aV3HaaB8fdbCbtlvYgytiZra4kj9L_fQpvzisSUyeVYtO3y2gWwArvXkPrVWEKcNl5yzHYEvAJLCvqxHQ3YGPy9AqbgeV7SczkthTBhhe-gcOSCdgXhGc1rQ"
+      ],
+      "confidence_score": 100,
+      "reason": "Matched by phone",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Sunnyside",
+      "google_place_id": "ChIJIRV6GAA9244RIZYBjbRhPi0",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "insert_new",
+      "name": "89Orion Avenue Harbour View Kingston 17Jamaica West Indies",
+      "slug": "89orion-avenue-harbour-view-kingston-17jamaica-west-indies",
+      "google_place_id": "ChIJSWuYVgBH244RBCHq8bdqabc",
+      "confidence_score": 100,
+      "reason": "Coordinates inside Harbour View geofence; Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Sovereign Centre",
+      "google_place_id": "ChIJLUOYt_w-244RzE2cx4vpsyk",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Absolute Collections JA",
+      "google_place_id": "ChIJPb2vbIo_244RjRSCU-afaio",
+      "confidence_score": 40,
+      "reason": "Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Manor Park Plaza",
+      "google_place_id": "ChIJezIgwG8-244RkoMy6UspXQs",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "CARBY'S SOUVENIR DISCOUNT CENTRE & CRAFT VILLAGE",
+      "google_place_id": "ChIJYQ8kg7Q_244RMoH192_1kE8",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Totally Mystique's",
+      "google_place_id": "ChIJRYeG9xI9244Rf7WocU2he_8",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Chocolate Dreams",
+      "google_place_id": "ChIJyVkgAgY_244RIs0SdJ0L2FI",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Beautiful Blooms and More",
+      "google_place_id": "ChIJc1ffjVY9244RuN8LaXdQS9s",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "The Organized Hustle",
+      "google_place_id": "ChIJXYS_5Fo9244R3eIeJoFeGxo",
+      "confidence_score": 40,
+      "reason": "Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Stylish Divaz Ja Boutique",
+      "google_place_id": "ChIJoaEjctU_244RTpOXIt-LCZw",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Swiss Stores Ltd",
+      "google_place_id": "ChIJV4oVTXdA244RvBYgZSmlR6g",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Kurvez By Tina Boutique",
+      "google_place_id": "ChIJJyJm8J4_244RJsrLCNeRd5c",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "insert_new",
+      "name": "Harbour View Shopping Centre",
+      "slug": "harbour-view-shopping-centre",
+      "google_place_id": "ChIJEcaXtEVH244RAvN0dQrQ6Ew",
+      "confidence_score": 100,
+      "reason": "Coordinates inside Harbour View geofence; Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Pavillion Mall",
+      "google_place_id": "ChIJFVxrH7Q_244RunXVd7U8-WU",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Reve Jewellery & Accessories",
+      "google_place_id": "ChIJ1b6Dk60_244ROVWyfU70Qkk",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Kratos Fitness Centre",
+      "google_place_id": "ChIJO0mi_pVH244R98iW72elz8I",
+      "confidence_score": 35,
+      "reason": "Address contains Harbour View / Kingston 17",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Westside Courier & Logistics Ltd",
+      "google_place_id": "ChIJqYoJSwI_244RJsAaarj8O5k",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "ASAP Courier Services: Bike Bearer Delivery Service Jamaica",
+      "google_place_id": "ChIJ7dviYhg_244Rn8ScsM_WRkE",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "MD Courier",
+      "google_place_id": "ChIJhXFHfsU_244RwtSQjpajap0",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "ONE PLUS COURIER JA (KINGSTON)",
+      "google_place_id": "ChIJ2Rf5FpI_244RSRQ8FIwZlwE",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Fast N Eazy Courier",
+      "google_place_id": "ChIJOY_SZr4_244Re0qCHyRgz2A",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "insert_new",
+      "name": "Sunshine Courier And Transport Services",
+      "slug": "sunshine-courier-and-transport-services",
+      "google_place_id": "ChIJVRt0ZEVH244RtFnIsG8HvmQ",
+      "confidence_score": 100,
+      "reason": "Coordinates inside Harbour View geofence; Address contains Harbour View / Kingston 17; Status: OPERATIONAL",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Hi-way Courier Services",
+      "google_place_id": "ChIJveTzaAlB244Rcjj_CxeYsWM",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "ShipJet Courier",
+      "google_place_id": "ChIJobHEZrE_244RGhACVQHiAew",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Prodigy Courier Service",
+      "google_place_id": "ChIJCWOICdo9244RY8--sOIYHWo",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Tara Courier Services Limited",
+      "google_place_id": "ChIJq1h6T74_244RQt-UuggFll4",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "International Express Courier Limited",
+      "google_place_id": "ChIJp6Q1qLA_244RF8QS5Ym2wbY",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    },
+    {
+      "run_id": "ed1abb21-4991-4c1b-8496-5d96cccc3d5d",
+      "action": "reject",
+      "name": "Doorway Express Ltd.",
+      "google_place_id": "ChIJF4lBhaI_244Rm6YVGbbjZ3U",
+      "confidence_score": 40,
+      "reason": "Status: OPERATIONAL; No Harbour View address signal and outside geofence",
+      "dry_run": false
+    }
+  ]
+}
