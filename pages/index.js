@@ -90,95 +90,209 @@ export default function Home({ featuredVendors, recentVendors, rentals }) {
                 <meta property="og:title" content="Harbour View Directory — Trusted Local Directory" />
                 <meta property="og:description" content="Local businesses, rentals, deals, and community notices in one place. Harbour View, Kingston Jamaica." />
                 <meta property="og:url" content="https://harbourviewdirectory.online" />
-                <meta property="og:image" content="https://harbourviewdirectory.online/og-image.png" />
+                <meta property="og:image" content="https://harbourviewdirectory.online/hero.png" />
                 <link rel="canonical" href="https://harbourviewdirectory.online" />
+                {/* Preload hero image for LCP */}
+                <link
+                    rel="preload"
+                    as="image"
+                    href="/hero.webp"
+                    type="image/webp"
+                    media="(min-width: 769px)"
+                />
+                <link
+                    rel="preload"
+                    as="image"
+                    href="/hero-mobile.webp"
+                    type="image/webp"
+                    media="(max-width: 768px)"
+                />
             </Head>
 
             <Navbar />
 
             <main>
                 {/* ═══════════════════════════════════════════════════════
-                    HERO — Deep navy, grid-dot texture, strong headline
+                    HERO — harbour.png photo hero with layered overlays
                 ═══════════════════════════════════════════════════════ */}
                 <section
-                    className="relative overflow-hidden pt-28 pb-48 px-6"
-                    style={{
-                        background: 'linear-gradient(135deg, #0B2545 0%, #0F3460 45%, #0369A1 100%)',
-                    }}
+                    className="relative overflow-hidden"
+                    style={{ minHeight: 'clamp(520px, 72vh, 780px)' }}
                 >
-                    {/* Dot-grid texture overlay */}
+                    {/* ── Background photo (responsive WebP with PNG fallback) ── */}
+                    <picture>
+                        <source
+                            srcSet="/hero.webp"
+                            type="image/webp"
+                            media="(min-width: 769px)"
+                        />
+                        <source
+                            srcSet="/hero-mobile.webp"
+                            type="image/webp"
+                            media="(max-width: 768px)"
+                        />
+                        <img
+                            src="/hero.png"
+                            alt="Aerial view of Harbour View, Kingston Jamaica at golden hour"
+                            className="absolute inset-0 w-full h-full"
+                            style={{
+                                objectFit: 'cover',
+                                objectPosition: 'center 40%',
+                            }}
+                            fetchPriority="high"
+                            decoding="async"
+                            width="1536"
+                            height="1024"
+                        />
+                    </picture>
+
+                    {/* ── Layer 1: deep navy vignette — bottom-left, where text lives ── */}
                     <div
                         aria-hidden="true"
                         className="absolute inset-0 pointer-events-none"
                         style={{
-                            backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px)',
-                            backgroundSize: '28px 28px',
+                            background:
+                                'linear-gradient(to right, rgba(11,37,69,0.88) 0%, rgba(11,37,69,0.60) 40%, rgba(11,37,69,0.10) 75%, transparent 100%),' +
+                                'linear-gradient(to top, rgba(11,37,69,0.80) 0%, rgba(11,37,69,0.30) 40%, transparent 70%)',
                         }}
                     />
-                    {/* Radial glow top-right */}
+
+                    {/* ── Layer 2: brand blue tint — ties photo to site palette ── */}
                     <div
                         aria-hidden="true"
-                        className="absolute -top-32 -right-32 w-96 h-96 rounded-full pointer-events-none"
-                        style={{ background: 'radial-gradient(circle, rgba(245,158,11,0.18) 0%, transparent 70%)' }}
+                        className="absolute inset-0 pointer-events-none"
+                        style={{ background: 'rgba(3,105,161,0.12)' }}
                     />
 
-                    <div className="container-premium relative z-10">
-                        <div className="max-w-3xl mx-auto text-center">
-                            {/* Location pill */}
-                            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white/90 text-sm font-semibold px-4 py-1.5 rounded-full mb-7">
-                                🏘️ Harbour View · Kingston, Jamaica
-                            </div>
+                    {/* ── Layer 3: warm gold glow — mirrors the sun in the photo (top-right) ── */}
+                    <div
+                        aria-hidden="true"
+                        className="absolute pointer-events-none"
+                        style={{
+                            top: '-8%',
+                            right: '-5%',
+                            width: '55%',
+                            height: '70%',
+                            background: 'radial-gradient(ellipse at top right, rgba(245,158,11,0.18) 0%, rgba(251,191,36,0.06) 45%, transparent 70%)',
+                        }}
+                    />
 
-                            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-5 leading-tight">
-                                Harbour View's<br />
-                                <span style={{ color: '#F59E0B' }}>Trusted Local Directory</span>
-                            </h1>
+                    {/* ── Text content ── */}
+                    <div
+                        className="relative z-10 flex flex-col justify-end h-full px-6 pb-0"
+                        style={{ minHeight: 'clamp(520px, 72vh, 780px)' }}
+                    >
+                        <div className="container-premium">
+                            <div className="max-w-2xl pb-16 md:pb-20">
 
-                            <p className="text-lg md:text-xl text-white/75 max-w-2xl mx-auto leading-relaxed mb-3">
-                                Local businesses, rentals, deals, and community notices in one place.
-                            </p>
+                                {/* Location pill */}
+                                <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white/90 text-xs font-bold tracking-wide px-4 py-1.5 rounded-full mb-6 uppercase">
+                                    <span aria-hidden="true">🏘️</span>
+                                    Harbour View · Kingston 17, Jamaica
+                                </div>
 
-                            <div className="flex flex-wrap justify-center gap-3 mt-9">
-                                <Link
-                                    href="/directory"
-                                    className="bg-white text-brand-navy font-bold px-8 py-3.5 rounded-btn shadow-elevated hover:bg-gray-50 transition-all"
-                                    style={{ color: '#0B2545' }}
+                                {/* Main headline */}
+                                <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-extrabold text-white tracking-tight leading-[1.12] mb-4">
+                                    Harbour View's<br />
+                                    <span
+                                        style={{
+                                            color: '#F59E0B',
+                                            textShadow: '0 2px 12px rgba(245,158,11,0.35)',
+                                        }}
+                                    >
+                                        Trusted Local Directory
+                                    </span>
+                                </h1>
+
+                                {/* Sub-headline */}
+                                <p
+                                    className="text-base md:text-lg leading-relaxed mb-8"
+                                    style={{ color: 'rgba(255,255,255,0.82)' }}
                                 >
-                                    Browse Directory
-                                </Link>
-                                <Link
-                                    href="/post-ad"
-                                    style={{ background: '#F59E0B' }}
-                                    className="text-white font-bold px-8 py-3.5 rounded-btn shadow-elevated hover:opacity-90 transition-all"
-                                >
-                                    List Your Business
-                                </Link>
+                                    Businesses · Rentals near CMU · Services · Deals · Community notices
+                                </p>
+
+                                {/* CTA buttons */}
+                                <div className="flex flex-wrap gap-3">
+                                    <Link
+                                        href="/directory"
+                                        className="inline-flex items-center gap-2 font-bold px-7 py-3.5 rounded-btn transition-all"
+                                        style={{
+                                            background: 'white',
+                                            color: '#0B2545',
+                                            boxShadow: '0 4px 20px rgba(0,0,0,0.25)',
+                                        }}
+                                        onMouseEnter={e => { e.currentTarget.style.background = '#F0F9FF'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
+                                        onMouseLeave={e => { e.currentTarget.style.background = 'white'; e.currentTarget.style.transform = 'none'; }}
+                                    >
+                                        <span aria-hidden="true">🔍</span>
+                                        Browse Directory
+                                    </Link>
+                                    <Link
+                                        href="/post-ad"
+                                        className="inline-flex items-center gap-2 font-bold px-7 py-3.5 rounded-btn transition-all border-2"
+                                        style={{
+                                            background: 'rgba(245,158,11,0.92)',
+                                            borderColor: 'rgba(245,158,11,0.5)',
+                                            color: 'white',
+                                            boxShadow: '0 4px 20px rgba(245,158,11,0.30)',
+                                        }}
+                                        onMouseEnter={e => { e.currentTarget.style.background = '#F59E0B'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
+                                        onMouseLeave={e => { e.currentTarget.style.background = 'rgba(245,158,11,0.92)'; e.currentTarget.style.transform = 'none'; }}
+                                    >
+                                        <span aria-hidden="true">➕</span>
+                                        List Your Business
+                                    </Link>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </section>
 
                 {/* ═══════════════════════════════════════════════════════
-                    FLOATING SEARCH CARD — overlaps hero
+                    SEARCH CARD — frosted glass, floats below hero
+                    Negative margin pulls it up to overlap the hero/next section seam
                 ═══════════════════════════════════════════════════════ */}
-                <div className="relative z-20 px-6" style={{ marginTop: '-7rem' }}>
+                <div
+                    className="relative z-20 px-6"
+                    style={{ marginTop: '-4rem' }}
+                >
                     <div className="container-premium">
                         <div
-                            className="max-w-2xl mx-auto bg-white rounded-2xl p-5"
-                            style={{ boxShadow: '0 24px 48px -12px rgba(0,0,0,0.22)' }}
+                            className="max-w-2xl mx-auto rounded-2xl p-5"
+                            style={{
+                                background: 'rgba(255,255,255,0.97)',
+                                boxShadow: '0 24px 60px -10px rgba(11,37,69,0.22), 0 8px 20px -5px rgba(0,0,0,0.10)',
+                                border: '1px solid rgba(226,232,240,0.8)',
+                                backdropFilter: 'blur(16px)',
+                                WebkitBackdropFilter: 'blur(16px)',
+                            }}
                         >
+                            {/* Search row */}
                             <form onSubmit={handleSearch} className="flex gap-2">
-                                <input
-                                    type="text"
-                                    value={searchQuery}
-                                    onChange={e => setSearchQuery(e.target.value)}
-                                    placeholder="Search plumber, tutor, phone repair, cooking gas…"
-                                    className="flex-1 text-sm md:text-base border border-border rounded-btn px-4 py-3 outline-none focus:border-brand transition text-text placeholder-text-muted bg-bg-alt"
-                                />
+                                <div className="relative flex-1">
+                                    <span
+                                        className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted text-base pointer-events-none"
+                                        aria-hidden="true"
+                                    >
+                                        🔍
+                                    </span>
+                                    <input
+                                        type="text"
+                                        id="hero-search"
+                                        value={searchQuery}
+                                        onChange={e => setSearchQuery(e.target.value)}
+                                        placeholder="Search plumber, tutor, phone repair, cooking gas…"
+                                        className="w-full text-sm md:text-base border border-border rounded-btn pl-10 pr-4 py-3 outline-none focus:border-brand transition text-text placeholder-text-muted bg-bg-alt"
+                                        aria-label="Search businesses"
+                                    />
+                                </div>
                                 <button
                                     type="submit"
-                                    className="bg-brand text-white font-bold px-5 py-3 rounded-btn hover:bg-brand-deep transition shrink-0"
-                                    style={{ background: '#0EA5E9' }}
+                                    className="font-bold px-5 py-3 rounded-btn shrink-0 transition-all"
+                                    style={{ background: '#0EA5E9', color: 'white' }}
+                                    onMouseEnter={e => { e.currentTarget.style.background = '#0369A1'; }}
+                                    onMouseLeave={e => { e.currentTarget.style.background = '#0EA5E9'; }}
                                 >
                                     Search
                                 </button>
@@ -186,14 +300,15 @@ export default function Home({ featuredVendors, recentVendors, rentals }) {
 
                             {/* Category chips */}
                             <div className="flex flex-wrap gap-2 mt-4 pt-3 border-t border-border">
-                                <span className="text-xs text-text-muted font-medium pt-1 pr-1">Quick:</span>
+                                <span className="text-xs text-text-muted font-medium pt-1 pr-1" aria-hidden="true">Quick:</span>
                                 {CATEGORY_CHIPS.map(chip => (
                                     <button
                                         key={chip.label}
                                         onClick={() => handleChipClick(chip)}
                                         className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full border border-border bg-bg-alt text-text-soft hover:border-brand hover:text-brand hover:bg-brand-soft transition-all"
+                                        type="button"
                                     >
-                                        <span>{chip.emoji}</span>
+                                        <span aria-hidden="true">{chip.emoji}</span>
                                         {chip.label}
                                     </button>
                                 ))}
