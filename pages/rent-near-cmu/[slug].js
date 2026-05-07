@@ -16,6 +16,8 @@ export async function getServerSideProps(context) {
             .select(PUBLIC_RENTAL_DETAIL_COLUMNS)
             .eq('slug', slug)
             .eq('status', 'approved')
+            .eq('public_visibility', true)
+            .in('locality_status', ['harbour_view_verified', 'harbour_view_likely', 'nearby_allowed'])
             .or(`expires_at.is.null,expires_at.gt.${new Date().toISOString()}`)
             .single();
 

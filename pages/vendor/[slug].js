@@ -9,7 +9,7 @@ import { supabase, getImageUrl } from '../../lib/supabase';
 import { getDisplayCategory } from '../../lib/categoryMap';
 
 const CATEGORY_FALLBACKS = {
-    'Food & Beverage':          { grad: 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)', emoji: '🍽️' },
+    'Food & Restaurants':       { grad: 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)', emoji: '🍽️' },
     'Beauty & Wellness':        { grad: 'linear-gradient(135deg, #FDF2F8 0%, #FBCFE8 100%)', emoji: '💆' },
     'Home Services':            { grad: 'linear-gradient(135deg, #ECFDF5 0%, #A7F3D0 100%)', emoji: '🏠' },
     'Auto & Transport':         { grad: 'linear-gradient(135deg, #F1F5F9 0%, #CBD5E1 100%)', emoji: '🚗' },
@@ -21,6 +21,8 @@ const CATEGORY_FALLBACKS = {
     'Community & Church':       { grad: 'linear-gradient(135deg, #FFFBEB 0%, #FDE68A 100%)', emoji: '⛪' },
     'Laundry & Cleaning':       { grad: 'linear-gradient(135deg, #F0F9FF 0%, #BAE6FD 100%)', emoji: '🧺' },
     'Professional Services':    { grad: 'linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 100%)', emoji: '🏢' },
+    'Grocery & Convenience':    { grad: 'linear-gradient(135deg, #F0FDF4 0%, #BBF7D0 100%)', emoji: '🛒' },
+    'Marine / Fishing Supplies':{ grad: 'linear-gradient(135deg, #ECFEFF 0%, #67E8F9 100%)', emoji: '⚓' },
 };
 
 export async function getServerSideProps(context) {
@@ -33,6 +35,8 @@ export async function getServerSideProps(context) {
             .select('*, reviews(*)')
             .eq('slug', slug)
             .eq('is_approved', true)
+            .eq('public_visibility', true)
+            .in('locality_status', ['harbour_view_verified', 'harbour_view_likely'])
             .single();
 
         if (vendorError) {
@@ -42,6 +46,8 @@ export async function getServerSideProps(context) {
                 .select('*, reviews(*)')
                 .eq('id', slug)
                 .eq('is_approved', true)
+                .eq('public_visibility', true)
+                .in('locality_status', ['harbour_view_verified', 'harbour_view_likely'])
                 .single();
 
             if (idError) return { notFound: true };

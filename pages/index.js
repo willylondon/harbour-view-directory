@@ -7,7 +7,7 @@ import ListingCard from '../components/VendorCard';
 import { supabase } from '../lib/supabase';
 
 const CATEGORY_CHIPS = [
-    { label: 'Food', emoji: '🍽️', query: 'Food & Beverage' },
+    { label: 'Food', emoji: '🍽️', query: 'Food & Restaurants' },
     { label: 'Beauty', emoji: '💆', query: 'Beauty & Wellness' },
     { label: 'Home Services', emoji: '🏠', query: 'Home Services' },
     { label: 'Auto', emoji: '🚗', query: 'Auto & Transport' },
@@ -29,6 +29,8 @@ export async function getServerSideProps() {
             .from('vendors')
             .select('id, business_name, category, description, slug, address, whatsapp, images, is_featured, is_top_ad, created_at')
             .eq('is_approved', true)
+            .eq('public_visibility', true)
+            .in('locality_status', ['harbour_view_verified', 'harbour_view_likely'])
             .order('is_top_ad', { ascending: false })
             .order('is_featured', { ascending: false })
             .order('created_at', { ascending: false })
@@ -39,6 +41,8 @@ export async function getServerSideProps() {
             .from('vendors')
             .select('id, business_name, category, description, slug, address, whatsapp, images, is_featured, is_top_ad, created_at')
             .eq('is_approved', true)
+            .eq('public_visibility', true)
+            .in('locality_status', ['harbour_view_verified', 'harbour_view_likely'])
             .order('created_at', { ascending: false })
             .limit(4);
 
@@ -47,6 +51,8 @@ export async function getServerSideProps() {
             .from('rentals')
             .select('id, title, type, price, location, furnished, slug, created_at')
             .eq('status', 'approved')
+            .eq('public_visibility', true)
+            .in('locality_status', ['harbour_view_verified', 'harbour_view_likely', 'nearby_allowed'])
             .order('created_at', { ascending: false })
             .limit(3);
 

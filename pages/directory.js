@@ -22,7 +22,9 @@ export async function getServerSideProps({ query }) {
         let dbQuery = supabase
             .from('vendors')
             .select('id, business_name, category, description, slug, address, whatsapp, images, is_featured, is_top_ad, created_at')
-            .eq('is_approved', true);
+            .eq('is_approved', true)
+            .eq('public_visibility', true)
+            .in('locality_status', ['harbour_view_verified', 'harbour_view_likely']);
 
         // Sort at DB level for performance
         if (sort === 'az') {
@@ -131,7 +133,7 @@ export default function DirectoryPage({ initialVendors, initialQ, initialCategor
                             Harbour View Business Directory
                         </h1>
                         <p className="text-white/70 text-lg">
-                            {filteredVendors.length} business{filteredVendors.length !== 1 ? 'es' : ''} in Harbour View
+                            {filteredVendors.length} {filteredVendors.length === 1 ? 'business' : 'businesses'} in Harbour View
                         </p>
                     </div>
                 </div>

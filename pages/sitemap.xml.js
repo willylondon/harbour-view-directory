@@ -38,12 +38,16 @@ export async function getServerSideProps({ res }) {
     const { data: vendors } = await supabase
         .from('vendors')
         .select('id, slug, updated_at')
-        .eq('is_approved', true);
+        .eq('is_approved', true)
+        .eq('public_visibility', true)
+        .in('locality_status', ['harbour_view_verified', 'harbour_view_likely']);
 
     const { data: rentals } = await supabase
         .from('rentals')
         .select('id, slug, updated_at')
-        .eq('status', 'approved');
+        .eq('status', 'approved')
+        .eq('public_visibility', true)
+        .in('locality_status', ['harbour_view_verified', 'harbour_view_likely', 'nearby_allowed']);
 
     const sitemap = generateSiteMap(vendors || [], rentals || []);
 

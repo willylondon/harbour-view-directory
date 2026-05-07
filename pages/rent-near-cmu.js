@@ -24,7 +24,9 @@ export async function getServerSideProps(context) {
         let supabaseQuery = supabase
             .from('rentals')
             .select(PUBLIC_RENTAL_COLUMNS)
-            .eq('status', 'approved');
+            .eq('status', 'approved')
+            .eq('public_visibility', true)
+            .in('locality_status', ['harbour_view_verified', 'harbour_view_likely', 'nearby_allowed']);
 
         if (type && type !== 'All') supabaseQuery = supabaseQuery.eq('type', type);
         if (maxPrice) supabaseQuery = supabaseQuery.lte('price', parseInt(maxPrice));
