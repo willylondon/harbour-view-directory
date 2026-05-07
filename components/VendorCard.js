@@ -49,6 +49,7 @@ export default function ListingCard({ vendor }) {
         images,
         slug,
         address,
+        phone,
         whatsapp,
         created_at,
     } = vendor || {};
@@ -150,6 +151,11 @@ export default function ListingCard({ vendor }) {
                             >
                                 💬 <span>Chat</span>
                             </a>
+                        )}
+                        {!phone && !whatsapp && (
+                            <span className="ml-auto text-xs font-semibold text-amber-600">
+                                Contact not verified yet
+                            </span>
                         )}
                     </div>
                 </div>

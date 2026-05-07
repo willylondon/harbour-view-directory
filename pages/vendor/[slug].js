@@ -307,31 +307,30 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, simi
                             <div className="bg-bg-alt rounded-xl p-5 border border-border mb-4">
                                 <h2 className="text-base font-bold text-text mb-4">Contact Information</h2>
                                 
-                                {(!vendor.phone && !vendor.whatsapp && !vendor.address) ? (
-                                    <div className="mb-4 text-sm text-text-soft">
-                                        <p className="font-medium text-amber-600 mb-1">Contact not verified yet.</p>
-                                        <p>Know this business? <a href={whatsappReport} target="_blank" rel="noopener noreferrer" className="text-brand hover:underline">Report the correct contact info</a>.</p>
+                                <div className="space-y-3 text-sm text-text-soft mb-5">
+                                    <div className="flex items-start gap-2.5">
+                                        <span className="mt-0.5 shrink-0">📍</span>
+                                        <div>
+                                            <strong className="text-text block text-xs font-bold uppercase tracking-wide mb-0.5">Address</strong>
+                                            {displayAddress}
+                                        </div>
                                     </div>
-                                ) : (
-                                    <div className="space-y-3 text-sm text-text-soft mb-5">
+                                    {!vendor.phone && !vendor.whatsapp && (
+                                        <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2">
+                                            <p className="font-medium text-amber-700 mb-1">Contact not verified yet</p>
+                                            <p>Know this business? <a href={whatsappReport} target="_blank" rel="noopener noreferrer" className="text-brand hover:underline">Report the correct contact info</a>.</p>
+                                        </div>
+                                    )}
+                                    {vendor.phone && (
                                         <div className="flex items-start gap-2.5">
-                                            <span className="mt-0.5 shrink-0">📍</span>
+                                            <span className="mt-0.5 shrink-0">📞</span>
                                             <div>
-                                                <strong className="text-text block text-xs font-bold uppercase tracking-wide mb-0.5">Address</strong>
-                                                {displayAddress}
+                                                <strong className="text-text block text-xs font-bold uppercase tracking-wide mb-0.5">Phone</strong>
+                                                <a href={`tel:${vendor.phone}`} className="hover:text-brand transition font-medium">{vendor.phone}</a>
                                             </div>
                                         </div>
-                                        {vendor.phone && (
-                                            <div className="flex items-start gap-2.5">
-                                                <span className="mt-0.5 shrink-0">📞</span>
-                                                <div>
-                                                    <strong className="text-text block text-xs font-bold uppercase tracking-wide mb-0.5">Phone</strong>
-                                                    <a href={`tel:${vendor.phone}`} className="hover:text-brand transition font-medium">{vendor.phone}</a>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                )}
+                                    )}
+                                </div>
 
                                 {/* Primary CTAs */}
                                 <div className="flex flex-wrap gap-2.5 mb-5">
