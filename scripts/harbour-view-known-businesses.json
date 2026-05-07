@@ -1,0 +1,50 @@
+[
+  {
+    "name": "",
+    "category_hint": "Food & Beverage",
+    "anchor_hint": "Harbour View Shopping Centre",
+    "shop_number_hint": "",
+    "address_hint": "",
+    "notes": "Popular restaurant missed by first scraper"
+  },
+  {
+    "name": "",
+    "category_hint": "Laundry & Cleaning",
+    "anchor_hint": "Harbour View",
+    "shop_number_hint": "",
+    "address_hint": "",
+    "notes": "Laundromat / laundry service"
+  },
+  {
+    "name": "",
+    "category_hint": "Retail & Shopping",
+    "anchor_hint": "Harbour View",
+    "shop_number_hint": "",
+    "address_hint": "",
+    "notes": "Water shop / purified water / refill business"
+  },
+  {
+    "name": "",
+    "category_hint": "Food & Beverage",
+    "anchor_hint": "Harbour View",
+    "shop_number_hint": "",
+    "address_hint": "",
+    "notes": "Chinese restaurant"
+  },
+  {
+    "name": "",
+    "category_hint": "",
+    "anchor_hint": "Harbour View Shopping Centre",
+    "shop_number_hint": "",
+    "address_hint": "",
+    "notes": "Businesses inside Harbour View Shopping Centre"
+  },
+  {
+    "name": "",
+    "category_hint": "",
+    "anchor_hint": "Harbour View Harbour Centre",
+    "shop_number_hint": "",
+    "address_hint": "",
+    "notes": "Businesses inside the second Harbour View shopping/plaza area"
+  }
+]

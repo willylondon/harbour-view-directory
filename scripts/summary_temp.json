@@ -1,0 +1,646 @@
+{
+  "inserted": 160,
+  "needs_review": 552,
+  "new_inserts": [
+    {
+      "name": "Harbour View Laundry Services",
+      "category": "Laundry & Cleaning"
+    },
+    {
+      "name": "The Water Fountain",
+      "category": "Retail & Shopping"
+    },
+    {
+      "name": "MARCIA SUPERSTAR GROCERIES SHOP",
+      "category": "Food & Beverage"
+    },
+    {
+      "name": "Yummy Kitchen",
+      "category": "Food & Beverage"
+    },
+    {
+      "name": "H J HARDWARE AND SUPPLY",
+      "category": "Home Services"
+    },
+    {
+      "name": "Homes General Supplies And Hardware Ltd",
+      "category": "Home Services"
+    },
+    {
+      "name": "Harbour View Round About Food Stop",
+      "category": "Food & Beverage"
+    },
+    {
+      "name": "Harbour Bay Plaza",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Tastee Harbour View",
+      "category": "Food & Beverage"
+    },
+    {
+      "name": "CreamyHQ",
+      "category": "Food & Beverage"
+    },
+    {
+      "name": "Miss Peart's Kitchen",
+      "category": "Food & Beverage"
+    },
+    {
+      "name": "Harbour View Medical Centre",
+      "category": "Health & Medical"
+    },
+    {
+      "name": "EVA KLEEN LAUNDROMAT & (Dry Cleaning)",
+      "category": "Laundry & Cleaning"
+    },
+    {
+      "name": "Rouney's Chicken",
+      "category": "Food & Beverage"
+    },
+    {
+      "name": "Courts",
+      "category": "Home Services"
+    },
+    {
+      "name": "Ezeeclean Laundromat",
+      "category": "Laundry & Cleaning"
+    },
+    {
+      "name": "Sovereign Supermarket",
+      "category": "Food & Beverage"
+    },
+    {
+      "name": "HCCM Power Tools & Equipment",
+      "category": "Professional Services"
+    },
+    {
+      "name": "P,L,&K Hardware",
+      "category": "Home Services"
+    },
+    {
+      "name": "Conceptual Draughting & Building Services",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Balkan avenue",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Grandview",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Prohamco Business Consulting Limited",
+      "category": "Finance & Banking"
+    },
+    {
+      "name": "St Benedict's Heights",
+      "category": "Professional Services"
+    },
+    {
+      "name": "ONLY AUTO",
+      "category": "Tech & Electronics"
+    },
+    {
+      "name": "Exclusive Travel Co",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Dynasty Water Store",
+      "category": "Retail & Shopping"
+    },
+    {
+      "name": "ROSS Water Store",
+      "category": "Retail & Shopping"
+    },
+    {
+      "name": "Puri-Clear Water Store",
+      "category": "Retail & Shopping"
+    },
+    {
+      "name": "Oasis Water Store",
+      "category": "Retail & Shopping"
+    },
+    {
+      "name": "Family Pride Supermarket",
+      "category": "Food & Beverage"
+    },
+    {
+      "name": "Portmore Mall Pharmacy",
+      "category": "Health & Medical"
+    },
+    {
+      "name": "Solid Care Pharmacy & Gift Centre",
+      "category": "Health & Medical"
+    },
+    {
+      "name": "First Royale Pharmacy & Gift Centre Ltd",
+      "category": "Health & Medical"
+    },
+    {
+      "name": "MyCart Express",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Carib Cement Sports Club",
+      "category": "Community & Church"
+    },
+    {
+      "name": "Wihcon",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Messiah logistics",
+      "category": "Professional Services"
+    },
+    {
+      "name": "CTL Limited - Harbour View",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Kingston Dry Dock",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Blue Ocean Produce",
+      "category": "Food & Beverage"
+    },
+    {
+      "name": "DFence Photography",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Virtual Assist Hub",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Harbour View Examination Deopt",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Jade Garden Restaurant | Chinese",
+      "category": "Food & Beverage"
+    },
+    {
+      "name": "Shiptosureja: Shipping Company in Half Way Tree, Kingston",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Jet Industrial Hardware & Supplies Ltd.",
+      "category": "Home Services"
+    },
+    {
+      "name": "The Laundromat (Harmal Enterprises)",
+      "category": "Laundry & Cleaning"
+    },
+    {
+      "name": "Majestic Laundromat",
+      "category": "Laundry & Cleaning"
+    },
+    {
+      "name": "DryClean USA Liguanea",
+      "category": "Laundry & Cleaning"
+    },
+    {
+      "name": "Supercleaners - Sovereign Centre",
+      "category": "Laundry & Cleaning"
+    },
+    {
+      "name": "Stop 'N' Fill Water Store",
+      "category": "Retail & Shopping"
+    },
+    {
+      "name": "Dynasty Water Store",
+      "category": "Retail & Shopping"
+    },
+    {
+      "name": "A&S Water and Renal Equipment Supplies Limited",
+      "category": "Retail & Shopping"
+    },
+    {
+      "name": "Smith Water store",
+      "category": "Retail & Shopping"
+    },
+    {
+      "name": "Tayshaun's Family Pharmacy",
+      "category": "Health & Medical"
+    },
+    {
+      "name": "Ming Cuisine | Chinese 青花莊",
+      "category": "Food & Beverage"
+    },
+    {
+      "name": "Chang's Trading Co. Ltd.",
+      "category": "Home Services"
+    },
+    {
+      "name": "norahCemps Appliance Parts CentreS",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Ship Global Jamaica",
+      "category": "Professional Services"
+    },
+    {
+      "name": "SSCs Supplies",
+      "category": "Professional Services"
+    },
+    {
+      "name": "KFC Harbour View",
+      "category": "Food & Beverage"
+    },
+    {
+      "name": "Pizza Hut",
+      "category": "Food & Beverage"
+    },
+    {
+      "name": "Opp Total Gas Station Harbour View",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Total Gas Station Harbour View (roundabout)",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Karmouche'",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Lunch Zoo",
+      "category": "Food & Beverage"
+    },
+    {
+      "name": "Smith Chemical N Things",
+      "category": "Food & Beverage"
+    },
+    {
+      "name": "South Optical Jamaica",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Neeks Collection",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Rapido Car Rentals and Auto Sales Limited",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Innovative Superstore",
+      "category": "Tech & Electronics"
+    },
+    {
+      "name": "Empire Plaza",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Bosslady Clothing Store",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Water Deck",
+      "category": "Retail & Shopping"
+    },
+    {
+      "name": "Elite Purified Drinking Water",
+      "category": "Retail & Shopping"
+    },
+    {
+      "name": "Aquasis Water Store",
+      "category": "Retail & Shopping"
+    },
+    {
+      "name": "Crystal Clear Water Refilling",
+      "category": "Retail & Shopping"
+    },
+    {
+      "name": "Wok in take out Chinese Restaurant",
+      "category": "Food & Beverage"
+    },
+    {
+      "name": "Burger King",
+      "category": "Food & Beverage"
+    },
+    {
+      "name": "Wings Express",
+      "category": "Food & Beverage"
+    },
+    {
+      "name": "Bigga's Fast Food",
+      "category": "Food & Beverage"
+    },
+    {
+      "name": "Fatboy Sandwich House",
+      "category": "Food & Beverage"
+    },
+    {
+      "name": "Mario's Barber and Beauty Salon",
+      "category": "Beauty & Wellness"
+    },
+    {
+      "name": "Northside Barbers",
+      "category": "Beauty & Wellness"
+    },
+    {
+      "name": "Uppercut Barbershop and Salon",
+      "category": "Beauty & Wellness"
+    },
+    {
+      "name": "Jason's barber zone",
+      "category": "Beauty & Wellness"
+    },
+    {
+      "name": "Barbernico",
+      "category": "Beauty & Wellness"
+    },
+    {
+      "name": "Men's Grooming Lounge",
+      "category": "Beauty & Wellness"
+    },
+    {
+      "name": "ShearHolders (Barbershop & Grooming Salon)",
+      "category": "Beauty & Wellness"
+    },
+    {
+      "name": "Milligan Barber & Beauty",
+      "category": "Beauty & Wellness"
+    },
+    {
+      "name": "RAEZA | BARBER | KINGSTON",
+      "category": "Beauty & Wellness"
+    },
+    {
+      "name": "Geeswag Barber Shop",
+      "category": "Beauty & Wellness"
+    },
+    {
+      "name": "Haven Beauty House",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Nailsby_hash",
+      "category": "Beauty & Wellness"
+    },
+    {
+      "name": "BEAUTY MARK JAMAICA",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Genesis:1 Keisha's Total Image Salon & Beauty Spa",
+      "category": "Beauty & Wellness"
+    },
+    {
+      "name": "Shantianna's Braids",
+      "category": "Beauty & Wellness"
+    },
+    {
+      "name": "Glow Spa Jamaica",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Nicole's Beauty and Barber Supplies",
+      "category": "Beauty & Wellness"
+    },
+    {
+      "name": "Judene's Fab Hair",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Pavilion Hair and Beauty",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Vivians beauty supplies & variety store",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Glamorholic Beauty Ltd",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Cherrys Hair & More Springs Plaza",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Lasensa Hair Boutique",
+      "category": "Beauty & Wellness"
+    },
+    {
+      "name": "H&L Rapid True Value",
+      "category": "Home Services"
+    },
+    {
+      "name": "H&L Rapid True Value",
+      "category": "Home Services"
+    },
+    {
+      "name": "Amazon Repair Center",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Tech Rescue Pro Limited",
+      "category": "Tech & Electronics"
+    },
+    {
+      "name": "FIXIT",
+      "category": "Tech & Electronics"
+    },
+    {
+      "name": "Techmedicja.com Limited",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Cruz Phone Spot",
+      "category": "Professional Services"
+    },
+    {
+      "name": "ISelltech",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Romic Wireless",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Phones r us",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Tech-Life Phone Accessories and Unlocking Store",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Exclusive Tech",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Enersave Solutions - Kingston Outlet Store",
+      "category": "Home Services"
+    },
+    {
+      "name": "Watts New Tropical Plaza",
+      "category": "Tech & Electronics"
+    },
+    {
+      "name": "The New J&M's Tech World",
+      "category": "Tech & Electronics"
+    },
+    {
+      "name": "Blaze Electronics Ltd.",
+      "category": "Tech & Electronics"
+    },
+    {
+      "name": "Drone Solutions Ja",
+      "category": "Tech & Electronics"
+    },
+    {
+      "name": "D's Electronics and More Ltd.",
+      "category": "Tech & Electronics"
+    },
+    {
+      "name": "Black Chiney Tire Repair Shop",
+      "category": "Auto & Transport"
+    },
+    {
+      "name": "Mechanic connect App, Parts, Services, Road Assit, App Base Services",
+      "category": "Auto & Transport"
+    },
+    {
+      "name": "MT CAR WASH & DETAILING",
+      "category": "Auto & Transport"
+    },
+    {
+      "name": "Quick and Clean Car Wash",
+      "category": "Auto & Transport"
+    },
+    {
+      "name": "Donovan Gas Ltd.",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Bill Express",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Harbour View",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Bill Express",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Paymaster Liguanea",
+      "category": "Finance & Banking"
+    },
+    {
+      "name": "Bill Express",
+      "category": "Professional Services"
+    },
+    {
+      "name": "89Orion Avenue Harbour View Kingston 17Jamaica West Indies",
+      "category": "Food & Beverage"
+    },
+    {
+      "name": "Link7teen I- C.E.S. [Institute of Culture, Entertainment & Sports ]",
+      "category": "Professional Services"
+    },
+    {
+      "name": "MoneyGram",
+      "category": "Finance & Banking"
+    },
+    {
+      "name": "MoneyGram",
+      "category": "Finance & Banking"
+    },
+    {
+      "name": "Alliance Financial Services Limited - Liguanea",
+      "category": "Finance & Banking"
+    },
+    {
+      "name": "MoneyGram/Cambio/ western union/ RIA",
+      "category": "Finance & Banking"
+    },
+    {
+      "name": "MoneyGram",
+      "category": "Finance & Banking"
+    },
+    {
+      "name": "MoneyGram",
+      "category": "Finance & Banking"
+    },
+    {
+      "name": "FX Trader",
+      "category": "Finance & Banking"
+    },
+    {
+      "name": "Dunrobin Medical & Wellness Centre",
+      "category": "Health & Medical"
+    },
+    {
+      "name": "1 Dental Jamaica.",
+      "category": "Health & Medical"
+    },
+    {
+      "name": "Aviv Dental & Aesthetics Centre",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Parkway Dental Centre",
+      "category": "Health & Medical"
+    },
+    {
+      "name": "Harbour View Congregation Of J W",
+      "category": "Community & Church"
+    },
+    {
+      "name": "Liberty Live Church - Harbour View",
+      "category": "Community & Church"
+    },
+    {
+      "name": "Harbour View United Church",
+      "category": "Community & Church"
+    },
+    {
+      "name": "Lane Plaza",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Adassa Store",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Jamaicangyal.com",
+      "category": "Professional Services"
+    },
+    {
+      "name": "MamaLashee",
+      "category": "Professional Services"
+    },
+    {
+      "name": "S&S FISHING SUPPLIES",
+      "category": "Food & Beverage"
+    },
+    {
+      "name": "AUTO SNA Supply",
+      "category": "Auto & Transport"
+    },
+    {
+      "name": "Eastern exotic pets jamaica",
+      "category": "Professional Services"
+    },
+    {
+      "name": "MMDM Books and Bookings",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Thick Thick Necessities",
+      "category": "Professional Services"
+    },
+    {
+      "name": "Cut-E's Auto Parts",
+      "category": "Auto & Transport"
+    }
+  ]
+}
