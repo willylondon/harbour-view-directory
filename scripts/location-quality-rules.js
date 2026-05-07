@@ -87,11 +87,11 @@ const CATEGORY_KEYWORDS = [
   { label: 'Education', keywords: ['school', 'tutor', 'tutoring', 'academy', 'basic school', 'prep school', 'college', 'learning centre', 'learning center'] },
   { label: 'Laundry & Cleaning', keywords: ['laundry', 'laundromat', 'laundry mat', 'dry cleaner', 'dry cleaning', 'cleaners', 'wash and fold', 'wash & fold', 'ironing', 'pressing', 'house cleaning', 'pressure washing'] },
   { label: 'Beauty & Wellness', keywords: ['hair', 'hairdresser', 'salon', 'braids', 'cornrow', 'twist', 'barber', 'beauty', 'nail', 'nails', 'lash', 'makeup', 'massage', 'spa', 'wellness'] },
-  { label: 'Grocery & Convenience', keywords: ['supermarket', 'grocery', 'mini mart', 'minimart', 'convenience', 'wholesale', 'market', 'corner shop'] },
-  { label: 'Tech & Electronics', keywords: ['phone repair', 'computer', 'laptop', 'tablet', 'electronics', 'it', 'network', 'printer', 'camera', 'cctv', 'software', 'hardware'] },
+  { label: 'Grocery & Convenience', keywords: ['supermarket', 'grocery', 'mini mart', 'minimart', 'convenience', 'wholesale', 'market', 'corner shop', 'liquor store', 'liquor', 'spirits', 'wine shop', 'beverage depot'] },
+  { label: 'Tech & Electronics', keywords: ['phone repair', 'computer', 'laptop', 'tablet', 'electronics', 'it', 'network', 'printer', 'camera', 'cctv', 'software', 'computer hardware'] },
   { label: 'Food & Restaurants', keywords: ['restaurant', 'restaurants', 'food', 'food spot', 'cook shop', 'cookshop', 'takeout', 'take away', 'takeaway', 'jerk', 'fried chicken', 'chicken', 'chinese', 'bar and grill', 'bar & grill', 'cafe', 'coffee', 'bakery', 'patty', 'patties', 'lunch', 'dinner', 'breakfast', 'seafood', 'bar'] },
   { label: 'Professional / Legal / JP', keywords: ['justice of the peace', 'lawyer', 'attorney', 'notary', 'accountant', 'insurance', 'real estate', 'jp'] },
-  { label: 'Home Services', keywords: ['plumber', 'plumbing', 'electrician', 'electrical', 'locksmith', 'carpenter', 'gardener', 'landscaper', 'painter', 'tiler', 'welder', 'appliance', 'fridge repair', 'washing machine', 'stove repair', 'oven', 'air conditi', 'ac technician', 'pest control', 'roofing', 'solar', 'water heater', 'water truck', 'water tank', 'upholsterer', 'handyman', 'general repair', 'odd jobs'] },
+  { label: 'Home Services', keywords: ['plumber', 'plumbing', 'electrician', 'electrical', 'locksmith', 'carpenter', 'gardener', 'landscaper', 'painter', 'tiler', 'welder', 'appliance', 'fridge repair', 'washing machine', 'stove repair', 'oven', 'air conditi', 'ac technician', 'pest control', 'roofing', 'solar', 'water heater', 'water truck', 'water tank', 'upholsterer', 'handyman', 'general repair', 'odd jobs', 'cooking gas', 'gas cylinder', 'hardware supplies', 'hardware supplier', 'hardware'] },
 ];
 
 const RECORD_OVERRIDES = {
@@ -196,11 +196,18 @@ function hasSuspiciousBusinessName(vendor) {
   return isPhoneLike || isAddressLike;
 }
 
+function hasGenericHarbourViewEvidence(vendor) {
+  const address = (vendor.address || '').toString().trim().toLowerCase();
+  const hasGenericHarbourViewAddress = address === 'harbour view, jamaica';
+  const hasPhone = Boolean((vendor.phone || '').toString().trim() || (vendor.whatsapp || '').toString().trim());
+  const hasDescription = Boolean((vendor.description || '').toString().trim());
+  return hasGenericHarbourViewAddress && hasPhone && hasDescription;
+}
+
 function inferCategory(vendor) {
   const text = normalizeText([
     vendor.business_name || '',
     vendor.description || '',
-    vendor.category || '',
   ].join(' '));
 
   if (text.includes(' technician') && includesAny(text, [' car ', ' auto ', 'vehicle', 'mechanic', 'tyre', 'tire', 'battery'])) {
@@ -283,6 +290,16 @@ function classifyLocation(vendor) {
       location_confidence: 82,
       admin_review_required: false,
       location_notes: 'Accepted automatically: Harbour View, Jamaica listing with a specific local landmark or street detail.',
+    };
+  }
+
+  if (hasGenericHarbourViewEvidence(vendor)) {
+    return {
+      locality_status: 'harbour_view_likely',
+      public_visibility: true,
+      location_confidence: 72,
+      admin_review_required: true,
+      location_notes: 'Accepted automatically: generic Harbour View address backed by phone or WhatsApp contact and a business description. More precise landmark details should still be collected.',
     };
   }
 

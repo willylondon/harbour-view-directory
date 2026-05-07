@@ -21,11 +21,10 @@ const supabase = createClient(supabaseUrl.trim(), supabaseServiceRoleKey.trim(),
 
 function pickUpdates(vendor, proposed) {
   const updates = {};
-  const override = RECORD_OVERRIDES[(vendor.business_name || '').toLowerCase()];
   const normalizedExistingCategory = normalizeCategory(vendor.category);
-  const targetCategory = override ? proposed.category : normalizedExistingCategory;
+  const targetCategory = proposed.category;
 
-  if ((vendor.category || null) !== targetCategory && (override || normalizedExistingCategory !== (vendor.category || ''))) {
+  if ((vendor.category || null) !== targetCategory) {
     updates.category = targetCategory;
   }
   if ((vendor.locality_status || null) !== proposed.locality_status) updates.locality_status = proposed.locality_status;
