@@ -17,51 +17,24 @@ function generateSitemapXml(urls) {
 }
 
 export default async function handler(req, res) {
+    const today = new Date().toISOString().split('T')[0];
     try {
         // Static pages
         const staticPages = [
-            {
-                loc: `${SITE_URL}/`,
-                lastmod: new Date().toISOString().split('T')[0],
-                changefreq: 'daily',
-                priority: '1.0'
-            },
-            {
-                loc: `${SITE_URL}/events`,
-                lastmod: new Date().toISOString().split('T')[0],
-                changefreq: 'weekly',
-                priority: '0.8'
-            },
-            {
-                loc: `${SITE_URL}/pricing`,
-                lastmod: new Date().toISOString().split('T')[0],
-                changefreq: 'monthly',
-                priority: '0.7'
-            },
-            {
-                loc: `${SITE_URL}/post-ad`,
-                lastmod: new Date().toISOString().split('T')[0],
-                changefreq: 'monthly',
-                priority: '0.7'
-            },
-            {
-                loc: `${SITE_URL}/terms`,
-                lastmod: new Date().toISOString().split('T')[0],
-                changefreq: 'yearly',
-                priority: '0.3'
-            },
-            {
-                loc: `${SITE_URL}/privacy`,
-                lastmod: new Date().toISOString().split('T')[0],
-                changefreq: 'yearly',
-                priority: '0.3'
-            },
-            {
-                loc: `${SITE_URL}/contact`,
-                lastmod: new Date().toISOString().split('T')[0],
-                changefreq: 'monthly',
-                priority: '0.5'
-            }
+            { loc: `${SITE_URL}/`, lastmod: today, changefreq: 'daily', priority: '1.0' },
+            { loc: `${SITE_URL}/directory`, lastmod: today, changefreq: 'daily', priority: '0.95' },
+            { loc: `${SITE_URL}/rent-near-cmu`, lastmod: today, changefreq: 'weekly', priority: '0.85' },
+            { loc: `${SITE_URL}/deals`, lastmod: today, changefreq: 'weekly', priority: '0.8' },
+            { loc: `${SITE_URL}/safety`, lastmod: today, changefreq: 'daily', priority: '0.8' },
+            { loc: `${SITE_URL}/events`, lastmod: today, changefreq: 'weekly', priority: '0.75' },
+            { loc: `${SITE_URL}/pricing`, lastmod: today, changefreq: 'monthly', priority: '0.7' },
+            { loc: `${SITE_URL}/post-ad`, lastmod: today, changefreq: 'monthly', priority: '0.7' },
+            { loc: `${SITE_URL}/contact`, lastmod: today, changefreq: 'monthly', priority: '0.5' },
+            { loc: `${SITE_URL}/faq`, lastmod: today, changefreq: 'monthly', priority: '0.5' },
+            { loc: `${SITE_URL}/verification`, lastmod: today, changefreq: 'monthly', priority: '0.4' },
+            { loc: `${SITE_URL}/listing-guidelines`, lastmod: today, changefreq: 'monthly', priority: '0.4' },
+            { loc: `${SITE_URL}/terms`, lastmod: today, changefreq: 'yearly', priority: '0.3' },
+            { loc: `${SITE_URL}/privacy`, lastmod: today, changefreq: 'yearly', priority: '0.3' },
         ];
 
         // Fetch approved vendors
@@ -100,17 +73,8 @@ export default async function handler(req, res) {
             priority: '0.8'
         }));
 
-        // Category pages (based on your categories)
-        const categories = ['food-dining', 'professional-services', 'automotive', 'beauty-wellness', 'home-services', 'retail-shops'];
-        const categoryPages = categories.map(category => ({
-            loc: `${SITE_URL}/category/${category}`,
-            lastmod: new Date().toISOString().split('T')[0],
-            changefreq: 'weekly',
-            priority: '0.7'
-        }));
-
-        // Combine all URLs
-        const allUrls = [...staticPages, ...vendorPages, ...eventPages, ...categoryPages];
+        // Combine all URLs (drop stale category/* pages)
+        const allUrls = [...staticPages, ...vendorPages, ...eventPages];
 
         // Generate XML
         const sitemapXml = generateSitemapXml(allUrls);

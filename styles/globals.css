@@ -1,24 +1,46 @@
 @import "tailwindcss";
 
 @theme {
+    /* ── Brand colours ── */
     --color-brand: #0EA5E9;
     --color-brand-deep: #0369A1;
+    --color-brand-navy: #0B2545;
     --color-brand-warm: #F59E0B;
+    --color-brand-gold: #D97706;
     --color-brand-soft: #E0F2FE;
+
+    /* ── Surfaces ── */
     --color-surface: #FFFFFF;
     --color-bg: #F8FAFC;
     --color-bg-alt: #F1F5F9;
+    --color-bg-dark: #0B2545;
+
+    /* ── Text ── */
     --color-text: #0F172A;
     --color-text-soft: #475569;
     --color-text-muted: #94A3B8;
+
+    /* ── UI chrome ── */
     --color-border: #E2E8F0;
+    --color-border-strong: #CBD5E1;
+
+    /* ── Semantic ── */
     --color-success: #10B981;
     --color-success-soft: #D1FAE5;
+    --color-verified: #059669;
+    --color-warning: #F59E0B;
+
+    /* ── Radii ── */
     --radius-card: 1.25rem;
     --radius-btn: 0.75rem;
-    --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.04), 0 1px 2px -1px rgb(0 0 0 / 0.04);
-    --shadow-card-hover: 0 10px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.05);
-    --shadow-elevated: 0 20px 40px -10px rgb(0 0 0 / 0.1), 0 10px 20px -10px rgb(0 0 0 / 0.06);
+    --radius-chip: 9999px;
+
+    /* ── Shadows ── */
+    --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.05), 0 1px 2px -1px rgb(0 0 0 / 0.04);
+    --shadow-card-hover: 0 10px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.06);
+    --shadow-elevated: 0 20px 40px -10px rgb(0 0 0 / 0.12), 0 10px 20px -10px rgb(0 0 0 / 0.08);
+    --shadow-soft: 0 2px 8px 0 rgb(0 0 0 / 0.06);
+    --shadow-glow: 0 0 0 3px rgb(14 165 233 / 0.15);
 }
 
 @layer base {
@@ -29,9 +51,14 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
     }
+
+    * {
+        box-sizing: border-box;
+    }
 }
 
 @layer utilities {
+    /* ── Cards ── */
     .card-premium {
         background: var(--color-surface);
         border-radius: var(--radius-card);
@@ -50,6 +77,8 @@
         border: 1px solid var(--color-border);
         box-shadow: var(--shadow-card);
     }
+
+    /* ── Layout ── */
     .section-spacing {
         padding-top: 5rem;
         padding-bottom: 5rem;
@@ -64,5 +93,103 @@
         margin-right: auto;
         padding-left: 1.5rem;
         padding-right: 1.5rem;
+    }
+
+    /* ── Buttons ── */
+    .btn-primary {
+        background: var(--color-brand);
+        color: white;
+        font-weight: 700;
+        padding: 0.75rem 1.75rem;
+        border-radius: var(--radius-btn);
+        box-shadow: var(--shadow-soft);
+        transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .btn-primary:hover {
+        background: var(--color-brand-deep);
+        box-shadow: var(--shadow-elevated);
+        transform: translateY(-1px);
+    }
+    .btn-secondary {
+        background: transparent;
+        color: var(--color-text);
+        font-weight: 600;
+        padding: 0.75rem 1.75rem;
+        border-radius: var(--radius-btn);
+        border: 1.5px solid var(--color-border-strong);
+        transition: background 0.15s ease, border-color 0.15s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .btn-secondary:hover {
+        background: var(--color-bg-alt);
+        border-color: var(--color-brand);
+    }
+    .btn-whatsapp {
+        background: #25D366;
+        color: white;
+        font-weight: 700;
+        padding: 0.6rem 1.25rem;
+        border-radius: var(--radius-btn);
+        font-size: 0.875rem;
+        transition: background 0.15s ease, transform 0.1s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+    }
+    .btn-whatsapp:hover {
+        background: #128C50;
+        transform: translateY(-1px);
+    }
+
+    /* ── Badges ── */
+    .badge-category {
+        font-size: 0.6875rem;
+        font-weight: 700;
+        padding: 0.25rem 0.625rem;
+        border-radius: 9999px;
+        letter-spacing: 0.01em;
+    }
+    .badge-verified {
+        background: #ECFDF5;
+        color: var(--color-verified);
+        font-size: 0.6875rem;
+        font-weight: 700;
+        padding: 0.2rem 0.5rem;
+        border-radius: 9999px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+    .badge-featured {
+        background: var(--color-brand);
+        color: white;
+        font-size: 0.6875rem;
+        font-weight: 700;
+        padding: 0.2rem 0.5rem;
+        border-radius: 9999px;
+    }
+    .badge-new {
+        background: #FEF3C7;
+        color: #92400E;
+        font-size: 0.6875rem;
+        font-weight: 700;
+        padding: 0.2rem 0.5rem;
+        border-radius: 9999px;
+    }
+
+    /* ── Reduced motion ── */
+    @media (prefers-reduced-motion: reduce) {
+        .card-premium, .btn-primary, .btn-whatsapp {
+            transition: none;
+            transform: none !important;
+        }
+        .card-premium:hover {
+            transform: none;
+        }
     }
 }

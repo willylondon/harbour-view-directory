@@ -58,9 +58,9 @@ export default function Navbar() {
     }
 
     const links = [
-        { href: '/', label: 'Directory' },
+        { href: '/', label: 'Home' },
+        { href: '/directory', label: 'Directory' },
         { href: '/rent-near-cmu', label: 'Rent Near CMU' },
-        { href: '/events', label: 'Events' },
         { href: '/deals', label: 'Deals' },
         { href: '/safety', label: 'Safety' },
     ];

@@ -2,17 +2,31 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import { supabase, getImageUrl } from '../../lib/supabase';
-import { getNormalizedCategory } from '../../lib/categoryMap';
+import { getDisplayCategory } from '../../lib/categoryMap';
+
+const CATEGORY_FALLBACKS = {
+    'Food & Beverage':          { grad: 'linear-gradient(135deg,#FEF3C7,#FDE68A)', emoji: '🍽️' },
+    'Beauty & Wellness':        { grad: 'linear-gradient(135deg,#FDF2F8,#FBCFE8)', emoji: '💆' },
+    'Home Services':            { grad: 'linear-gradient(135deg,#ECFDF5,#A7F3D0)', emoji: '🏠' },
+    'Auto & Transport':         { grad: 'linear-gradient(135deg,#F1F5F9,#CBD5E1)', emoji: '🚗' },
+    'Education & Tutoring':     { grad: 'linear-gradient(135deg,#EEF2FF,#C7D2FE)', emoji: '📚' },
+    'Tech & Electronics':       { grad: 'linear-gradient(135deg,#ECFEFF,#A5F3FC)', emoji: '📱' },
+    'Professional / Legal / JP':{ grad: 'linear-gradient(135deg,#EFF6FF,#BFDBFE)', emoji: '⚖️' },
+    'Retail & Shopping':        { grad: 'linear-gradient(135deg,#F5F3FF,#DDD6FE)', emoji: '🛍️' },
+    'Community':                { grad: 'linear-gradient(135deg,#FFFBEB,#FDE68A)', emoji: '🏘️' },
+    'Professional Services':    { grad: 'linear-gradient(135deg,#F8FAFC,#E2E8F0)', emoji: '🏢' },
+};
 
 export async function getServerSideProps(context) {
     const { slug } = context.params;
-    
+
     try {
-        // Try to find vendor by slug first
-        const { data: vendor, error: vendorError } = await supabase
+        // Try by slug first
+        let { data: vendor, error: vendorError } = await supabase
             .from('vendors')
             .select('*, reviews(*)')
             .eq('slug', slug)
@@ -20,7 +34,7 @@ export async function getServerSideProps(context) {
             .single();
 
         if (vendorError) {
-            // If not found by slug, try by ID (for backward compatibility)
+            // Fallback: try by ID
             const { data: vendorById, error: idError } = await supabase
                 .from('vendors')
                 .select('*, reviews(*)')
@@ -28,60 +42,50 @@ export async function getServerSideProps(context) {
                 .eq('is_approved', true)
                 .single();
 
-            if (idError) {
-                throw new Error('Vendor not found');
-            }
+            if (idError) return { notFound: true };
 
-            // If found by ID but has no slug, redirect to slug URL if possible
             if (vendorById && !vendorById.slug) {
-                // Generate slug from business name
                 const generatedSlug = vendorById.business_name
-                    .toLowerCase()
-                    .replace(/[^\w\s-]/g, '')
-                    .replace(/\s+/g, '-')
-                    .replace(/-+/g, '-')
-                    .trim();
-
-                // Update vendor with slug
-                await supabase
-                    .from('vendors')
-                    .update({ slug: generatedSlug })
-                    .eq('id', vendorById.id);
-
-                return {
-                    redirect: {
-                        destination: `/vendor/${generatedSlug}`,
-                        permanent: true,
-                    },
-                };
+                    .toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
+                await supabase.from('vendors').update({ slug: generatedSlug }).eq('id', vendorById.id);
+                return { redirect: { destination: `/vendor/${generatedSlug}`, permanent: true } };
             }
 
-            return {
-                props: {
-                    vendor: vendorById,
-                    reviews: vendorById.reviews || [],
-                    error: null
-                }
-            };
+            vendor = vendorById;
         }
+
+        if (!vendor) return { notFound: true };
+
+        // Fetch similar businesses (same normalized category, limit 3)
+        const cat = getDisplayCategory(vendor);
+        // Get vendors with same DB category or similar name pattern
+        const { data: similar } = await supabase
+            .from('vendors')
+            .select('id, business_name, category, slug, description, address, whatsapp, images, is_featured, is_top_ad, created_at')
+            .eq('is_approved', true)
+            .neq('id', vendor.id)
+            .limit(20);
+
+        // Filter similar by same normalized display category
+        const similarFiltered = (similar || [])
+            .filter(v => getDisplayCategory(v).display === cat.display)
+            .slice(0, 3);
 
         return {
             props: {
                 vendor,
                 reviews: vendor.reviews || [],
-                error: null
-            }
+                similar: similarFiltered,
+                error: null,
+            },
         };
     } catch (error) {
-        console.error('Error fetching vendor data:', error.message);
-        
-        return {
-            notFound: true,
-        };
+        console.error('Vendor SSR error:', error.message);
+        return { notFound: true };
     }
 }
 
-export default function VendorDetailSlug({ vendor, reviews: initialReviews, error }) {
+export default function VendorDetailSlug({ vendor, reviews: initialReviews, similar }) {
     const router = useRouter();
     const [reviews, setReviews] = useState(initialReviews);
     const [showReviewForm, setShowReviewForm] = useState(false);
@@ -90,38 +94,25 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, erro
     const [userName, setUserName] = useState('');
     const [heroImgError, setHeroImgError] = useState(false);
 
-    const cat = getNormalizedCategory(vendor);
+    const cat = getDisplayCategory(vendor);
+    const fallback = CATEGORY_FALLBACKS[cat.display] || CATEGORY_FALLBACKS['Professional Services'];
     const heroImageUrl = getImageUrl(vendor?.images?.[0]);
-    const catEmoji = cat.emoji;
 
-    // Split owner-submitted notes from genuine community reviews
-    // Owner notes: contain booking links, payment info, Instagram links, or clearly promotional language
+    // Owner notes vs community reviews
     const OWNER_NOTE_PATTERNS = [
-        /instagram\.com/i,
-        /we accept/i,
-        /online booking/i,
-        /appointments only/i,
-        /close on/i,
-        /open on/i,
-        /book (via|on|at|through)/i,
-        /payment (accepted|methods)/i,
-        /debt.{0,10}card/i,
-        /credit.{0,10}card/i,
+        /instagram\.com/i, /we accept/i, /online booking/i, /appointments only/i,
+        /close on/i, /open on/i, /book (via|on|at|through)/i,
+        /payment (accepted|methods)/i, /debt.{0,10}card/i, /credit.{0,10}card/i,
     ];
-
-    function isOwnerNote(review) {
-        return OWNER_NOTE_PATTERNS.some(pattern => pattern.test(review.comment || ''));
-    }
-
+    function isOwnerNote(r) { return OWNER_NOTE_PATTERNS.some(p => p.test(r.comment || '')); }
     const communityReviews = reviews.filter(r => !isOwnerNote(r));
     const ownerNotes = reviews.filter(r => isOwnerNote(r));
 
     if (router.isFallback) {
         return (
-            <div className="min-h-screen bg-bg-primary">
-                <Navbar />
+            <div className="min-h-screen bg-bg"><Navbar />
                 <div className="pt-32 flex justify-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-blue"></div>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand" />
                 </div>
             </div>
         );
@@ -129,14 +120,13 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, erro
 
     if (!vendor) {
         return (
-            <div className="min-h-screen bg-bg-primary">
-                <Navbar />
-                <div className="pt-32 text-center">
-                    <h1 className="text-2xl font-bold text-gray-900">Vendor not found</h1>
-                    <p className="text-gray-600 mt-2">This business listing may have been removed or doesn't exist.</p>
-                    <a href="/" className="inline-block mt-6 text-brand-blue font-bold hover:underline">
-                        ← Back to directory
-                    </a>
+            <div className="min-h-screen bg-bg"><Navbar />
+                <div className="pt-32 text-center px-6">
+                    <h1 className="text-2xl font-bold text-text">Business not found</h1>
+                    <p className="text-text-soft mt-2">This listing may have been removed or doesn't exist.</p>
+                    <Link href="/directory" className="inline-block mt-6 text-brand font-bold hover:underline">
+                        ← Back to Directory
+                    </Link>
                 </div>
             </div>
         );
@@ -147,41 +137,19 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, erro
         try {
             const { data, error } = await supabase
                 .from('reviews')
-                .insert([{
-                    vendor_id: vendor.id,
-                    user_name: userName || 'Anonymous',
-                    rating,
-                    comment
-                }])
+                .insert([{ vendor_id: vendor.id, user_name: userName || 'Anonymous', rating, comment }])
                 .select();
-
             if (error) throw error;
-
-            if (data && data.length > 0) {
-                setReviews([data[0], ...reviews]);
-            }
-
-            setShowReviewForm(false);
-            setComment('');
-            setRating(5);
-        } catch (error) {
-            console.error('Error inserting review:', error.message);
-            // Fallback update
-            const newReview = {
-                id: Math.random().toString(),
-                user_name: userName || 'Anonymous',
-                rating,
-                comment,
-                created_at: new Date().toISOString()
-            };
-            setReviews([newReview, ...reviews]);
-            setShowReviewForm(false);
-            setComment('');
-            setRating(5);
+            if (data?.length > 0) setReviews([data[0], ...reviews]);
+        } catch {
+            setReviews([{ id: Math.random().toString(), user_name: userName || 'Anonymous', rating, comment, created_at: new Date().toISOString() }, ...reviews]);
         }
+        setShowReviewForm(false);
+        setComment('');
+        setRating(5);
     }
 
-    // Generate JSON-LD structured data
+    // JSON-LD — only include aggregateRating if real reviews exist
     const jsonLd = {
         '@context': 'https://schema.org',
         '@type': 'LocalBusiness',
@@ -192,142 +160,198 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, erro
             streetAddress: vendor.address,
             addressLocality: 'Harbour View',
             addressRegion: 'Kingston',
-            addressCountry: 'JM'
+            addressCountry: 'JM',
         },
         telephone: vendor.phone,
         url: `https://harbourviewdirectory.online/vendor/${vendor.slug || vendor.id}`,
-        image: vendor.images && vendor.images.length > 0 ? vendor.images[0] : '/placeholder.png',
-        aggregateRating: {
-            '@type': 'AggregateRating',
-            ratingValue: vendor.rating || 4.0,
-            ratingCount: reviews.length,
-            bestRating: 5,
-            worstRating: 1
-        },
-        priceRange: '$$',
+        ...(vendor.images?.length > 0 && { image: vendor.images[0] }),
+        ...(communityReviews.length > 0 && {
+            aggregateRating: {
+                '@type': 'AggregateRating',
+                ratingValue: (communityReviews.reduce((s, r) => s + (r.rating || 0), 0) / communityReviews.length).toFixed(1),
+                ratingCount: communityReviews.length,
+                bestRating: 5,
+                worstRating: 1,
+            },
+        }),
         areaServed: 'Harbour View, Kingston Jamaica',
-        sameAs: vendor.whatsapp ? [vendor.whatsapp] : []
+        sameAs: vendor.whatsapp ? [vendor.whatsapp] : [],
     };
 
-    const pageTitle = `${vendor.business_name} | ${vendor.category} in Harbour View Kingston Jamaica`;
-    const pageDescription = vendor.description || `${vendor.business_name} - ${vendor.category} serving the Harbour View community. Contact details, reviews, and location.`;
+    const pageTitle = `${vendor.business_name} | ${cat.display} in Harbour View, Kingston Jamaica`;
+    const pageDescription = vendor.description
+        ? `${vendor.description.slice(0, 150)}…`
+        : `${vendor.business_name} — ${cat.display} serving Harbour View, Kingston Jamaica. Contact details and location.`;
+
+    const shareUrl = `https://harbourviewdirectory.online/vendor/${vendor.slug || vendor.id}`;
+    const whatsappClaim = `https://wa.me/18767978034?text=I+would+like+to+claim+the+listing+for+${encodeURIComponent(vendor.business_name)}+on+Harbour+View+Directory.`;
+    const whatsappReport = `/report?listing=${encodeURIComponent(vendor.slug || vendor.id)}&name=${encodeURIComponent(vendor.business_name)}`;
 
     return (
-        <div className="min-h-screen bg-bg-primary">
+        <div className="min-h-screen bg-bg">
             <Head>
                 <title>{pageTitle}</title>
                 <meta name="description" content={pageDescription} />
-                <meta name="keywords" content={`${vendor.business_name}, ${vendor.category}, Harbour View, Kingston Jamaica, local business`} />
                 <meta property="og:title" content={pageTitle} />
                 <meta property="og:description" content={pageDescription} />
                 <meta property="og:type" content="business.business" />
-                <meta property="og:url" content={`https://harbourviewdirectory.online/vendor/${vendor.slug || vendor.id}`} />
-                {vendor.images && vendor.images.length > 0 && vendor.images[0] !== '/placeholder.png' && (
-                    <meta property="og:image" content={vendor.images[0]} />
-                )}
-                <meta property="business:contact_data:street_address" content={vendor.address} />
-                <meta property="business:contact_data:locality" content="Harbour View" />
-                <meta property="business:contact_data:region" content="Kingston" />
-                <meta property="business:contact_data:postal_code" content="JMAAW01" />
-                <meta property="business:contact_data:country_name" content="Jamaica" />
-                <link rel="canonical" href={`https://harbourviewdirectory.online/vendor/${vendor.slug || vendor.id}`} />
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-                />
+                <meta property="og:url" content={shareUrl} />
+                {vendor.images?.length > 0 && <meta property="og:image" content={vendor.images[0]} />}
+                <link rel="canonical" href={shareUrl} />
+                <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
             </Head>
             <Navbar />
 
-            <main className="pt-24 pb-16">
-                <div className="max-w-4xl mx-auto px-6">
-                    <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden mb-8">
-                        <div className="relative h-64 w-full bg-gray-100 flex items-center justify-center">
+            <main className="pt-20 pb-16">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6">
+
+                    {/* Breadcrumb */}
+                    <nav className="flex items-center gap-2 text-sm text-text-muted mb-6 mt-4" aria-label="Breadcrumb">
+                        <Link href="/" className="hover:text-brand transition">Home</Link>
+                        <span>/</span>
+                        <Link href="/directory" className="hover:text-brand transition">Directory</Link>
+                        <span>/</span>
+                        <span className="text-text font-medium truncate">{vendor.business_name}</span>
+                    </nav>
+
+                    {/* ── Main card ── */}
+                    <div className="card-premium-static overflow-hidden mb-6">
+                        {/* Hero image */}
+                        <div
+                            className="relative h-64 w-full flex items-center justify-center"
+                            style={!heroImageUrl || heroImgError ? { background: fallback.grad } : undefined}
+                        >
                             {heroImageUrl && !heroImgError ? (
                                 <Image
                                     src={heroImageUrl}
                                     alt={vendor.business_name}
                                     fill
                                     className="object-cover"
-                                    sizes="(max-width: 768px) 100vw, 768px"
+                                    sizes="(max-width: 768px) 100vw, 800px"
                                     onError={() => setHeroImgError(true)}
                                 />
                             ) : (
                                 <div className="text-center">
-                                    <div className="text-7xl opacity-50">{catEmoji}</div>
-                                    <span className="text-text-muted text-sm font-medium mt-2 block">{vendor.category}</span>
+                                    <div className="text-7xl mb-2 opacity-70">{fallback.emoji}</div>
+                                    <span className="text-text-muted text-sm font-medium">{cat.display}</span>
                                 </div>
                             )}
                         </div>
 
-                        <div className="p-8">
-                            <div className="flex justify-between items-start mb-4">
+                        {/* Info */}
+                        <div className="p-6 md:p-8">
+                            <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
                                 <div>
-                                    <h1 className="text-3xl font-black text-gray-900 mb-2">{vendor.business_name}</h1>
-                                    <span className="text-white text-sm font-bold px-3 py-1 rounded shadow-sm" style={{background: 'var(--color-brand)'}}>
-                                        {cat.display}
-                                    </span>
-                                </div>
-                                <div className="flex flex-col items-end">
-                                    <div className="flex items-center gap-1 text-brand-yellow mb-1 text-lg">
-                                        ★ <span className="text-gray-900 font-bold ml-1">{vendor.rating || 'New'}</span>
+                                    <h1 className="text-2xl md:text-3xl font-extrabold text-text mb-2 leading-tight">
+                                        {vendor.business_name}
+                                    </h1>
+                                    <div className="flex flex-wrap items-center gap-2">
+                                        <span
+                                            className="badge-category"
+                                            style={{ background: fallback.grad, color: '#374151' }}
+                                        >
+                                            {fallback.emoji} {cat.display}
+                                        </span>
+                                        {vendor.is_top_ad && (
+                                            <span className="badge-featured" style={{ background: '#F59E0B', color: 'white' }}>⭐ Top Ad</span>
+                                        )}
+                                        {vendor.is_featured && !vendor.is_top_ad && (
+                                            <span className="badge-featured">Featured</span>
+                                        )}
+                                        {communityReviews.length > 0 && (
+                                            <span className="text-sm text-text-muted">
+                                                ★ {(communityReviews.reduce((s, r) => s + (r.rating || 0), 0) / communityReviews.length).toFixed(1)} ({communityReviews.length} review{communityReviews.length !== 1 ? 's' : ''})
+                                            </span>
+                                        )}
                                     </div>
-                                    <span className="text-gray-500 text-sm">
-                                        {reviews.length} review{reviews.length !== 1 ? 's' : ''}
-                                    </span>
                                 </div>
+
+                                {/* Share button */}
+                                <button
+                                    onClick={() => {
+                                        if (navigator.share) {
+                                            navigator.share({ title: vendor.business_name, url: shareUrl });
+                                        } else {
+                                            navigator.clipboard?.writeText(shareUrl);
+                                        }
+                                    }}
+                                    className="text-sm font-medium text-text-muted hover:text-brand transition px-3 py-1.5 rounded-btn border border-border hover:border-brand"
+                                    title="Share listing"
+                                >
+                                    🔗 Share
+                                </button>
                             </div>
 
-                            <div className="prose max-w-none text-gray-600 mb-8 whitespace-pre-wrap">
-                                {vendor.description}
-                            </div>
+                            {/* Description */}
+                            {vendor.description && (
+                                <div className="text-text-soft leading-relaxed mb-6 whitespace-pre-wrap">
+                                    {vendor.description}
+                                </div>
+                            )}
 
-                            <div className="bg-bg-card rounded-xl p-6 border border-gray-100">
-                                <h3 className="text-lg font-bold text-gray-900 mb-4">Contact Information</h3>
-                                <div className="space-y-3 text-gray-600">
+                            {/* Contact box */}
+                            <div className="bg-bg-alt rounded-xl p-5 border border-border mb-4">
+                                <h2 className="text-base font-bold text-text mb-3">Contact Information</h2>
+                                <div className="space-y-2.5 text-sm text-text-soft">
                                     {vendor.address && (
-                                        <div className="flex items-start">
-                                            <span className="mr-3">📍</span>
+                                        <div className="flex items-start gap-2.5">
+                                            <span className="mt-0.5 shrink-0">📍</span>
                                             <div>
-                                                <strong className="block text-sm font-bold text-gray-700">Address</strong>
-                                                <p>{vendor.address}</p>
+                                                <strong className="text-text block text-xs font-bold uppercase tracking-wide mb-0.5">Address</strong>
+                                                {vendor.address}
                                             </div>
                                         </div>
                                     )}
                                     {vendor.phone && (
-                                        <div className="flex items-start">
-                                            <span className="mr-3">📞</span>
+                                        <div className="flex items-start gap-2.5">
+                                            <span className="mt-0.5 shrink-0">📞</span>
                                             <div>
-                                                <strong className="block text-sm font-bold text-gray-700">Phone</strong>
-                                                <a href={`tel:${vendor.phone}`} className="hover:text-brand-blue">{vendor.phone}</a>
+                                                <strong className="text-text block text-xs font-bold uppercase tracking-wide mb-0.5">Phone</strong>
+                                                <a href={`tel:${vendor.phone}`} className="hover:text-brand transition">{vendor.phone}</a>
                                             </div>
                                         </div>
                                     )}
-                                    {vendor.whatsapp && (
-                                        <div className="mt-4">
-                                            <a 
-                                                href={vendor.whatsapp} 
-                                                target="_blank" 
-                                                rel="noopener noreferrer" 
-                                                className="inline-flex items-center gap-2 bg-green-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-600 transition shadow-sm"
-                                            >
-                                                <span>💬</span>
-                                                Message on WhatsApp
-                                            </a>
-                                        </div>
-                                    )}
                                 </div>
+                                {vendor.whatsapp && (
+                                    <div className="mt-4">
+                                        <a
+                                            href={vendor.whatsapp}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="btn-whatsapp inline-flex"
+                                        >
+                                            💬 Message on WhatsApp
+                                        </a>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Trust actions */}
+                            <div className="flex flex-wrap gap-3 text-sm">
+                                <a
+                                    href={whatsappClaim}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-brand-deep font-medium hover:underline flex items-center gap-1"
+                                >
+                                    🏷️ Claim this listing
+                                </a>
+                                <span className="text-border">|</span>
+                                <Link href={whatsappReport} className="text-text-muted hover:text-red-600 transition flex items-center gap-1">
+                                    ⚑ Report incorrect info
+                                </Link>
                             </div>
                         </div>
                     </div>
 
-                    {/* Reviews section */}
-                    <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-                        <div className="flex justify-between items-center mb-6">
-                            <h2 className="text-2xl font-bold text-gray-900">Community Reviews</h2>
+                    {/* ── Reviews ── */}
+                    <div className="card-premium-static p-6 md:p-8 mb-6">
+                        <div className="flex justify-between items-center mb-5">
+                            <h2 className="text-xl font-bold text-text">Community Reviews</h2>
                             {!showReviewForm && (
                                 <button
                                     onClick={() => setShowReviewForm(true)}
-                                    className="bg-brand-yellow text-gray-900 font-bold px-4 py-2 rounded shadow-sm hover:bg-yellow-400 transition"
+                                    className="text-sm font-bold px-4 py-2 rounded-btn border border-brand text-brand hover:bg-brand hover:text-white transition"
                                 >
                                     Write a Review
                                 </button>
@@ -335,57 +359,35 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, erro
                         </div>
 
                         {showReviewForm && (
-                            <form onSubmit={submitReview} className="bg-gray-50 p-6 rounded-xl border border-gray-200 mb-8">
-                                <h3 className="text-lg font-bold text-gray-900 mb-4">Leave your review</h3>
-
-                                <div className="mb-4">
-                                    <label className="block text-sm font-bold text-gray-700 mb-1">Your Name</label>
-                                    <input
-                                        type="text"
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue outline-none"
-                                        placeholder="John Doe"
-                                        value={userName} 
-                                        onChange={e => setUserName(e.target.value)}
-                                        required
-                                    />
+                            <form onSubmit={submitReview} className="bg-bg-alt p-5 rounded-xl border border-border mb-6 space-y-4">
+                                <h3 className="font-bold text-text">Leave your review</h3>
+                                <div>
+                                    <label className="block text-xs font-bold text-text-soft uppercase tracking-wide mb-1.5">Your Name</label>
+                                    <input type="text" value={userName} onChange={e => setUserName(e.target.value)}
+                                        className="w-full px-4 py-2.5 border border-border rounded-btn outline-none focus:border-brand text-text text-sm bg-white"
+                                        placeholder="Your name" required />
                                 </div>
-
-                                <div className="mb-4">
-                                    <label className="block text-sm font-bold text-gray-700 mb-1">Rating</label>
-                                    <select
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue outline-none"
-                                        value={rating} 
-                                        onChange={e => setRating(Number(e.target.value))}
-                                    >
-                                        <option value="5">5 - Excellent</option>
-                                        <option value="4">4 - Very Good</option>
-                                        <option value="3">3 - Average</option>
-                                        <option value="2">2 - Poor</option>
-                                        <option value="1">1 - Terrible</option>
+                                <div>
+                                    <label className="block text-xs font-bold text-text-soft uppercase tracking-wide mb-1.5">Rating</label>
+                                    <select value={rating} onChange={e => setRating(Number(e.target.value))}
+                                        className="w-full px-4 py-2.5 border border-border rounded-btn outline-none focus:border-brand text-text text-sm bg-white">
+                                        <option value="5">5 — Excellent</option>
+                                        <option value="4">4 — Very Good</option>
+                                        <option value="3">3 — Average</option>
+                                        <option value="2">2 — Poor</option>
+                                        <option value="1">1 — Terrible</option>
                                     </select>
                                 </div>
-
-                                <div className="mb-4">
-                                    <label className="block text-sm font-bold text-gray-700 mb-1">Comment</label>
-                                    <textarea
-                                        rows="3"
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue outline-none"
-                                        placeholder="Tell us about your experience..."
-                                        value={comment} 
-                                        onChange={e => setComment(e.target.value)}
-                                        required
-                                    ></textarea>
+                                <div>
+                                    <label className="block text-xs font-bold text-text-soft uppercase tracking-wide mb-1.5">Comment</label>
+                                    <textarea rows="3" value={comment} onChange={e => setComment(e.target.value)}
+                                        className="w-full px-4 py-2.5 border border-border rounded-btn outline-none focus:border-brand text-text text-sm bg-white"
+                                        placeholder="Share your experience…" required />
                                 </div>
-
                                 <div className="flex gap-3">
-                                    <button type="submit" className="bg-brand-blue text-white font-bold px-6 py-2 rounded shadow-sm hover:bg-blue-700 transition">
-                                        Submit Review
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowReviewForm(false)}
-                                        className="text-gray-500 font-bold px-4 py-2 hover:bg-gray-200 rounded transition"
-                                    >
+                                    <button type="submit" className="btn-primary text-sm py-2 px-5" style={{ background: '#0EA5E9', color: 'white', fontWeight: 700, borderRadius: '0.75rem', padding: '0.5rem 1.25rem' }}>Submit Review</button>
+                                    <button type="button" onClick={() => setShowReviewForm(false)}
+                                        className="text-sm text-text-muted font-medium px-4 py-2 hover:bg-bg-alt rounded-btn transition">
                                         Cancel
                                     </button>
                                 </div>
@@ -393,39 +395,35 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, erro
                         )}
 
                         <div className="space-y-4">
-                            {communityReviews.length > 0 ? (
-                                communityReviews.map(review => (
-                                    <div key={review.id} className="border-b border-gray-100 pb-4 last:border-0 last:pb-0">
-                                        <div className="flex justify-between items-start mb-2">
-                                            <h4 className="font-bold text-gray-900">{review.user_name}</h4>
-                                            <span className="text-brand-yellow font-medium">★ {review.rating}</span>
-                                        </div>
-                                        <p className="text-gray-600">{review.comment}</p>
-                                        <p className="text-gray-400 text-sm mt-2">
-                                            {new Date(review.created_at).toLocaleDateString('en-JM', {
-                                                year: 'numeric',
-                                                month: 'long',
-                                                day: 'numeric'
-                                            })}
-                                        </p>
+                            {communityReviews.length > 0 ? communityReviews.map(review => (
+                                <div key={review.id} className="border-b border-border pb-4 last:border-0 last:pb-0">
+                                    <div className="flex justify-between items-start mb-1.5">
+                                        <h4 className="font-bold text-text text-sm">{review.user_name}</h4>
+                                        <span className="text-brand-warm font-bold text-sm">★ {review.rating}</span>
                                     </div>
-                                ))
-                            ) : (
-                                <div className="text-center py-10 bg-bg-alt rounded-btn">
-                                    <div className="text-4xl mb-3">⭐</div>
-                                    <p className="text-text font-semibold mb-1">No community reviews yet</p>
-                                    <p className="text-text-muted text-sm">Be the first to share your experience with this business.</p>
+                                    <p className="text-text-soft text-sm leading-relaxed">{review.comment}</p>
+                                    <p className="text-text-muted text-xs mt-1.5">
+                                        {new Date(review.created_at).toLocaleDateString('en-JM', { year: 'numeric', month: 'long', day: 'numeric' })}
+                                    </p>
+                                </div>
+                            )) : (
+                                <div className="text-center py-10 bg-bg-alt rounded-xl">
+                                    <div className="text-3xl mb-2">⭐</div>
+                                    <p className="font-semibold text-text mb-1">No community reviews yet</p>
+                                    <p className="text-text-muted text-sm">Be the first to share your experience.</p>
                                 </div>
                             )}
                         </div>
 
                         {ownerNotes.length > 0 && (
-                            <div className="mt-8 pt-6 border-t border-gray-100">
-                                <h3 className="text-base font-bold text-gray-700 mb-3">📋 Business Notes <span className="text-xs font-normal text-gray-400 ml-1">(submitted by owner)</span></h3>
-                                <div className="space-y-3">
+                            <div className="mt-6 pt-5 border-t border-border">
+                                <h3 className="text-sm font-bold text-text-soft mb-3">
+                                    📋 Business Notes <span className="font-normal text-text-muted">(from owner)</span>
+                                </h3>
+                                <div className="space-y-2.5">
                                     {ownerNotes.map(note => (
-                                        <div key={note.id} className="bg-blue-50 border border-blue-100 rounded-lg p-4">
-                                            <p className="text-sm text-gray-700 leading-relaxed">{note.comment}</p>
+                                        <div key={note.id} className="bg-brand-soft border border-brand/20 rounded-xl p-4">
+                                            <p className="text-sm text-text-soft leading-relaxed">{note.comment}</p>
                                         </div>
                                     ))}
                                 </div>
@@ -433,11 +431,31 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, erro
                         )}
                     </div>
 
-                    {/* Back to directory */}
-                    <div className="mt-8 text-center">
-                        <a href="/" className="inline-flex items-center gap-2 text-brand-blue font-bold hover:underline">
-                            ← Back to Harbour View Directory
-                        </a>
+                    {/* ── Similar businesses ── */}
+                    {similar && similar.length > 0 && (
+                        <div className="mb-6">
+                            <h2 className="text-xl font-bold text-text mb-4">Similar Businesses</h2>
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                {similar.map(v => (
+                                    <Link
+                                        key={v.id}
+                                        href={v.slug ? `/vendor/${v.slug}` : `/vendor/${v.id}`}
+                                        className="card-premium p-4 block"
+                                    >
+                                        <p className="text-xs font-bold text-text-muted mb-1">{getDisplayCategory(v).display}</p>
+                                        <h3 className="font-bold text-text text-sm hover:text-brand transition line-clamp-1">{v.business_name}</h3>
+                                        {v.address && <p className="text-xs text-text-muted mt-1 truncate">📍 {v.address}</p>}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Back link */}
+                    <div className="text-center mt-4">
+                        <Link href="/directory" className="inline-flex items-center gap-1.5 text-brand font-bold hover:underline">
+                            ← Back to Directory
+                        </Link>
                     </div>
                 </div>
             </main>
