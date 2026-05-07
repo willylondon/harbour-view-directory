@@ -6,8 +6,9 @@ import ListingCard from '../components/VendorCard';
 import EmptyState from '../components/EmptyState';
 import SearchBar from '../components/SearchBar';
 import { supabase } from '../lib/supabase';
+import { expandSearchQuery, getNormalizedCategory } from '../lib/categoryMap';
 
-const POPULAR_SEARCHES = ['Food & Beverage', 'Professional Services', 'Beauty & Wellness', 'Transport', 'Home Services', 'Retail'];
+const POPULAR_SEARCHES = ['Food & Beverage', 'Beauty & Wellness', 'Home Services', 'Education & Tutoring', 'Tech & Electronics', 'Auto & Transport'];
 
 export async function getServerSideProps() {
     try {
@@ -38,15 +39,25 @@ export default function Home({ initialVendors }) {
 
     function filterVendors() {
         let filtered = [...vendors];
-        if (activeCategory) filtered = filtered.filter(v => v.category === activeCategory);
-        if (searchQuery) {
-            const q = searchQuery.toLowerCase();
-            filtered = filtered.filter(v =>
-                v.business_name?.toLowerCase().includes(q) ||
-                v.category?.toLowerCase().includes(q) ||
-                v.description?.toLowerCase().includes(q)
-            );
+
+        // Category filter matches against normalized display category
+        if (activeCategory) {
+            filtered = filtered.filter(v => getNormalizedCategory(v).display === activeCategory);
         }
+
+        if (searchQuery) {
+            const terms = expandSearchQuery(searchQuery);
+            filtered = filtered.filter(v => {
+                const haystack = [
+                    v.business_name || '',
+                    v.category || '',
+                    v.description || '',
+                    getNormalizedCategory(v).display,
+                ].join(' ').toLowerCase();
+                return terms.some(term => haystack.includes(term));
+            });
+        }
+
         setDisplayVendors(filtered);
     }
 

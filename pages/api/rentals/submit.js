@@ -25,12 +25,17 @@ export default async function handler(req, res) {
   const form = formidable({
     maxFileSize: 5 * 1024 * 1024,
     multiples: true,
+    uploadDir: '/tmp',
+    keepExtensions: true,
   });
 
   try {
     const [fields, files] = await new Promise((resolve, reject) => {
       form.parse(req, (err, fields, files) => {
-        if (err) reject(err);
+        if (err) {
+          console.error('Formidable parse error:', err);
+          reject(err);
+        }
         resolve([fields, files]);
       });
     });
@@ -73,7 +78,9 @@ export default async function handler(req, res) {
     }
 
     for (const file of photoFiles) {
-      const fileExt = file.originalFilename.split('.').pop();
+      if (!file || file.size === 0) continue;
+      
+      const fileExt = file.originalFilename ? file.originalFilename.split('.').pop() : 'jpg';
       const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
       const fileBuffer = fs.readFileSync(file.filepath);
 
@@ -88,7 +95,12 @@ export default async function handler(req, res) {
         console.error('Upload error:', uploadError);
         continue;
       }
-      uploadedPhotos.push(fileName);
+
+      // Store full public URL so RentalCard can display without extra resolution
+      const { data: { publicUrl } } = supabaseAdmin.storage
+        .from(RENTAL_IMAGES_BUCKET)
+        .getPublicUrl(fileName);
+      uploadedPhotos.push(publicUrl);
     }
 
     // 5. Normalization & Slug Generation

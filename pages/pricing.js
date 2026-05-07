@@ -10,12 +10,12 @@ export default function PricingPage() {
         },
         {
             name: 'Featured', price: 'JMD $2,500', period: '/month', accent: 'ring-2 ring-brand border-brand', btn: 'bg-brand text-white hover:bg-brand-deep',
-            features: ['Everything in Free', '⭐ Featured badge', 'Top of category', 'Priority approval', 'WhatsApp button', '10 images', 'Basic analytics'],
+            features: ['Everything in Free', '⭐ Featured badge', 'Top of category', 'Priority approval', 'WhatsApp button', '10 images', 'Monthly listing summary — coming soon'],
             popular: true
         },
         {
             name: 'Premium', price: 'JMD $5,000', period: '/month', accent: 'bg-gradient-to-b from-brand-deep to-brand text-white', btn: 'bg-white text-brand-deep hover:bg-gray-100',
-            features: ['Everything in Featured', '🔥 Top Ad placement', 'Homepage visibility', 'Unlimited images', 'Advanced analytics', 'Social promotion', 'Verified badge']
+            features: ['Everything in Featured', '🔥 Top Ad placement', 'Homepage visibility', 'Unlimited images', 'Priority placement reports — coming soon', 'Social promotion', 'Verified badge']
         }
     ];
 

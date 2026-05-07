@@ -19,7 +19,7 @@ export default function Footer() {
                         <ul className="space-y-2.5 text-sm text-white/60">
                             <li><Link href="/contact" className="hover:text-white transition">Contact Us</Link></li>
                             <li><a href="https://wa.me/18765550100" target="_blank" rel="noopener" className="hover:text-white transition">WhatsApp</a></li>
-                            <li><span className="cursor-default">FAQ</span></li>
+                            <li><Link href="/listing-guidelines" className="hover:text-white transition">Listing Guidelines</Link></li>
                         </ul>
                     </div>
                     <div>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { getImageUrl } from '../lib/supabase';
+import { getNormalizedCategory } from '../lib/categoryMap';
 
 export default function ListingCard({ vendor }) {
     const [imgError, setImgError] = useState(false);
@@ -20,19 +21,10 @@ export default function ListingCard({ vendor }) {
         whatsapp
     } = vendor || {};
 
-    const categoryIcons = {
-        'Food & Beverage':       { emoji: '🍽️', bg: 'bg-orange-50',  border: 'border-orange-200' },
-        'Professional Services': { emoji: '💼',  bg: 'bg-blue-50',   border: 'border-blue-200'   },
-        'Transport':             { emoji: '🚗',  bg: 'bg-slate-50',  border: 'border-slate-200'  },
-        'Beauty & Wellness':     { emoji: '💆',  bg: 'bg-pink-50',   border: 'border-pink-200'   },
-        'Home Services':         { emoji: '🏠',  bg: 'bg-emerald-50',border: 'border-emerald-200'},
-        'Retail':                { emoji: '🛍️', bg: 'bg-violet-50', border: 'border-violet-200' },
-        'Emergency':             { emoji: '🚨',  bg: 'bg-red-50',    border: 'border-red-200'    },
-        'Community':             { emoji: '🏘️', bg: 'bg-amber-50',  border: 'border-amber-200'  },
-    };
-
-    const cat = categoryIcons[category] || { emoji: '🏢', bg: 'bg-gray-50', border: 'border-gray-200' };
+    const cat = getNormalizedCategory(vendor);
+    const displayCategory = cat.display;
     const vendorUrl = slug ? `/vendor/${slug}` : `/vendor/${id}`;
+
     const imageUrl = images && images.length > 0 ? getImageUrl(images[0]) : null;
     const showImage = imageUrl && !imgError;
 
@@ -71,7 +63,7 @@ export default function ListingCard({ vendor }) {
                 <div className="p-5">
                     <div className="flex items-center gap-2 mb-2">
                         <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${cat.bg} text-text-soft`}>
-                            {category}
+                            {displayCategory}
                         </span>
                         {rating > 0 && (
                             <span className="text-xs text-text-muted flex items-center gap-1 ml-auto">

@@ -80,14 +80,7 @@ export default function ContactPage() {
                                         </p>
                                     </div>
 
-                                    <div>
-                                        <h3 className="text-lg font-bold text-gray-800 mb-2">📞 Phone</h3>
-                                        <p className="text-gray-600">
-                                            <a href="tel:+18765551234" className="text-brand-blue hover:underline">
-                                                +1 (876) 555-1234
-                                            </a>
-                                        </p>
-                                    </div>
+
 
                                     <div>
                                         <h3 className="text-lg font-bold text-gray-800 mb-2">🕒 Hours</h3>
@@ -118,7 +111,7 @@ export default function ContactPage() {
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="/guidelines" className="text-brand-blue hover:underline">
+                                            <a href="/listing-guidelines" className="text-brand-blue hover:underline">
                                                 Listing Guidelines
                                             </a>
                                         </li>
@@ -250,28 +243,18 @@ export default function ContactPage() {
                         </div>
                     </div>
 
-                    {/* Community Section */}
-                    <div className="mt-12 bg-gradient-to-r from-blue-600 to-green-600 rounded-2xl p-8 text-center text-white">
-                        <h3 className="text-2xl font-bold mb-4">Join Our Community</h3>
-                        <p className="mb-6 max-w-2xl mx-auto">
-                            Stay updated with the latest Harbour View news, events, and business opportunities.
+                    {/* Trust & Support Links */}
+                    <div className="mt-12 bg-gradient-to-r from-brand-deep to-brand rounded-2xl p-8 text-center text-white">
+                        <h3 className="text-2xl font-bold mb-4">Community Trust & Safety</h3>
+                        <p className="mb-6 max-w-2xl mx-auto text-white/80">
+                            Help us keep Harbour View Directory accurate and trustworthy. Report issues, understand verification, or review listing guidelines.
                         </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <a 
-                                href="https://chat.whatsapp.com/example" 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className="bg-white text-green-600 px-6 py-3 rounded-lg font-bold hover:bg-green-50 transition inline-flex items-center justify-center gap-2"
-                            >
-                                💬 Join WhatsApp Group
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center flex-wrap">
+                            <a href="/report" className="bg-white text-brand-deep px-6 py-3 rounded-lg font-bold hover:bg-gray-50 transition inline-flex items-center justify-center gap-2">
+                                🚩 Report a Listing
                             </a>
-                            <a 
-                                href="https://facebook.com/groups/harbourview" 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className="bg-blue-800 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-900 transition inline-flex items-center justify-center gap-2"
-                            >
-                                👍 Facebook Community
+                            <a href="/listing-guidelines" className="bg-brand-warm text-white px-6 py-3 rounded-lg font-bold hover:bg-amber-500 transition inline-flex items-center justify-center gap-2">
+                                📋 Listing Guidelines
                             </a>
                         </div>
                     </div>
