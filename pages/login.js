@@ -37,8 +37,8 @@ export default function Login() {
                     <p className="text-white/80 mb-8 leading-relaxed">Log in to manage your business listings, track performance, and connect with the Harbour View community.</p>
                     <div className="space-y-4 text-sm text-white/70">
                         <div className="flex items-center gap-3"><span>✅</span> Manage your listings</div>
-                        <div className="flex items-center gap-3"><span>✅</span> Track analytics</div>
-                        <div className="flex items-center gap-3"><span>✅</span> Respond to reviews</div>
+                        <div className="flex items-center gap-3"><span>✅</span> Respond to community reviews</div>
+                        <div className="flex items-center gap-3"><span>✅</span> Connect with Harbour View customers</div>
                     </div>
                 </div>
                 <div className="p-10">

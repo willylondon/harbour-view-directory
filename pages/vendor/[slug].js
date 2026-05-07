@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import { supabase, getImageUrl } from '../../lib/supabase';
+import { getNormalizedCategory } from '../../lib/categoryMap';
 
 export async function getServerSideProps(context) {
     const { slug } = context.params;
@@ -89,18 +90,31 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, erro
     const [userName, setUserName] = useState('');
     const [heroImgError, setHeroImgError] = useState(false);
 
-    const categoryIcons = {
-        'Food & Beverage':       '🍽️',
-        'Professional Services': '💼',
-        'Transport':             '🚗',
-        'Beauty & Wellness':     '💆',
-        'Home Services':         '🏠',
-        'Retail':                '🛍️',
-        'Emergency':             '🚨',
-        'Community':             '🏘️',
-    };
+    const cat = getNormalizedCategory(vendor);
     const heroImageUrl = getImageUrl(vendor?.images?.[0]);
-    const catEmoji = categoryIcons[vendor?.category] || '🏢';
+    const catEmoji = cat.emoji;
+
+    // Split owner-submitted notes from genuine community reviews
+    // Owner notes: contain booking links, payment info, Instagram links, or clearly promotional language
+    const OWNER_NOTE_PATTERNS = [
+        /instagram\.com/i,
+        /we accept/i,
+        /online booking/i,
+        /appointments only/i,
+        /close on/i,
+        /open on/i,
+        /book (via|on|at|through)/i,
+        /payment (accepted|methods)/i,
+        /debt.{0,10}card/i,
+        /credit.{0,10}card/i,
+    ];
+
+    function isOwnerNote(review) {
+        return OWNER_NOTE_PATTERNS.some(pattern => pattern.test(review.comment || ''));
+    }
+
+    const communityReviews = reviews.filter(r => !isOwnerNote(r));
+    const ownerNotes = reviews.filter(r => isOwnerNote(r));
 
     if (router.isFallback) {
         return (
@@ -249,8 +263,8 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, erro
                             <div className="flex justify-between items-start mb-4">
                                 <div>
                                     <h1 className="text-3xl font-black text-gray-900 mb-2">{vendor.business_name}</h1>
-                                    <span className="bg-brand-blue text-white text-sm font-bold px-3 py-1 rounded shadow-sm">
-                                        {vendor.category}
+                                    <span className="text-white text-sm font-bold px-3 py-1 rounded shadow-sm" style={{background: 'var(--color-brand)'}}>
+                                        {cat.display}
                                     </span>
                                 </div>
                                 <div className="flex flex-col items-end">
@@ -379,8 +393,8 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, erro
                         )}
 
                         <div className="space-y-4">
-                            {reviews.length > 0 ? (
-                                reviews.map(review => (
+                            {communityReviews.length > 0 ? (
+                                communityReviews.map(review => (
                                     <div key={review.id} className="border-b border-gray-100 pb-4 last:border-0 last:pb-0">
                                         <div className="flex justify-between items-start mb-2">
                                             <h4 className="font-bold text-gray-900">{review.user_name}</h4>
@@ -399,11 +413,24 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, erro
                             ) : (
                                 <div className="text-center py-10 bg-bg-alt rounded-btn">
                                     <div className="text-4xl mb-3">⭐</div>
-                                    <p className="text-text font-semibold mb-1">No reviews yet</p>
+                                    <p className="text-text font-semibold mb-1">No community reviews yet</p>
                                     <p className="text-text-muted text-sm">Be the first to share your experience with this business.</p>
                                 </div>
                             )}
                         </div>
+
+                        {ownerNotes.length > 0 && (
+                            <div className="mt-8 pt-6 border-t border-gray-100">
+                                <h3 className="text-base font-bold text-gray-700 mb-3">📋 Business Notes <span className="text-xs font-normal text-gray-400 ml-1">(submitted by owner)</span></h3>
+                                <div className="space-y-3">
+                                    {ownerNotes.map(note => (
+                                        <div key={note.id} className="bg-blue-50 border border-blue-100 rounded-lg p-4">
+                                            <p className="text-sm text-gray-700 leading-relaxed">{note.comment}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     {/* Back to directory */}

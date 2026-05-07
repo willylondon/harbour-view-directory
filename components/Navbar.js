@@ -61,8 +61,8 @@ export default function Navbar() {
         { href: '/', label: 'Directory' },
         { href: '/rent-near-cmu', label: 'Rent Near CMU' },
         { href: '/events', label: 'Events' },
-        { href: '#', label: 'Deals' },
-        { href: '#', label: 'Safety' },
+        { href: '/deals', label: 'Deals' },
+        { href: '/safety', label: 'Safety' },
     ];
 
     const loggedIn = !!session;
