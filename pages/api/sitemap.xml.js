@@ -1,4 +1,5 @@
 import { supabase } from '../../lib/supabase';
+import { applyPublicRentalFilters, applyPublicVendorFilters, filterPublicRentals, filterPublicVendors } from '../../lib/publicDirectory';
 
 const SITE_URL = 'https://harbourviewdirectory.online';
 
@@ -38,10 +39,11 @@ export default async function handler(req, res) {
         ];
 
         // Fetch approved vendors
-        const { data: vendors, error } = await supabase
-            .from('vendors')
-            .select('id, slug, business_name, updated_at, created_at')
-            .eq('is_approved', true)
+        const { data: vendors, error } = await applyPublicVendorFilters(
+            supabase
+                .from('vendors')
+                .select('id, slug, business_name, updated_at, created_at, locality_status, public_visibility, data_quality_status')
+        )
             .order('created_at', { ascending: false });
 
         if (error) {
@@ -50,11 +52,25 @@ export default async function handler(req, res) {
         }
 
         // Vendor pages
-        const vendorPages = (vendors || []).map(vendor => ({
+        const vendorPages = filterPublicVendors(vendors || []).map(vendor => ({
             loc: `${SITE_URL}/vendor/${vendor.slug || vendor.id}`,
             lastmod: vendor.updated_at ? new Date(vendor.updated_at).toISOString().split('T')[0] : new Date(vendor.created_at).toISOString().split('T')[0],
             changefreq: 'weekly',
             priority: '0.9'
+        }));
+
+        const { data: rentals } = await applyPublicRentalFilters(
+            supabase
+                .from('rentals')
+                .select('id, slug, updated_at, locality_status, public_visibility, status')
+        )
+            .order('updated_at', { ascending: false });
+
+        const rentalPages = filterPublicRentals(rentals || []).map(rental => ({
+            loc: `${SITE_URL}/rent-near-cmu/${rental.slug || rental.id}`,
+            lastmod: new Date(rental.updated_at || Date.now()).toISOString().split('T')[0],
+            changefreq: 'weekly',
+            priority: '0.7'
         }));
 
         // Fetch upcoming events
@@ -74,7 +90,7 @@ export default async function handler(req, res) {
         }));
 
         // Combine all URLs (drop stale category/* pages)
-        const allUrls = [...staticPages, ...vendorPages, ...eventPages];
+        const allUrls = [...staticPages, ...vendorPages, ...rentalPages, ...eventPages];
 
         // Generate XML
         const sitemapXml = generateSitemapXml(allUrls);

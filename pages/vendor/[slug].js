@@ -7,6 +7,11 @@ import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import { supabase, getImageUrl } from '../../lib/supabase';
 import { getDisplayCategory } from '../../lib/categoryMap';
+import {
+    applyPublicVendorFilters,
+    filterPublicVendors,
+    PUBLIC_VENDOR_COLUMNS,
+} from '../../lib/publicDirectory';
 
 const CATEGORY_FALLBACKS = {
     'Food & Restaurants':       { grad: 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)', emoji: '🍽️' },
@@ -20,7 +25,7 @@ const CATEGORY_FALLBACKS = {
     'Retail & Shopping':        { grad: 'linear-gradient(135deg, #F5F3FF 0%, #DDD6FE 100%)', emoji: '🛍️' },
     'Community & Church':       { grad: 'linear-gradient(135deg, #FFFBEB 0%, #FDE68A 100%)', emoji: '⛪' },
     'Laundry & Cleaning':       { grad: 'linear-gradient(135deg, #F0F9FF 0%, #BAE6FD 100%)', emoji: '🧺' },
-    'Professional Services':    { grad: 'linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 100%)', emoji: '🏢' },
+    'Professional / Legal / JP': { grad: 'linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 100%)', emoji: '🏢' },
     'Grocery & Convenience':    { grad: 'linear-gradient(135deg, #F0FDF4 0%, #BBF7D0 100%)', emoji: '🛒' },
     'Marine / Fishing Supplies':{ grad: 'linear-gradient(135deg, #ECFEFF 0%, #67E8F9 100%)', emoji: '⚓' },
 };
@@ -30,24 +35,22 @@ export async function getServerSideProps(context) {
 
     try {
         // Try by slug first
-        let { data: vendor, error: vendorError } = await supabase
-            .from('vendors')
-            .select('*, reviews(*)')
+        let { data: vendor, error: vendorError } = await applyPublicVendorFilters(
+            supabase
+                .from('vendors')
+                .select('*, reviews(*)')
+        )
             .eq('slug', slug)
-            .eq('is_approved', true)
-            .eq('public_visibility', true)
-            .in('locality_status', ['harbour_view_verified', 'harbour_view_likely'])
             .single();
 
         if (vendorError) {
             // Fallback: try by ID
-            const { data: vendorById, error: idError } = await supabase
-                .from('vendors')
-                .select('*, reviews(*)')
+            const { data: vendorById, error: idError } = await applyPublicVendorFilters(
+                supabase
+                    .from('vendors')
+                    .select('*, reviews(*)')
+            )
                 .eq('id', slug)
-                .eq('is_approved', true)
-                .eq('public_visibility', true)
-                .in('locality_status', ['harbour_view_verified', 'harbour_view_likely'])
                 .single();
 
             if (idError) return { notFound: true };
@@ -67,15 +70,16 @@ export async function getServerSideProps(context) {
         // Fetch similar businesses (same normalized category, limit 3)
         const cat = getDisplayCategory(vendor);
         // Get vendors with same DB category or similar name pattern
-        const { data: similar } = await supabase
-            .from('vendors')
-            .select('id, business_name, category, slug, description, address, whatsapp, images, is_featured, is_top_ad, created_at')
-            .eq('is_approved', true)
+        const { data: similar } = await applyPublicVendorFilters(
+            supabase
+                .from('vendors')
+                .select(PUBLIC_VENDOR_COLUMNS)
+        )
             .neq('id', vendor.id)
-            .limit(20);
+            .limit(40);
 
         // Filter similar by same normalized display category
-        const similarFiltered = (similar || [])
+        const similarFiltered = filterPublicVendors(similar || [])
             .filter(v => getDisplayCategory(v).display === cat.display)
             .slice(0, 3);
 
@@ -103,7 +107,7 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, simi
     const [heroImgError, setHeroImgError] = useState(false);
 
     const cat = getDisplayCategory(vendor);
-    const fallback = CATEGORY_FALLBACKS[cat.display] || CATEGORY_FALLBACKS['Professional Services'];
+    const fallback = CATEGORY_FALLBACKS[cat.display] || CATEGORY_FALLBACKS['Professional / Legal / JP'];
     const heroImageUrl = getImageUrl(vendor?.images?.[0]);
 
     // Owner notes vs community reviews
@@ -366,7 +370,7 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, simi
                                     </a>
                                     <span className="text-border">|</span>
                                     <a href={whatsappClaim} target="_blank" rel="noopener noreferrer" className="text-brand-deep font-medium hover:underline flex items-center gap-1">
-                                        🏷️ Claim this listing
+                                        🏷️ Claim This Listing
                                     </a>
                                 </div>
                             </div>

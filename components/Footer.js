@@ -9,7 +9,7 @@ export default function Footer() {
                         <h4 className="font-bold mb-4">Explore</h4>
                         <ul className="space-y-2.5 text-sm text-white/60">
                             <li><Link href="/" className="hover:text-white transition">Directory</Link></li>
-                            <li><Link href="/rent-near-cmu" className="hover:text-white transition">Rent Near CMU</Link></li>
+                            <li><Link href="/rent-near-cmu" className="hover:text-white transition">Rooms &amp; Rentals</Link></li>
                             <li><Link href="/deals" className="hover:text-white transition">Deals</Link></li>
                             <li><Link href="/safety" className="hover:text-white transition">Safety</Link></li>
                             <li><Link href="/events" className="hover:text-white transition">Events</Link></li>

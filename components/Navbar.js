@@ -60,6 +60,7 @@ export default function Navbar() {
     const links = [
         { href: '/', label: 'Home' },
         { href: '/directory', label: 'Directory' },
+        { href: '/rent-near-cmu', label: 'Rooms & Rentals' },
     ];
 
     const loggedIn = !!session;

@@ -5,7 +5,12 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ListingCard from '../components/VendorCard';
 import { supabase } from '../lib/supabase';
-import { getDisplayCategory, expandSearchQuery, CATEGORY_TAXONOMY } from '../lib/categoryMap';
+import { getDisplayCategory, vendorMatchesSearch, CATEGORY_TAXONOMY, normalizeCategoryLabel } from '../lib/categoryMap';
+import {
+    applyPublicVendorFilters,
+    filterPublicVendors,
+    PUBLIC_VENDOR_COLUMNS,
+} from '../lib/publicDirectory';
 
 const PAGE_SIZE = 12;
 
@@ -19,12 +24,11 @@ export async function getServerSideProps({ query }) {
     const { q = '', category = '', sort = 'featured' } = query;
 
     try {
-        let dbQuery = supabase
-            .from('vendors')
-            .select('id, business_name, category, description, slug, address, whatsapp, images, is_featured, is_top_ad, created_at')
-            .eq('is_approved', true)
-            .eq('public_visibility', true)
-            .in('locality_status', ['harbour_view_verified', 'harbour_view_likely']);
+        let dbQuery = applyPublicVendorFilters(
+            supabase
+                .from('vendors')
+                .select(PUBLIC_VENDOR_COLUMNS)
+        );
 
         // Sort at DB level for performance
         if (sort === 'az') {
@@ -39,14 +43,14 @@ export async function getServerSideProps({ query }) {
                 .order('created_at', { ascending: false });
         }
 
-        const { data: vendors, error } = await dbQuery.limit(200);
+        const { data: vendors, error } = await dbQuery.limit(500);
         if (error) throw error;
 
         return {
             props: {
-                initialVendors: vendors || [],
+                initialVendors: filterPublicVendors(vendors || []),
                 initialQ: q,
-                initialCategory: category,
+                initialCategory: normalizeCategoryLabel(category),
                 initialSort: sort,
             },
         };
@@ -75,16 +79,7 @@ export default function DirectoryPage({ initialVendors, initialQ, initialCategor
 
         // Search filter
         if (searchQuery.trim()) {
-            const terms = expandSearchQuery(searchQuery.trim());
-            list = list.filter(v => {
-                const haystack = [
-                    v.business_name || '',
-                    v.category || '',
-                    v.description || '',
-                    getDisplayCategory(v).display,
-                ].join(' ').toLowerCase();
-                return terms.some(t => haystack.includes(t));
-            });
+            list = list.filter(v => vendorMatchesSearch(v, searchQuery.trim()));
         }
 
         // Client-side sort (in case SSR sort differs after filter)
@@ -158,11 +153,11 @@ export default function DirectoryPage({ initialVendors, initialQ, initialCategor
                             {/* Category dropdown */}
                             <select
                                 value={activeCategory}
-                                onChange={e => { setActiveCategory(e.target.value); setVisibleCount(PAGE_SIZE); }}
-                                className="text-sm border border-border rounded-btn px-3 py-2 outline-none focus:border-brand bg-bg-alt text-text"
-                            >
-                                <option value="">All Categories</option>
-                                {CATEGORY_TAXONOMY.map(cat => (
+                                    onChange={e => { setActiveCategory(e.target.value); setVisibleCount(PAGE_SIZE); }}
+                                    className="text-sm border border-border rounded-btn px-3 py-2 outline-none focus:border-brand bg-bg-alt text-text"
+                                >
+                                    <option value="">All Categories</option>
+                                    {CATEGORY_TAXONOMY.map(cat => (
                                     <option key={cat} value={cat}>{cat}</option>
                                 ))}
                             </select>

@@ -1,13 +1,13 @@
 const CATEGORIES = [
     { label: 'All',                   value: ''                       },
-    { label: 'Food & Beverage',       value: 'Food & Beverage'        },
-    { label: 'Retail',                value: 'Retail'                 },
-    { label: 'Transport',             value: 'Transport'              },
-    { label: 'Professional Services', value: 'Professional Services'  },
+    { label: 'Food & Restaurants',    value: 'Food & Restaurants'     },
+    { label: 'Retail & Shopping',     value: 'Retail & Shopping'      },
+    { label: 'Auto & Transport',      value: 'Auto & Transport'       },
+    { label: 'Professional / Legal / JP', value: 'Professional / Legal / JP' },
     { label: 'Home Services',         value: 'Home Services'          },
     { label: 'Beauty & Wellness',     value: 'Beauty & Wellness'      },
-    { label: 'Emergency',             value: 'Emergency'              },
-    { label: 'Community',             value: 'Community'              },
+    { label: 'Health & Medical',      value: 'Health & Medical'       },
+    { label: 'Community & Church',    value: 'Community & Church'     },
 ];
 
 export default function CategoryFilter({ selectedCategory, onSelectCategory }) {

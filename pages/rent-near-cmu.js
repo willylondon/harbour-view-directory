@@ -6,8 +6,12 @@ import Footer from '../components/Footer';
 import EmptyState from '../components/EmptyState';
 import RentalCard from '../components/RentalCard';
 import { supabase } from '../lib/supabase';
+import {
+    applyPublicRentalFilters,
+    filterPublicRentals,
+    PUBLIC_RENTAL_COLUMNS,
+} from '../lib/publicDirectory';
 
-const PUBLIC_RENTAL_COLUMNS = 'id, title, type, price, location, furnished, utilities_included, distance_to_cmu, photos, slug, created_at, distance_sort';
 const RENTAL_TYPES = ['All', 'Room', 'Studio', 'Apartment', 'Shared', 'House'];
 const DISTANCE_OPTIONS = [
     { label: 'Any Distance', value: '5' },
@@ -21,12 +25,11 @@ export async function getServerSideProps(context) {
     const { type, distance, maxPrice, furnished, utilities, available } = query;
 
     try {
-        let supabaseQuery = supabase
-            .from('rentals')
-            .select(PUBLIC_RENTAL_COLUMNS)
-            .eq('status', 'approved')
-            .eq('public_visibility', true)
-            .in('locality_status', ['harbour_view_verified', 'harbour_view_likely', 'nearby_allowed']);
+        let supabaseQuery = applyPublicRentalFilters(
+            supabase
+                .from('rentals')
+                .select(PUBLIC_RENTAL_COLUMNS)
+        );
 
         if (type && type !== 'All') supabaseQuery = supabaseQuery.eq('type', type);
         if (maxPrice) supabaseQuery = supabaseQuery.lte('price', parseInt(maxPrice));
@@ -47,7 +50,7 @@ export async function getServerSideProps(context) {
 
         if (error) throw error;
 
-        return { props: { rentals: rentals || [], query } };
+        return { props: { rentals: filterPublicRentals(rentals || []), query } };
     } catch (err) {
         console.error('Rentals SSR error:', err.message);
         return { props: { rentals: [], query: {} } };
@@ -79,8 +82,8 @@ export default function RentalsListingPage({ rentals, query }) {
     return (
         <div className="min-h-screen bg-bg">
             <Head>
-                <title>Rent Near CMU | Harbour View Directory</title>
-                <meta name="description" content="Find student-friendly housing, apartments, and rooms for rent near Caribbean Maritime University (CMU) in Harbour View." />
+                <title>Rooms &amp; Rentals Near CMU | Harbour View Directory</title>
+                <meta name="description" content="Find rooms, studios, apartments, and houses in Harbour View and nearby areas for CMU students, port workers, dry dock workers, construction workers, and East Kingston relocations." />
                 <link rel="canonical" href="https://harbourviewdirectory.online/rent-near-cmu" />
             </Head>
             <Navbar />
@@ -89,11 +92,14 @@ export default function RentalsListingPage({ rentals, query }) {
                 {/* Hero Section */}
                 <section className="bg-gradient-to-br from-brand-deep to-brand pt-28 pb-16 px-6 text-center text-white">
                     <div className="container-premium max-w-2xl">
-                        <span className="inline-block bg-white/15 backdrop-blur-sm text-sm font-medium px-4 py-1.5 rounded-full mb-5">🎓 Student Housing &amp; Rentals</span>
-                        <h1 className="text-4xl md:text-5xl font-extrabold mb-4">Rent Near CMU</h1>
-                        <p className="text-lg text-white/80 mb-8">Verified rooms and apartments within walking distance or a short commute to Caribbean Maritime University.</p>
+                        <span className="inline-block bg-white/15 backdrop-blur-sm text-sm font-medium px-4 py-1.5 rounded-full mb-5">🏠 Rooms &amp; Rentals</span>
+                        <h1 className="text-4xl md:text-5xl font-extrabold mb-4">Rooms &amp; Rentals Near CMU</h1>
+                        <p className="text-lg text-white/80 mb-8">Find rooms, studios, apartments, and houses in Harbour View and nearby areas for CMU students, port workers, dry dock workers, construction workers, and people relocating to East Kingston.</p>
                         <div className="flex flex-wrap justify-center gap-3">
-                            <a href="/rent-near-cmu/submit" className="bg-white text-brand-deep font-bold px-8 py-3.5 rounded-btn hover:bg-gray-50 transition inline-block shadow-lg">List Your Rental</a>
+                            <a href="/rent-near-cmu/submit?type=Room" className="bg-white text-brand-deep font-bold px-6 py-3.5 rounded-btn hover:bg-gray-50 transition inline-block shadow-lg">List a Room</a>
+                            <a href="/rent-near-cmu/submit?type=House" className="bg-white/10 border border-white/20 text-white font-bold px-6 py-3.5 rounded-btn hover:bg-white/15 transition inline-block">List a House</a>
+                            <a href="https://wa.me/18767978034?text=Hi%2C%20I%20need%20help%20with%20a%20Harbour%20View%20room%20or%20rental." target="_blank" rel="noopener noreferrer" className="bg-emerald-500 text-white font-bold px-6 py-3.5 rounded-btn hover:bg-emerald-600 transition inline-block">WhatsApp Us</a>
+                            <a href="https://wa.me/18767978034?text=Please%20add%20me%20to%20Harbour%20View%20rental%20alerts." target="_blank" rel="noopener noreferrer" className="bg-white/10 border border-white/20 text-white font-bold px-6 py-3.5 rounded-btn hover:bg-white/15 transition inline-block">Join Rental Alerts</a>
                         </div>
                     </div>
                 </section>
@@ -165,14 +171,25 @@ export default function RentalsListingPage({ rentals, query }) {
                         ) : (
                             <EmptyState 
                                 icon="🏠" 
-                                title="No rentals found" 
-                                description="No rentals match your current filters. Try adjusting them or check back later." 
-                                ctaText="Clear All Filters" 
-                                ctaHref="/rent-near-cmu"
-                                secondaryCtaText="List a Rental"
-                                secondaryCtaHref="/rent-near-cmu/submit"
+                                title="Rooms and rentals are being added now." 
+                                description="Landlords in Harbour View and nearby areas can submit rooms, studios, apartments, and houses for students and workers. Listings are reviewed before publishing." 
+                                ctaText="List a Room" 
+                                ctaHref="/rent-near-cmu/submit?type=Room"
+                                secondaryCtaText="List a House"
+                                secondaryCtaHref="/rent-near-cmu/submit?type=House"
                             />
                         )}
+                    </div>
+                </section>
+
+                <section className="px-6 pb-20">
+                    <div className="container-premium">
+                        <div className="rounded-3xl border border-border bg-bg-alt p-6 md:p-8">
+                            <p className="text-sm font-semibold uppercase tracking-wide text-brand mb-2">Privacy First</p>
+                            <p className="text-text-soft max-w-3xl">
+                                Exact home addresses stay private by default. We show the approximate area publicly and keep detailed location notes admin-only unless the landlord explicitly opts in.
+                            </p>
+                        </div>
                     </div>
                 </section>
             </main>

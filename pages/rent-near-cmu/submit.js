@@ -6,6 +6,7 @@ import Footer from '../../components/Footer';
 
 export default function RentalSubmitPage() {
     const router = useRouter();
+    const requestedType = typeof router.query.type === 'string' ? router.query.type : 'Room';
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
@@ -52,7 +53,7 @@ export default function RentalSubmitPage() {
                             <div className="text-6xl mb-6">🎉</div>
                             <h1 className="text-3xl font-extrabold text-text mb-4">Submission Received!</h1>
                             <p className="text-text-soft mb-8 leading-relaxed">
-                                Thank you for listing your property. Our team will review your submission and notify you via WhatsApp once it is approved and live.
+                                Thank you for listing your property. Our team will review the submission, confirm privacy details, and notify you via WhatsApp once it is approved and live.
                             </p>
                             <div className="animate-pulse text-brand font-bold">Redirecting you to listings...</div>
                         </div>
@@ -66,16 +67,16 @@ export default function RentalSubmitPage() {
     return (
         <div className="min-h-screen bg-bg">
             <Head>
-                <title>List Your Rental | Harbour View Directory</title>
-                <meta name="description" content="List your student housing, room, or apartment for rent near Caribbean Maritime University (CMU)." />
+                <title>List a Room or Rental | Harbour View Directory</title>
+                <meta name="description" content="Submit a room, studio, apartment, or house near Harbour View and CMU. Listings are reviewed before publishing, and exact addresses stay private by default." />
             </Head>
             <Navbar />
 
             <main className="pt-28 pb-16 px-6">
                 <div className="container-premium max-w-3xl">
                     <div className="mb-8">
-                        <h1 className="text-3xl font-extrabold text-text mb-2">List Your Rental</h1>
-                        <p className="text-text-soft">Fill out the form below to promote your room or apartment near CMU.</p>
+                        <h1 className="text-3xl font-extrabold text-text mb-2">List a Room or Rental</h1>
+                        <p className="text-text-soft">Submit rooms, studios, apartments, and houses for CMU students, workers, and East Kingston relocations. Exact addresses stay private by default unless you choose otherwise.</p>
                     </div>
 
                     {error && (
@@ -98,7 +99,7 @@ export default function RentalSubmitPage() {
 
                                 <div>
                                     <label className="block text-sm font-bold text-text mb-1">Property Type *</label>
-                                    <select name="type" required className="w-full px-4 py-3 border border-border rounded-btn focus:ring-2 focus:ring-brand outline-none transition text-text">
+                                    <select name="type" defaultValue={requestedType} required className="w-full px-4 py-3 border border-border rounded-btn focus:ring-2 focus:ring-brand outline-none transition text-text">
                                         <option value="Room">Room</option>
                                         <option value="Studio">Studio</option>
                                         <option value="Apartment">Apartment</option>
@@ -131,19 +132,40 @@ export default function RentalSubmitPage() {
                                 <textarea name="description" rows="4" required placeholder="Tell students about the space, proximity to campus, etc."
                                     className="w-full px-4 py-3 border border-border rounded-btn focus:ring-2 focus:ring-brand outline-none transition text-text"></textarea>
                             </div>
-
-                            <div>
-                                <label className="block text-sm font-bold text-text mb-1">Address/Location *</label>
-                                <input name="location" type="text" required placeholder="e.g. 15 Neptune Avenue, Harbour View"
-                                    className="w-full px-4 py-3 border border-border rounded-btn focus:ring-2 focus:ring-brand outline-none transition text-text" />
-                            </div>
                         </section>
 
                         {/* Student Details */}
                         <section className="card-premium p-8 bg-white space-y-6">
-                            <h3 className="text-lg font-bold text-text border-b border-border pb-2">Student &amp; Location Details</h3>
+                            <h3 className="text-lg font-bold text-text border-b border-border pb-2">Location, Fit &amp; Amenities</h3>
                             
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="md:col-span-2">
+                                    <label className="block text-sm font-bold text-text mb-1">Area / Landmark *</label>
+                                    <input name="area_landmark" type="text" required placeholder="e.g. Seashore Place, Harbour View"
+                                        className="w-full px-4 py-3 border border-border rounded-btn focus:ring-2 focus:ring-brand outline-none transition text-text" />
+                                    <p className="mt-2 text-xs text-text-muted">This is what will show publicly by default.</p>
+                                </div>
+
+                                <div className="md:col-span-2">
+                                    <label className="block text-sm font-bold text-text mb-2">Exact address private?</label>
+                                    <div className="flex flex-wrap gap-5 text-sm text-text">
+                                        <label className="flex items-center gap-2 cursor-pointer">
+                                            <input type="radio" name="publish_exact_address" value="no" defaultChecked className="accent-brand" />
+                                            Yes, keep it private
+                                        </label>
+                                        <label className="flex items-center gap-2 cursor-pointer">
+                                            <input type="radio" name="publish_exact_address" value="yes" className="accent-brand" />
+                                            No, publish the exact address
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div className="md:col-span-2">
+                                    <label className="block text-sm font-bold text-text mb-1">Exact address for admin review</label>
+                                    <input name="exact_address" type="text" placeholder="e.g. 15 Neptune Avenue, Harbour View, Kingston 17"
+                                        className="w-full px-4 py-3 border border-border rounded-btn focus:ring-2 focus:ring-brand outline-none transition text-text" />
+                                </div>
+
                                 <div>
                                     <label className="block text-sm font-bold text-text mb-1">Distance to CMU (Text)</label>
                                     <input name="distance_to_cmu" type="text" placeholder="e.g. 5 min walk"
@@ -155,10 +177,30 @@ export default function RentalSubmitPage() {
                                     <select name="distance_sort" className="w-full px-4 py-3 border border-border rounded-btn focus:ring-2 focus:ring-brand outline-none transition text-text">
                                         <option value="1">1 - Extremely Close (Next to Gate)</option>
                                         <option value="2">2 - Walking distance (&lt; 10 min)</option>
-                                        <option value="3" selected>3 - Walking distance (10-20 min)</option>
+                                        <option value="3">3 - Walking distance (10-20 min)</option>
                                         <option value="4">4 - Short commute (Bus/Taxi)</option>
                                         <option value="5">5 - Further away</option>
                                     </select>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="block text-sm font-bold text-text mb-1">Suitable for</label>
+                                    <select name="suitable_for" className="w-full px-4 py-3 border border-border rounded-btn focus:ring-2 focus:ring-brand outline-none transition text-text">
+                                        <option value="Student">Student</option>
+                                        <option value="Worker">Worker</option>
+                                        <option value="Family">Family</option>
+                                        <option value="Couple">Couple</option>
+                                        <option value="Female only">Female only</option>
+                                        <option value="Male only">Male only</option>
+                                        <option value="Any">Any</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-bold text-text mb-1">Minimum stay</label>
+                                    <input name="minimum_stay" type="text" placeholder="e.g. 3 months"
+                                        className="w-full px-4 py-3 border border-border rounded-btn focus:ring-2 focus:ring-brand outline-none transition text-text" />
                                 </div>
                             </div>
 
@@ -168,14 +210,46 @@ export default function RentalSubmitPage() {
                                     Is Furnished?
                                 </label>
                                 <label className="flex items-center gap-2 font-bold text-text cursor-pointer">
-                                    <input name="utilities_included" type="checkbox" value="true" className="w-5 h-5 accent-brand" />
-                                    Utilities Included?
+                                    <input name="shared_bathroom" type="checkbox" value="true" className="w-5 h-5 accent-brand" />
+                                    Shared bathroom
+                                </label>
+                                <label className="flex items-center gap-2 font-bold text-text cursor-pointer">
+                                    <input name="kitchen_access" type="checkbox" value="true" className="w-5 h-5 accent-brand" />
+                                    Kitchen access
+                                </label>
+                                <label className="flex items-center gap-2 font-bold text-text cursor-pointer">
+                                    <input name="water_included" type="checkbox" value="true" className="w-5 h-5 accent-brand" />
+                                    Water included
+                                </label>
+                                <label className="flex items-center gap-2 font-bold text-text cursor-pointer">
+                                    <input name="light_included" type="checkbox" value="true" className="w-5 h-5 accent-brand" />
+                                    Light included
+                                </label>
+                                <label className="flex items-center gap-2 font-bold text-text cursor-pointer">
+                                    <input name="internet_included" type="checkbox" value="true" className="w-5 h-5 accent-brand" />
+                                    Internet included
+                                </label>
+                                <label className="flex items-center gap-2 font-bold text-text cursor-pointer">
+                                    <input name="parking_available" type="checkbox" value="true" className="w-5 h-5 accent-brand" />
+                                    Parking available
                                 </label>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-bold text-text mb-1">House Rules</label>
-                                <textarea name="house_rules" rows="3" placeholder="e.g. No smoking, No overnight guests, etc."
+                                <label className="block text-sm font-bold text-text mb-1">Viewing arrangement</label>
+                                <input name="viewing_arrangement" type="text" placeholder="e.g. WhatsApp first, evening viewings only"
+                                    className="w-full px-4 py-3 border border-border rounded-btn focus:ring-2 focus:ring-brand outline-none transition text-text" />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-bold text-text mb-1">House rules or public notes</label>
+                                <textarea name="house_rules" rows="3" placeholder="e.g. No smoking, no overnight guests, quiet after 10 PM"
+                                    className="w-full px-4 py-3 border border-border rounded-btn focus:ring-2 focus:ring-brand outline-none transition text-text"></textarea>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-bold text-text mb-1">Admin verification notes</label>
+                                <textarea name="admin_verification_notes" rows="3" placeholder="Anything the admin team should verify before publishing"
                                     className="w-full px-4 py-3 border border-border rounded-btn focus:ring-2 focus:ring-brand outline-none transition text-text"></textarea>
                             </div>
                         </section>
@@ -223,7 +297,7 @@ export default function RentalSubmitPage() {
                                 {loading ? 'Submitting...' : 'Submit Listing for Review'}
                             </button>
                             <p className="mt-4 text-center text-xs text-text-muted">
-                                By submitting, you agree to our terms and verify that all information provided is accurate.
+                                By submitting, you agree to our terms and verify that all information provided is accurate. Listings are reviewed before publishing.
                             </p>
                         </div>
                     </form>

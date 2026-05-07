@@ -5,6 +5,14 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ListingCard from '../components/VendorCard';
 import { supabase } from '../lib/supabase';
+import {
+    applyPublicRentalFilters,
+    applyPublicVendorFilters,
+    filterPublicRentals,
+    filterPublicVendors,
+    PUBLIC_RENTAL_COLUMNS,
+    PUBLIC_VENDOR_COLUMNS,
+} from '../lib/publicDirectory';
 
 const CATEGORY_CHIPS = [
     { label: 'Food', emoji: '🍽️', query: 'Food & Restaurants' },
@@ -25,42 +33,39 @@ const TRUST_ITEMS = [
 export async function getServerSideProps() {
     try {
         // Curated listings: featured/top_ad first, fall back to most recent — limit 8
-        const { data: featuredVendors } = await supabase
-            .from('vendors')
-            .select('id, business_name, category, description, slug, address, whatsapp, images, is_featured, is_top_ad, created_at')
-            .eq('is_approved', true)
-            .eq('public_visibility', true)
-            .in('locality_status', ['harbour_view_verified', 'harbour_view_likely'])
+        const { data: featuredVendors } = await applyPublicVendorFilters(
+            supabase
+                .from('vendors')
+                .select(PUBLIC_VENDOR_COLUMNS)
+        )
             .order('is_top_ad', { ascending: false })
             .order('is_featured', { ascending: false })
             .order('created_at', { ascending: false })
             .limit(8);
 
         // Recent additions (different set — used for "Recently Added" strip)
-        const { data: recentVendors } = await supabase
-            .from('vendors')
-            .select('id, business_name, category, description, slug, address, whatsapp, images, is_featured, is_top_ad, created_at')
-            .eq('is_approved', true)
-            .eq('public_visibility', true)
-            .in('locality_status', ['harbour_view_verified', 'harbour_view_likely'])
+        const { data: recentVendors } = await applyPublicVendorFilters(
+            supabase
+                .from('vendors')
+                .select(PUBLIC_VENDOR_COLUMNS)
+        )
             .order('created_at', { ascending: false })
             .limit(4);
 
         // Rentals preview
-        const { data: rentals } = await supabase
-            .from('rentals')
-            .select('id, title, type, price, location, furnished, slug, created_at')
-            .eq('status', 'approved')
-            .eq('public_visibility', true)
-            .in('locality_status', ['harbour_view_verified', 'harbour_view_likely', 'nearby_allowed'])
+        const { data: rentals } = await applyPublicRentalFilters(
+            supabase
+                .from('rentals')
+                .select(PUBLIC_RENTAL_COLUMNS)
+        )
             .order('created_at', { ascending: false })
             .limit(3);
 
         return {
             props: {
-                featuredVendors: featuredVendors || [],
-                recentVendors: recentVendors || [],
-                rentals: rentals || [],
+                featuredVendors: filterPublicVendors(featuredVendors || []),
+                recentVendors: filterPublicVendors(recentVendors || []),
+                rentals: filterPublicRentals(rentals || []),
             },
         };
     } catch (err) {

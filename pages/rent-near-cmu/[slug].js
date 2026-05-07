@@ -4,6 +4,7 @@ import Head from 'next/head';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import { supabase, getImageUrl, RENTAL_IMAGES_BUCKET } from '../../lib/supabase';
+import { applyPublicRentalFilters } from '../../lib/publicDirectory';
 
 const PUBLIC_RENTAL_DETAIL_COLUMNS = 'id, title, description, contact_name, whatsapp, type, price, deposit, location, available_date, utilities_included, furnished, distance_to_cmu, photos, house_rules, slug, created_at';
 
@@ -11,13 +12,12 @@ export async function getServerSideProps(context) {
     const { slug } = context.params;
     
     try {
-        const { data: rental, error } = await supabase
-            .from('rentals')
-            .select(PUBLIC_RENTAL_DETAIL_COLUMNS)
+        const { data: rental, error } = await applyPublicRentalFilters(
+            supabase
+                .from('rentals')
+                .select(PUBLIC_RENTAL_DETAIL_COLUMNS)
+        )
             .eq('slug', slug)
-            .eq('status', 'approved')
-            .eq('public_visibility', true)
-            .in('locality_status', ['harbour_view_verified', 'harbour_view_likely', 'nearby_allowed'])
             .or(`expires_at.is.null,expires_at.gt.${new Date().toISOString()}`)
             .single();
 

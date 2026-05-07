@@ -55,18 +55,31 @@ export default async function handler(req, res) {
     const type = getField('type');
     const price = parseFloat(getField('price'));
     const deposit = parseFloat(getField('deposit')) || 0;
-    const location = getField('location');
+    const area_landmark = getField('area_landmark');
+    const exact_address = getField('exact_address');
+    const publish_exact_address = getField('publish_exact_address') === 'yes';
     const available_date = getField('available_date');
     const distance_to_cmu = getField('distance_to_cmu');
     const distance_sort = parseInt(getField('distance_sort')) || 3;
     const house_rules = getField('house_rules');
     const furnished = getField('furnished') === 'true';
-    const utilities_included = getField('utilities_included') === 'true';
+    const suitable_for = getField('suitable_for');
+    const shared_bathroom = getField('shared_bathroom') === 'true';
+    const kitchen_access = getField('kitchen_access') === 'true';
+    const water_included = getField('water_included') === 'true';
+    const light_included = getField('light_included') === 'true';
+    const internet_included = getField('internet_included') === 'true';
+    const parking_available = getField('parking_available') === 'true';
+    const minimum_stay = getField('minimum_stay');
+    const viewing_arrangement = getField('viewing_arrangement');
+    const admin_verification_notes = getField('admin_verification_notes');
+    const utilities_included = water_included || light_included || internet_included;
     const landlord_name = getField('landlord_name');
+    const location = publish_exact_address && exact_address ? exact_address : area_landmark;
 
     // 3. Validation
-    if (!title || !contact_name || !whatsapp || !price || isNaN(price) || price <= 0) {
-      return res.status(400).json({ error: 'Missing or invalid required fields (title, contact, whatsapp, price)' });
+    if (!title || !contact_name || !whatsapp || !area_landmark || !price || isNaN(price) || price <= 0) {
+      return res.status(400).json({ error: 'Missing or invalid required fields (title, contact, whatsapp, area/landmark, price)' });
     }
 
     // 4. Handle Image Uploads
@@ -106,6 +119,21 @@ export default async function handler(req, res) {
     // 5. Normalization & Slug Generation
     const normalizedWhatsApp = normalizeWhatsApp(whatsapp);
     let slug = generateSlug(title);
+    const adminNotes = [
+      `Public area / landmark: ${area_landmark || 'Not provided'}`,
+      `Exact address publish opt-in: ${publish_exact_address ? 'Yes' : 'No'}`,
+      `Exact address (admin only): ${exact_address || 'Not provided'}`,
+      `Suitable for: ${suitable_for || 'Not provided'}`,
+      `Shared bathroom: ${shared_bathroom ? 'Yes' : 'No'}`,
+      `Kitchen access: ${kitchen_access ? 'Yes' : 'No'}`,
+      `Water included: ${water_included ? 'Yes' : 'No'}`,
+      `Light included: ${light_included ? 'Yes' : 'No'}`,
+      `Internet included: ${internet_included ? 'Yes' : 'No'}`,
+      `Parking available: ${parking_available ? 'Yes' : 'No'}`,
+      `Minimum stay: ${minimum_stay || 'Not provided'}`,
+      `Viewing arrangement: ${viewing_arrangement || 'Not provided'}`,
+      `Admin verification notes: ${admin_verification_notes || 'None'}`,
+    ].join('\n');
     
     const { data: existing } = await supabaseAdmin
       .from('rentals')
@@ -138,7 +166,8 @@ export default async function handler(req, res) {
         utilities_included,
         slug,
         status: 'pending',
-        landlord_name
+        landlord_name,
+        admin_notes: adminNotes,
       })
       .select()
       .single();

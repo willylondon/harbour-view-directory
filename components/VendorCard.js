@@ -5,7 +5,7 @@ import { getDisplayCategory } from '../lib/categoryMap';
 
 // Category-based gradient fallbacks — rich visual placeholders
 const CATEGORY_FALLBACKS = {
-    'Food & Beverage':          { grad: 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)', emoji: '🍽️' },
+    'Food & Restaurants':       { grad: 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)', emoji: '🍽️' },
     'Beauty & Wellness':        { grad: 'linear-gradient(135deg, #FDF2F8 0%, #FBCFE8 100%)', emoji: '💆' },
     'Home Services':            { grad: 'linear-gradient(135deg, #ECFDF5 0%, #A7F3D0 100%)', emoji: '🏠' },
     'Auto & Transport':         { grad: 'linear-gradient(135deg, #F1F5F9 0%, #CBD5E1 100%)', emoji: '🚗' },
@@ -16,11 +16,13 @@ const CATEGORY_FALLBACKS = {
     'Retail & Shopping':        { grad: 'linear-gradient(135deg, #F5F3FF 0%, #DDD6FE 100%)', emoji: '🛍️' },
     'Community & Church':       { grad: 'linear-gradient(135deg, #FFFBEB 0%, #FDE68A 100%)', emoji: '⛪' },
     'Laundry & Cleaning':       { grad: 'linear-gradient(135deg, #F0F9FF 0%, #BAE6FD 100%)', emoji: '🧺' },
-    'Professional Services':    { grad: 'linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 100%)', emoji: '🏢' },
+    'Professional / Legal / JP': { grad: 'linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 100%)', emoji: '🏢' },
+    'Grocery & Convenience':    { grad: 'linear-gradient(135deg, #F0FDF4 0%, #BBF7D0 100%)', emoji: '🛒' },
+    'Marine / Fishing Supplies': { grad: 'linear-gradient(135deg, #ECFEFF 0%, #67E8F9 100%)', emoji: '⚓' },
 };
 
 function getFallback(display) {
-    return CATEGORY_FALLBACKS[display] || CATEGORY_FALLBACKS['Professional Services'];
+    return CATEGORY_FALLBACKS[display] || CATEGORY_FALLBACKS['Professional / Legal / JP'];
 }
 
 // Is the listing "new" — created within the last 14 days?
