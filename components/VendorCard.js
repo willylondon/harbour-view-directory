@@ -17,6 +17,11 @@ const CATEGORY_FALLBACKS = {
     'Community & Church':       { grad: 'linear-gradient(135deg, #FFFBEB 0%, #FDE68A 100%)', emoji: '⛪' },
     'Laundry & Cleaning':       { grad: 'linear-gradient(135deg, #F0F9FF 0%, #BAE6FD 100%)', emoji: '🧺' },
     'Professional / Legal / JP': { grad: 'linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 100%)', emoji: '🏢' },
+    'Books / Stationery':       { grad: 'linear-gradient(135deg, #FEFCE8 0%, #FDE68A 100%)', emoji: '📖' },
+    'Pets / Animals':           { grad: 'linear-gradient(135deg, #F7FEE7 0%, #BEF264 100%)', emoji: '🐾' },
+    'Online Retail':            { grad: 'linear-gradient(135deg, #FDF4FF 0%, #F5D0FE 100%)', emoji: '🛒' },
+    'Events / Bookings':        { grad: 'linear-gradient(135deg, #FFF1F2 0%, #FDA4AF 100%)', emoji: '🎟️' },
+    'General Services':         { grad: 'linear-gradient(135deg, #FAFAF9 0%, #D6D3D1 100%)', emoji: '🧰' },
     'Grocery & Convenience':    { grad: 'linear-gradient(135deg, #F0FDF4 0%, #BBF7D0 100%)', emoji: '🛒' },
     'Marine / Fishing Supplies': { grad: 'linear-gradient(135deg, #ECFEFF 0%, #67E8F9 100%)', emoji: '⚓' },
 };

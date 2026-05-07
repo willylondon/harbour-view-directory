@@ -219,7 +219,7 @@ export default function Home({ featuredVendors, recentVendors, rentals }) {
                                     className="text-base md:text-lg leading-relaxed mb-8"
                                     style={{ color: 'rgba(255,255,255,0.82)' }}
                                 >
-                                    Businesses · Rentals near CMU · Services · Deals · Community notices
+                                    Businesses · Rooms & Rentals · Services · Deals · Community notices
                                 </p>
 
                                 {/* CTA buttons */}
