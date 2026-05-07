@@ -60,9 +60,6 @@ export default function Navbar() {
     const links = [
         { href: '/', label: 'Home' },
         { href: '/directory', label: 'Directory' },
-        { href: '/rent-near-cmu', label: 'Rent Near CMU' },
-        { href: '/deals', label: 'Deals' },
-        { href: '/safety', label: 'Safety' },
     ];
 
     const loggedIn = !!session;
@@ -106,6 +103,7 @@ export default function Navbar() {
                     ) : (
                         <>
                             <Link href="/login" className="text-sm font-medium text-text-soft hover:text-text px-4 py-2 rounded-btn transition">Login</Link>
+                            <Link href="/register" className="text-sm font-medium text-text-soft hover:text-text px-4 py-2 rounded-btn transition">Register</Link>
                             <Link href="/post-ad" className="bg-brand text-white text-sm font-bold px-5 py-2.5 rounded-btn hover:bg-brand-deep transition shadow-sm">
                                 List Business
                             </Link>
@@ -137,8 +135,9 @@ export default function Navbar() {
                         </>
                     ) : (
                         <>
-                            <Link href="/login" onClick={() => setMobileOpen(false)} className="block px-4 py-2.5 rounded-btn text-sm font-medium text-text-soft">Login</Link>
-                            <Link href="/post-ad" onClick={() => setMobileOpen(false)} className="block bg-brand text-white text-center text-sm font-bold py-3 rounded-btn">List Business</Link>
+                            <Link href="/login" onClick={() => setMobileOpen(false)} className="block px-4 py-2.5 rounded-btn text-sm font-medium text-text-soft hover:bg-bg-alt">Login</Link>
+                            <Link href="/register" onClick={() => setMobileOpen(false)} className="block px-4 py-2.5 rounded-btn text-sm font-medium text-text-soft hover:bg-bg-alt">Register</Link>
+                            <Link href="/post-ad" onClick={() => setMobileOpen(false)} className="block bg-brand text-white text-center text-sm font-bold py-3 rounded-btn mt-2">List Business</Link>
                         </>
                     )}
                 </div>

@@ -5,15 +5,17 @@ import { getDisplayCategory } from '../lib/categoryMap';
 
 // Category-based gradient fallbacks — rich visual placeholders
 const CATEGORY_FALLBACKS = {
-    'Food & Beverage':         { grad: 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)', emoji: '🍽️' },
+    'Food & Beverage':          { grad: 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)', emoji: '🍽️' },
     'Beauty & Wellness':        { grad: 'linear-gradient(135deg, #FDF2F8 0%, #FBCFE8 100%)', emoji: '💆' },
     'Home Services':            { grad: 'linear-gradient(135deg, #ECFDF5 0%, #A7F3D0 100%)', emoji: '🏠' },
     'Auto & Transport':         { grad: 'linear-gradient(135deg, #F1F5F9 0%, #CBD5E1 100%)', emoji: '🚗' },
-    'Education & Tutoring':     { grad: 'linear-gradient(135deg, #EEF2FF 0%, #C7D2FE 100%)', emoji: '📚' },
+    'Education':                { grad: 'linear-gradient(135deg, #EEF2FF 0%, #C7D2FE 100%)', emoji: '📚' },
     'Tech & Electronics':       { grad: 'linear-gradient(135deg, #ECFEFF 0%, #A5F3FC 100%)', emoji: '📱' },
-    'Professional / Legal / JP':{ grad: 'linear-gradient(135deg, #EFF6FF 0%, #BFDBFE 100%)', emoji: '⚖️' },
+    'Finance & Banking':        { grad: 'linear-gradient(135deg, #ECFDF5 0%, #6EE7B7 100%)', emoji: '🏦' },
+    'Health & Medical':         { grad: 'linear-gradient(135deg, #FEF2F2 0%, #FECACA 100%)', emoji: '⚕️' },
     'Retail & Shopping':        { grad: 'linear-gradient(135deg, #F5F3FF 0%, #DDD6FE 100%)', emoji: '🛍️' },
-    'Community':                { grad: 'linear-gradient(135deg, #FFFBEB 0%, #FDE68A 100%)', emoji: '🏘️' },
+    'Community & Church':       { grad: 'linear-gradient(135deg, #FFFBEB 0%, #FDE68A 100%)', emoji: '⛪' },
+    'Laundry & Cleaning':       { grad: 'linear-gradient(135deg, #F0F9FF 0%, #BAE6FD 100%)', emoji: '🧺' },
     'Professional Services':    { grad: 'linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 100%)', emoji: '🏢' },
 };
 
@@ -114,11 +116,9 @@ export default function ListingCard({ vendor }) {
                     </h3>
 
                     {/* Description */}
-                    {description && (
-                        <p className="text-sm text-text-soft mb-2 line-clamp-2 leading-relaxed flex-1">
-                            {description}
-                        </p>
-                    )}
+                    <p className="text-sm text-text-soft mb-2 line-clamp-2 leading-relaxed flex-1">
+                        {description || `${business_name} is listed as a ${cat.display} business serving the Harbour View community. Contact and listing details are being verified.`}
+                    </p>
 
                     {/* Location */}
                     {address && (

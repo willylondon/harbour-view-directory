@@ -7,7 +7,7 @@ Disallow: /api/
 Disallow: /admin/
 
 # Sitemap
-Sitemap: https://harbourviewdirectory.online/api/sitemap.xml
+Sitemap: https://harbourviewdirectory.online/sitemap.xml
 
 # Crawl delay (be nice to the server)
 Crawl-delay: 2

@@ -9,16 +9,18 @@ import { supabase, getImageUrl } from '../../lib/supabase';
 import { getDisplayCategory } from '../../lib/categoryMap';
 
 const CATEGORY_FALLBACKS = {
-    'Food & Beverage':          { grad: 'linear-gradient(135deg,#FEF3C7,#FDE68A)', emoji: '🍽️' },
-    'Beauty & Wellness':        { grad: 'linear-gradient(135deg,#FDF2F8,#FBCFE8)', emoji: '💆' },
-    'Home Services':            { grad: 'linear-gradient(135deg,#ECFDF5,#A7F3D0)', emoji: '🏠' },
-    'Auto & Transport':         { grad: 'linear-gradient(135deg,#F1F5F9,#CBD5E1)', emoji: '🚗' },
-    'Education & Tutoring':     { grad: 'linear-gradient(135deg,#EEF2FF,#C7D2FE)', emoji: '📚' },
-    'Tech & Electronics':       { grad: 'linear-gradient(135deg,#ECFEFF,#A5F3FC)', emoji: '📱' },
-    'Professional / Legal / JP':{ grad: 'linear-gradient(135deg,#EFF6FF,#BFDBFE)', emoji: '⚖️' },
-    'Retail & Shopping':        { grad: 'linear-gradient(135deg,#F5F3FF,#DDD6FE)', emoji: '🛍️' },
-    'Community':                { grad: 'linear-gradient(135deg,#FFFBEB,#FDE68A)', emoji: '🏘️' },
-    'Professional Services':    { grad: 'linear-gradient(135deg,#F8FAFC,#E2E8F0)', emoji: '🏢' },
+    'Food & Beverage':          { grad: 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)', emoji: '🍽️' },
+    'Beauty & Wellness':        { grad: 'linear-gradient(135deg, #FDF2F8 0%, #FBCFE8 100%)', emoji: '💆' },
+    'Home Services':            { grad: 'linear-gradient(135deg, #ECFDF5 0%, #A7F3D0 100%)', emoji: '🏠' },
+    'Auto & Transport':         { grad: 'linear-gradient(135deg, #F1F5F9 0%, #CBD5E1 100%)', emoji: '🚗' },
+    'Education':                { grad: 'linear-gradient(135deg, #EEF2FF 0%, #C7D2FE 100%)', emoji: '📚' },
+    'Tech & Electronics':       { grad: 'linear-gradient(135deg, #ECFEFF 0%, #A5F3FC 100%)', emoji: '📱' },
+    'Finance & Banking':        { grad: 'linear-gradient(135deg, #ECFDF5 0%, #6EE7B7 100%)', emoji: '🏦' },
+    'Health & Medical':         { grad: 'linear-gradient(135deg, #FEF2F2 0%, #FECACA 100%)', emoji: '⚕️' },
+    'Retail & Shopping':        { grad: 'linear-gradient(135deg, #F5F3FF 0%, #DDD6FE 100%)', emoji: '🛍️' },
+    'Community & Church':       { grad: 'linear-gradient(135deg, #FFFBEB 0%, #FDE68A 100%)', emoji: '⛪' },
+    'Laundry & Cleaning':       { grad: 'linear-gradient(135deg, #F0F9FF 0%, #BAE6FD 100%)', emoji: '🧺' },
+    'Professional Services':    { grad: 'linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 100%)', emoji: '🏢' },
 };
 
 export async function getServerSideProps(context) {
@@ -185,7 +187,9 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, simi
 
     const shareUrl = `https://harbourviewdirectory.online/vendor/${vendor.slug || vendor.id}`;
     const whatsappClaim = `https://wa.me/18767978034?text=I+would+like+to+claim+the+listing+for+${encodeURIComponent(vendor.business_name)}+on+Harbour+View+Directory.`;
-    const whatsappReport = `/report?listing=${encodeURIComponent(vendor.slug || vendor.id)}&name=${encodeURIComponent(vendor.business_name)}`;
+    const whatsappReport = `https://wa.me/18767978034?text=I+want+to+report+incorrect+info+for+${encodeURIComponent(vendor.business_name)}+(${vendor.slug || vendor.id}).%0A%0AIssue+type:+[Wrong phone number / Wrong category / Business closed / Duplicate listing / Wrong address / Missing WhatsApp / Other]%0A%0AMy+correction:`;
+
+    const shouldNoindex = !vendor.business_name || !vendor.category || vendor.is_approved === false;
 
     return (
         <div className="min-h-screen bg-bg">
@@ -197,6 +201,7 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, simi
                 <meta property="og:type" content="business.business" />
                 <meta property="og:url" content={shareUrl} />
                 {vendor.images?.length > 0 && <meta property="og:image" content={vendor.images[0]} />}
+                {shouldNoindex && <meta name="robots" content="noindex, nofollow" />}
                 <link rel="canonical" href={shareUrl} />
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
             </Head>
@@ -283,63 +288,81 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, simi
                             </div>
 
                             {/* Description */}
-                            {vendor.description && (
-                                <div className="text-text-soft leading-relaxed mb-6 whitespace-pre-wrap">
-                                    {vendor.description}
-                                </div>
-                            )}
-
-                            {/* Contact box */}
-                            <div className="bg-bg-alt rounded-xl p-5 border border-border mb-4">
-                                <h2 className="text-base font-bold text-text mb-3">Contact Information</h2>
-                                <div className="space-y-2.5 text-sm text-text-soft">
-                                    {vendor.address && (
-                                        <div className="flex items-start gap-2.5">
-                                            <span className="mt-0.5 shrink-0">📍</span>
-                                            <div>
-                                                <strong className="text-text block text-xs font-bold uppercase tracking-wide mb-0.5">Address</strong>
-                                                {vendor.address}
-                                            </div>
-                                        </div>
-                                    )}
-                                    {vendor.phone && (
-                                        <div className="flex items-start gap-2.5">
-                                            <span className="mt-0.5 shrink-0">📞</span>
-                                            <div>
-                                                <strong className="text-text block text-xs font-bold uppercase tracking-wide mb-0.5">Phone</strong>
-                                                <a href={`tel:${vendor.phone}`} className="hover:text-brand transition">{vendor.phone}</a>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                                {vendor.whatsapp && (
-                                    <div className="mt-4">
-                                        <a
-                                            href={vendor.whatsapp}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="btn-whatsapp inline-flex"
-                                        >
-                                            💬 Message on WhatsApp
-                                        </a>
-                                    </div>
-                                )}
+                            <div className="text-text-soft leading-relaxed mb-6 whitespace-pre-wrap">
+                                {vendor.description || `${vendor.business_name} is listed as a ${cat.display} business serving the Harbour View community. Contact and listing details are being verified.`}
                             </div>
 
-                            {/* Trust actions */}
-                            <div className="flex flex-wrap gap-3 text-sm">
-                                <a
-                                    href={whatsappClaim}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-brand-deep font-medium hover:underline flex items-center gap-1"
-                                >
-                                    🏷️ Claim this listing
-                                </a>
-                                <span className="text-border">|</span>
-                                <Link href={whatsappReport} className="text-text-muted hover:text-red-600 transition flex items-center gap-1">
-                                    ⚑ Report incorrect info
-                                </Link>
+                            {/* Contact & CTAs */}
+                            <div className="bg-bg-alt rounded-xl p-5 border border-border mb-4">
+                                <h2 className="text-base font-bold text-text mb-4">Contact Information</h2>
+                                
+                                {(!vendor.phone && !vendor.whatsapp && !vendor.address) ? (
+                                    <div className="mb-4 text-sm text-text-soft">
+                                        <p className="font-medium text-amber-600 mb-1">Contact not verified yet.</p>
+                                        <p>Know this business? <a href={whatsappReport} target="_blank" rel="noopener noreferrer" className="text-brand hover:underline">Report the correct contact info</a>.</p>
+                                    </div>
+                                ) : (
+                                    <div className="space-y-3 text-sm text-text-soft mb-5">
+                                        {vendor.address && (
+                                            <div className="flex items-start gap-2.5">
+                                                <span className="mt-0.5 shrink-0">📍</span>
+                                                <div>
+                                                    <strong className="text-text block text-xs font-bold uppercase tracking-wide mb-0.5">Address</strong>
+                                                    {vendor.address}
+                                                </div>
+                                            </div>
+                                        )}
+                                        {vendor.phone && (
+                                            <div className="flex items-start gap-2.5">
+                                                <span className="mt-0.5 shrink-0">📞</span>
+                                                <div>
+                                                    <strong className="text-text block text-xs font-bold uppercase tracking-wide mb-0.5">Phone</strong>
+                                                    <a href={`tel:${vendor.phone}`} className="hover:text-brand transition font-medium">{vendor.phone}</a>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+
+                                {/* Primary CTAs */}
+                                <div className="flex flex-wrap gap-2.5 mb-5">
+                                    {vendor.phone && (
+                                        <a href={`tel:${vendor.phone}`} className="flex-1 min-w-[120px] text-center font-bold px-4 py-2.5 rounded-btn bg-brand text-white hover:bg-brand-deep transition shadow-sm">
+                                            📞 Call Now
+                                        </a>
+                                    )}
+                                    {vendor.whatsapp && (
+                                        <a href={vendor.whatsapp} target="_blank" rel="noopener noreferrer" className="flex-1 min-w-[120px] text-center font-bold px-4 py-2.5 rounded-btn bg-[#25D366] text-white hover:bg-[#1DA851] transition shadow-sm">
+                                            💬 WhatsApp
+                                        </a>
+                                    )}
+                                    {vendor.address && (
+                                        <a href={`https://maps.google.com/?q=${encodeURIComponent(vendor.business_name + ' ' + vendor.address + ', Harbour View, Jamaica')}`} target="_blank" rel="noopener noreferrer" className="flex-1 min-w-[120px] text-center font-bold px-4 py-2.5 rounded-btn bg-white border border-border text-text hover:border-brand transition shadow-sm">
+                                            🗺️ Get Directions
+                                        </a>
+                                    )}
+                                </div>
+
+                                {/* Secondary CTAs */}
+                                <div className="flex flex-wrap gap-3 text-sm pt-4 border-t border-border">
+                                    <button 
+                                        onClick={() => {
+                                            if (navigator.share) navigator.share({ title: vendor.business_name, url: shareUrl });
+                                            else navigator.clipboard?.writeText(shareUrl);
+                                        }}
+                                        className="text-text-muted hover:text-brand transition flex items-center gap-1 font-medium"
+                                    >
+                                        🔗 Share Listing
+                                    </button>
+                                    <span className="text-border">|</span>
+                                    <a href={whatsappReport} target="_blank" rel="noopener noreferrer" className="text-text-muted hover:text-red-600 transition flex items-center gap-1 font-medium">
+                                        ⚑ Report Incorrect Info
+                                    </a>
+                                    <span className="text-border">|</span>
+                                    <a href={whatsappClaim} target="_blank" rel="noopener noreferrer" className="text-brand-deep font-medium hover:underline flex items-center gap-1">
+                                        🏷️ Claim this listing
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>

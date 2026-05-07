@@ -10,10 +10,9 @@ const CATEGORY_CHIPS = [
     { label: 'Food', emoji: '🍽️', query: 'Food & Beverage' },
     { label: 'Beauty', emoji: '💆', query: 'Beauty & Wellness' },
     { label: 'Home Services', emoji: '🏠', query: 'Home Services' },
-    { label: 'Tech', emoji: '📱', query: 'Tech & Electronics' },
-    { label: 'Transport', emoji: '🚗', query: 'Auto & Transport' },
-    { label: 'Tutors', emoji: '📚', query: 'Education & Tutoring' },
-    { label: 'Rentals', emoji: '🏘️', href: '/rent-near-cmu' },
+    { label: 'Auto', emoji: '🚗', query: 'Auto & Transport' },
+    { label: 'Health', emoji: '⚕️', query: 'Health & Medical' },
+    { label: 'Laundry', emoji: '🧺', query: 'Laundry & Cleaning' },
 ];
 
 const TRUST_ITEMS = [
@@ -318,25 +317,8 @@ export default function Home({ featuredVendors, recentVendors, rentals }) {
                 </div>
 
                 {/* ═══════════════════════════════════════════════════════
-                    TRUST STRIP
+                    TRUST STRIP MOVED BELOW
                 ═══════════════════════════════════════════════════════ */}
-                <section className="py-14 px-6 bg-bg">
-                    <div className="container-premium">
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            {TRUST_ITEMS.map(item => (
-                                <div
-                                    key={item.title}
-                                    className="text-center p-5 rounded-2xl bg-white border border-border"
-                                    style={{ boxShadow: 'var(--shadow-soft)' }}
-                                >
-                                    <div className="text-3xl mb-2">{item.icon}</div>
-                                    <div className="font-bold text-text text-sm mb-0.5">{item.title}</div>
-                                    <div className="text-xs text-text-muted leading-relaxed">{item.desc}</div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
 
                 {/* ═══════════════════════════════════════════════════════
                     FEATURED BUSINESSES — curated 6–8
@@ -389,139 +371,54 @@ export default function Home({ featuredVendors, recentVendors, rentals }) {
                 {/* ═══════════════════════════════════════════════════════
                     RENT NEAR CMU PREVIEW
                 ═══════════════════════════════════════════════════════ */}
-                <section className="section-spacing px-6">
-                    <div className="container-premium">
-                        <div className="flex items-end justify-between mb-8">
-                            <div>
-                                <span className="text-xs font-bold uppercase tracking-widest text-brand mb-1 block">
-                                    🎓 Student Housing
-                                </span>
-                                <h2 className="text-3xl font-extrabold text-text">Rent Near CMU</h2>
-                                <p className="text-text-soft mt-1">Rooms and apartments near Caribbean Maritime University.</p>
-                            </div>
-                            <Link
-                                href="/rent-near-cmu"
-                                className="hidden md:inline-flex items-center gap-1.5 text-sm font-bold text-brand hover:text-brand-deep transition shrink-0"
-                            >
-                                View All Rentals →
-                            </Link>
-                        </div>
-
-                        {rentals.length > 0 ? (
-                            <>
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                                    {rentals.map(rental => (
-                                        <Link
-                                            key={rental.id}
-                                            href={`/rent-near-cmu/${rental.slug || rental.id}`}
-                                            className="card-premium p-5 block"
-                                        >
-                                            <div className="flex items-center gap-2 mb-3">
-                                                <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-brand-soft text-brand">{rental.type}</span>
-                                                {rental.furnished && <span className="text-xs text-text-muted">Furnished</span>}
-                                            </div>
-                                            <h3 className="font-bold text-text mb-1 line-clamp-1">{rental.title}</h3>
-                                            {rental.location && <p className="text-xs text-text-muted mb-2">📍 {rental.location}</p>}
-                                            {rental.price && (
-                                                <p className="text-base font-extrabold text-brand-deep mt-2">
-                                                    J${rental.price.toLocaleString()}<span className="text-xs font-normal text-text-muted">/mo</span>
-                                                </p>
-                                            )}
-                                        </Link>
-                                    ))}
+                {rentals.length > 0 && (
+                    <section className="section-spacing px-6">
+                        <div className="container-premium">
+                            <div className="flex items-end justify-between mb-8">
+                                <div>
+                                    <span className="text-xs font-bold uppercase tracking-widest text-brand mb-1 block">
+                                        🎓 Student Housing
+                                    </span>
+                                    <h2 className="text-3xl font-extrabold text-text">Rent Near CMU</h2>
+                                    <p className="text-text-soft mt-1">Rooms and apartments near Caribbean Maritime University.</p>
                                 </div>
-                                <div className="text-center mt-8">
-                                    <Link href="/rent-near-cmu" className="inline-flex items-center gap-2 font-bold px-8 py-3.5 rounded-btn border-2 border-brand text-brand hover:bg-brand hover:text-white transition-all">
-                                        View All Rentals →
+                                <Link
+                                    href="/rent-near-cmu"
+                                    className="hidden md:inline-flex items-center gap-1.5 text-sm font-bold text-brand hover:text-brand-deep transition shrink-0"
+                                >
+                                    View All Rentals →
+                                </Link>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                                {rentals.map(rental => (
+                                    <Link
+                                        key={rental.id}
+                                        href={`/rent-near-cmu/${rental.slug || rental.id}`}
+                                        className="card-premium p-5 block"
+                                    >
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-brand-soft text-brand">{rental.type}</span>
+                                            {rental.furnished && <span className="text-xs text-text-muted">Furnished</span>}
+                                        </div>
+                                        <h3 className="font-bold text-text mb-1 line-clamp-1">{rental.title}</h3>
+                                        {rental.location && <p className="text-xs text-text-muted mb-2">📍 {rental.location}</p>}
+                                        {rental.price && (
+                                            <p className="text-base font-extrabold text-brand-deep mt-2">
+                                                J${rental.price.toLocaleString()}<span className="text-xs font-normal text-text-muted">/mo</span>
+                                            </p>
+                                        )}
                                     </Link>
-                                </div>
-                            </>
-                        ) : (
-                            <div className="card-premium p-10 text-center max-w-xl mx-auto">
-                                <div className="text-4xl mb-3">🏠</div>
-                                <h3 className="font-bold text-text mb-2">No rentals posted yet</h3>
-                                <p className="text-sm text-text-soft mb-6">
-                                    Submit the first rental near CMU — free for landlords.
-                                </p>
-                                <Link href="/rent-near-cmu/submit" className="btn-primary">Submit a Rental</Link>
+                                ))}
                             </div>
-                        )}
-                    </div>
-                </section>
-
-                {/* ═══════════════════════════════════════════════════════
-                    DEALS PREVIEW
-                ═══════════════════════════════════════════════════════ */}
-                <section className="section-spacing px-6 bg-bg-alt">
-                    <div className="container-premium">
-                        <div className="flex items-center justify-between mb-8">
-                            <div>
-                                <span className="text-xs font-bold uppercase tracking-widest text-brand-warm mb-1 block">🏷️ Promotions</span>
-                                <h2 className="text-3xl font-extrabold text-text">Local Deals</h2>
-                                <p className="text-text-soft mt-1">Discounts and specials from Harbour View businesses.</p>
-                            </div>
-                            <Link href="/deals" className="hidden md:inline-flex items-center gap-1.5 text-sm font-bold text-brand hover:text-brand-deep transition shrink-0">
-                                View All Deals →
-                            </Link>
-                        </div>
-
-                        {/* Empty state — deals are manual submit workflow */}
-                        <div className="card-premium p-10 text-center max-w-xl mx-auto">
-                            <div className="text-4xl mb-3">🏷️</div>
-                            <h3 className="font-bold text-text mb-2">No active deals yet</h3>
-                            <p className="text-sm text-text-soft mb-6">
-                                Submit a deal — free for all listed businesses. Reviewed within 24 hours.
-                            </p>
-                            <div className="flex flex-wrap justify-center gap-3">
-                                <a
-                                    href="mailto:info@harbourviewdirectory.online?subject=Submit a Deal"
-                                    className="btn-primary"
-                                    style={{ background: '#F59E0B' }}
-                                >
-                                    📧 Submit a Deal
-                                </a>
-                                <Link href="/deals" className="btn-secondary">Browse Deals Page</Link>
+                            <div className="text-center mt-8">
+                                <Link href="/rent-near-cmu" className="inline-flex items-center gap-2 font-bold px-8 py-3.5 rounded-btn border-2 border-brand text-brand hover:bg-brand hover:text-white transition-all">
+                                    View All Rentals →
+                                </Link>
                             </div>
                         </div>
-                    </div>
-                </section>
-
-                {/* ═══════════════════════════════════════════════════════
-                    SAFETY PREVIEW
-                ═══════════════════════════════════════════════════════ */}
-                <section className="section-spacing px-6">
-                    <div className="container-premium">
-                        <div className="flex items-center justify-between mb-8">
-                            <div>
-                                <span className="text-xs font-bold uppercase tracking-widest text-red-600 mb-1 block">🚨 Community</span>
-                                <h2 className="text-3xl font-extrabold text-text">Safety Notices</h2>
-                                <p className="text-text-soft mt-1">Road alerts, scam warnings, and community notices.</p>
-                            </div>
-                            <Link href="/safety" className="hidden md:inline-flex items-center gap-1.5 text-sm font-bold text-brand hover:text-brand-deep transition shrink-0">
-                                View Safety Page →
-                            </Link>
-                        </div>
-
-                        <div className="card-premium p-10 text-center max-w-xl mx-auto border-l-4 border-green-400">
-                            <div className="text-4xl mb-3">✅</div>
-                            <h3 className="font-bold text-text mb-2">No active safety notices</h3>
-                            <p className="text-sm text-text-soft mb-6">
-                                Nothing urgent at this time. To report a road hazard, scam, or community notice:
-                            </p>
-                            <div className="flex flex-wrap justify-center gap-3">
-                                <a
-                                    href="https://wa.me/18767978034?text=I+want+to+report+a+safety+notice+for+Harbour+View."
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="btn-whatsapp"
-                                >
-                                    💬 Report via WhatsApp
-                                </a>
-                                <Link href="/safety" className="btn-secondary">View Safety Page</Link>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                    </section>
+                )}
 
                 {/* ═══════════════════════════════════════════════════════
                     RECENTLY ADDED
@@ -570,14 +467,37 @@ export default function Home({ featuredVendors, recentVendors, rentals }) {
                                 className="bg-white font-bold px-8 py-3.5 rounded-btn shadow-elevated hover:bg-gray-50 transition-all"
                                 style={{ color: '#0B2545' }}
                             >
-                                List Your Business
+                                Submit / Claim Business
                             </Link>
-                            <Link
-                                href="/pricing"
+                            <a
+                                href="https://wa.me/18767978034?text=I+want+to+report+incorrect+info+on+Harbour+View+Directory"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="border-2 border-white/30 text-white font-bold px-8 py-3.5 rounded-btn hover:bg-white/10 transition-all"
                             >
-                                View Pricing
-                            </Link>
+                                ⚑ Report Incorrect Info
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+                {/* ═══════════════════════════════════════════════════════
+                    TRUST STRIP
+                ═══════════════════════════════════════════════════════ */}
+                <section className="py-14 px-6 bg-bg-alt border-t border-border">
+                    <div className="container-premium">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            {TRUST_ITEMS.map(item => (
+                                <div
+                                    key={item.title}
+                                    className="text-center p-5 rounded-2xl bg-white border border-border"
+                                    style={{ boxShadow: 'var(--shadow-soft)' }}
+                                >
+                                    <div className="text-3xl mb-2">{item.icon}</div>
+                                    <div className="font-bold text-text text-sm mb-0.5">{item.title}</div>
+                                    <div className="text-xs text-text-muted leading-relaxed">{item.desc}</div>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </section>
