@@ -55,6 +55,7 @@ export default function ListingCard({ vendor }) {
     const imageUrl = images && images.length > 0 ? getImageUrl(images[0]) : null;
     const showImage = imageUrl && !imgError;
     const showNew = isNew(created_at) && !is_featured && !is_top_ad;
+    const displayAddress = address || 'Local Harbour View business — address not listed';
 
     return (
         <Link href={vendorUrl} className="block group focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 rounded-2xl">
@@ -123,12 +124,10 @@ export default function ListingCard({ vendor }) {
                     </p>
 
                     {/* Location */}
-                    {address && (
-                        <p className="text-xs text-text-muted mb-3 flex items-center gap-1 truncate">
-                            <span aria-hidden="true">📍</span>
-                            <span className="truncate">{address}</span>
-                        </p>
-                    )}
+                    <p className="text-xs text-text-muted mb-3 flex items-center gap-1 truncate">
+                        <span aria-hidden="true">📍</span>
+                        <span className="truncate">{displayAddress}</span>
+                    </p>
 
                     {/* ── Action row ── */}
                     <div className="flex items-center gap-2 pt-3 border-t border-border mt-auto">

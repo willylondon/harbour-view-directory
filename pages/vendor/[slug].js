@@ -109,6 +109,7 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, simi
     const cat = getDisplayCategory(vendor);
     const fallback = CATEGORY_FALLBACKS[cat.display] || CATEGORY_FALLBACKS['Professional / Legal / JP'];
     const heroImageUrl = getImageUrl(vendor?.images?.[0]);
+    const displayAddress = vendor?.address || 'Local Harbour View business — address not listed';
 
     // Owner notes vs community reviews
     const OWNER_NOTE_PATTERNS = [
@@ -313,15 +314,13 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, simi
                                     </div>
                                 ) : (
                                     <div className="space-y-3 text-sm text-text-soft mb-5">
-                                        {vendor.address && (
-                                            <div className="flex items-start gap-2.5">
-                                                <span className="mt-0.5 shrink-0">📍</span>
-                                                <div>
-                                                    <strong className="text-text block text-xs font-bold uppercase tracking-wide mb-0.5">Address</strong>
-                                                    {vendor.address}
-                                                </div>
+                                        <div className="flex items-start gap-2.5">
+                                            <span className="mt-0.5 shrink-0">📍</span>
+                                            <div>
+                                                <strong className="text-text block text-xs font-bold uppercase tracking-wide mb-0.5">Address</strong>
+                                                {displayAddress}
                                             </div>
-                                        )}
+                                        </div>
                                         {vendor.phone && (
                                             <div className="flex items-start gap-2.5">
                                                 <span className="mt-0.5 shrink-0">📞</span>
