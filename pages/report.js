@@ -54,7 +54,7 @@ export default function ReportPage() {
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4">
                             <a
-                                href="https://wa.me/18765550100?text=I+would+like+to+report+a+listing+on+Harbour+View+Directory."
+                                href="https://wa.me/18767978034?text=I+would+like+to+report+a+listing+on+Harbour+View+Directory."
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="flex items-center justify-center gap-2 bg-success text-white font-bold px-6 py-3.5 rounded-btn hover:bg-green-600 transition"

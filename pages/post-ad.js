@@ -67,7 +67,7 @@ export default function PostAdPage() {
                                 <div className="flex flex-wrap gap-3">
                                     <a href="/register" className="bg-brand text-white font-bold px-8 py-3 rounded-btn hover:bg-brand-deep transition">Register &amp; Start</a>
                                     <a href="/login" className="border-2 border-brand text-brand font-bold px-8 py-3 rounded-btn hover:bg-brand-soft transition">Login</a>
-                                    <a href="https://wa.me/18765550100" target="_blank" rel="noopener" className="bg-success text-white font-bold px-8 py-3 rounded-btn hover:bg-emerald-600 transition">WhatsApp Us</a>
+                                    <a href="https://wa.me/18767978034" target="_blank" rel="noopener" className="bg-success text-white font-bold px-8 py-3 rounded-btn hover:bg-emerald-600 transition">WhatsApp Us</a>
                                 </div>
                             </div>
                         )}
@@ -105,7 +105,7 @@ export default function PostAdPage() {
                                 </div>
                                 <div className="flex flex-wrap gap-3">
                                     <a href="/register" className="bg-brand text-white font-bold px-8 py-3 rounded-btn hover:bg-brand-deep transition">Get Started</a>
-                                    <a href="https://wa.me/18765550100" target="_blank" rel="noopener" className="bg-success text-white font-bold px-8 py-3 rounded-btn hover:bg-emerald-600 transition">WhatsApp to Upgrade</a>
+                                    <a href="https://wa.me/18767978034" target="_blank" rel="noopener" className="bg-success text-white font-bold px-8 py-3 rounded-btn hover:bg-emerald-600 transition">WhatsApp to Upgrade</a>
                                 </div>
                             </div>
                         )}

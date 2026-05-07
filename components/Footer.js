@@ -18,7 +18,7 @@ export default function Footer() {
                         <h4 className="font-bold mb-4">Support</h4>
                         <ul className="space-y-2.5 text-sm text-white/60">
                             <li><Link href="/contact" className="hover:text-white transition">Contact Us</Link></li>
-                            <li><a href="https://wa.me/18765550100" target="_blank" rel="noopener" className="hover:text-white transition">WhatsApp</a></li>
+                            <li><a href="https://wa.me/18767978034" target="_blank" rel="noopener" className="hover:text-white transition">WhatsApp</a></li>
                             <li><Link href="/listing-guidelines" className="hover:text-white transition">Listing Guidelines</Link></li>
                         </ul>
                     </div>
