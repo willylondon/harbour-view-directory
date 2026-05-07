@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { CONTACT_EMAIL, CONTACT_MAILTO } from '../lib/siteConfig';
 
 const FAQS = [
     {
@@ -9,7 +10,7 @@ const FAQS = [
             { q: 'How do I list my business?', a: 'Click "List Business" in the navigation bar. Fill out the form with your business details. Free listings are reviewed within 24–48 hours.' },
             { q: 'How long does approval take?', a: 'Free listings: 24–48 hours. Featured listings: within 12 hours of payment confirmation.' },
             { q: 'Can I edit my listing after it\'s approved?', a: 'Yes. Log into your account and access your Dashboard. From there you can view and manage your listings. Contact us via WhatsApp for edits.' },
-            { q: 'Why was my listing rejected?', a: 'Common reasons: unverifiable contact info, business outside our service area, duplicate listing, or description that doesn\'t accurately reflect the business. Contact us at info@harbourviewdirectory.online for details.' },
+            { q: 'Why was my listing rejected?', a: `Common reasons: unverifiable contact info, business outside our service area, duplicate listing, or description that doesn't accurately reflect the business. Contact us at ${CONTACT_EMAIL} for details.` },
             { q: 'Can I have multiple listings?', a: 'Yes, if you operate multiple distinct businesses in the Harbour View area.' },
         ]
     },
@@ -93,7 +94,7 @@ export default function FAQPage() {
                                 💬 WhatsApp Us
                             </a>
                             <a
-                                href="mailto:info@harbourviewdirectory.online"
+                                href={CONTACT_MAILTO}
                                 className="bg-brand text-white font-bold px-6 py-3 rounded-btn hover:bg-brand-deep transition"
                             >
                                 📧 Email Us

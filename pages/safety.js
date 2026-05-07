@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { CONTACT_MAILTO } from '../lib/siteConfig';
 
 const EMERGENCY_CONTACTS = [
     { label: 'Police (Emergency)', number: '119', href: 'tel:119', icon: '👮' },
@@ -125,7 +126,7 @@ export default function SafetyPage() {
                                 🚨 Submit Safety Notice
                             </a>
                             <a
-                                href="mailto:info@harbourviewdirectory.online?subject=Safety Notice"
+                                href={`${CONTACT_MAILTO}?subject=Safety Notice`}
                                 className="bg-bg-alt text-text font-bold px-8 py-3.5 rounded-btn hover:bg-border transition border border-border"
                             >
                                 📧 Email Admin

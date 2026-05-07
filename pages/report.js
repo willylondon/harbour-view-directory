@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { CONTACT_MAILTO } from '../lib/siteConfig';
 
 export default function ReportPage() {
     return (
@@ -62,7 +63,7 @@ export default function ReportPage() {
                                 💬 Report via WhatsApp
                             </a>
                             <a
-                                href="mailto:info@harbourviewdirectory.online?subject=Listing Report"
+                                href={`${CONTACT_MAILTO}?subject=Listing Report`}
                                 className="flex items-center justify-center gap-2 bg-bg-alt text-text font-bold px-6 py-3.5 rounded-btn hover:bg-border transition border border-border"
                             >
                                 📧 Report via Email

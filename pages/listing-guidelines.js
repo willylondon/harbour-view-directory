@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { CONTACT_EMAIL, CONTACT_MAILTO } from '../lib/siteConfig';
 
 export default function ListingGuidelinesPage() {
     return (
@@ -123,8 +124,8 @@ export default function ListingGuidelinesPage() {
                         </ul>
                         <p className="mt-4 text-text-soft">
                             If you believe your listing was incorrectly removed, contact us at{' '}
-                            <a href="mailto:info@harbourviewdirectory.online" className="text-brand hover:underline">
-                                info@harbourviewdirectory.online
+                            <a href={CONTACT_MAILTO} className="text-brand hover:underline">
+                                {CONTACT_EMAIL}
                             </a>.
                         </p>
                     </section>

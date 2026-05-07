@@ -145,7 +145,7 @@ Proprietary - All rights reserved.
 ## 📞 Support
 
 For support, contact:
-- Email: support@harbourviewdirectory.online
+- Email: willardwells@gmail.com
 - WhatsApp: +1 (876) 555-1234
 - Address: Harbour View Community Centre, Kingston, Jamaica
 

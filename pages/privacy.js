@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Navbar from '../components/Navbar';
+import { CONTACT_EMAIL } from '../lib/siteConfig';
 
 export default function PrivacyPage() {
     return (
@@ -143,7 +144,7 @@ export default function PrivacyPage() {
                                     If you have any questions about this Privacy Policy, please contact us at:
                                 </p>
                                 <p className="text-gray-600">
-                                    Email: privacy@harbourviewdirectory.online<br />
+                                    Email: {CONTACT_EMAIL}<br />
                                     Address: Harbour View Community Centre, Kingston, Jamaica
                                 </p>
                             </section>

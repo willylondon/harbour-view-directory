@@ -144,9 +144,9 @@ function inferCategory(types = [], name = '') {
   const n = name.toLowerCase();
   if (t.includes('laundry') || n.includes('laundry') || n.includes('laundromat') || n.includes('cleaner')) return 'Laundry & Cleaning';
   if (t.includes('water') || n.includes('water')) return 'Retail & Shopping';
+  if (t.includes('school') || t.includes('university') || n.includes('school') || n.includes('academy') || n.includes('teacher') || n.includes('tutor'))  return 'Education';
   if (t.includes('pharmacy') || n.includes('pharmacy')) return 'Health & Medical';
-  if (t.includes('clinic') || t.includes('dentist') || t.includes('doctor') || n.includes('medical') || t.includes('hospital')) return 'Health & Medical';
-  if (t.includes('school') || t.includes('university') || n.includes('school') || n.includes('academy'))  return 'Education';
+  if (t.includes('clinic') || t.includes('dentist') || t.includes('physician') || n.includes('medical') || t.includes('hospital')) return 'Health & Medical';
   if (t.includes('church') || t.includes('place_of_worship') || n.includes('church')) return 'Community & Church';
   if (t.includes('restaurant') || t.includes('food') || t.includes('meal') || n.includes('fast food') || n.includes('cook shop')) return 'Food & Beverage';
   if (t.includes('grocery') || t.includes('supermarket') || n.includes('wholesale')) return 'Retail & Shopping';

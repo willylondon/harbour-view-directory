@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Head from 'next/head';
 import Navbar from '../components/Navbar';
+import { CONTACT_EMAIL, CONTACT_MAILTO } from '../lib/siteConfig';
 
 export default function ContactPage() {
     const [formData, setFormData] = useState({
@@ -74,8 +75,8 @@ export default function ContactPage() {
                                     <div>
                                         <h3 className="text-lg font-bold text-gray-800 mb-2">📧 Email</h3>
                                         <p className="text-gray-600">
-                                            <a href="mailto:info@harbourviewdirectory.online" className="text-brand-blue hover:underline">
-                                                info@harbourviewdirectory.online
+                                            <a href={CONTACT_MAILTO} className="text-brand-blue hover:underline">
+                                                {CONTACT_EMAIL}
                                             </a>
                                         </p>
                                     </div>

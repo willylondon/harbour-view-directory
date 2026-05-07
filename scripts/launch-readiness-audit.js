@@ -82,6 +82,45 @@ const GENERIC_DESCRIPTION_PATTERNS = [
   /contact and listing details are being verified/i,
 ];
 
+const MEDICAL_CONTEXT_KEYWORDS = [
+  'clinic',
+  'medical',
+  'health',
+  'physician',
+  'pharmacy',
+  'dentist',
+  'nurse',
+  'patient',
+  'surgery',
+  'hospital',
+  'lab',
+  'health centre',
+  'health center',
+  "doctor's office",
+  'doctor’s office',
+  'doctor office',
+];
+
+const EDUCATION_CONTEXT_KEYWORDS = [
+  'teacher',
+  'tutor',
+  'tutoring',
+  'school',
+  'class',
+  'lessons',
+  'education',
+  'academy',
+  'learning',
+  'students',
+  'csec',
+  'cape',
+  'homework',
+  'reading',
+  'maths',
+  'math',
+  'english',
+];
+
 function normalizeText(value) {
   return ` ${(value || '')
     .toString()
@@ -150,6 +189,49 @@ function matchesSearch(vendor, query) {
   }
 
   return haystack.includes(` ${term} `);
+}
+
+function hasAnyKeyword(value, keywords) {
+  const haystack = normalizeText(value);
+  return keywords.some((keyword) => haystack.includes(normalizeText(keyword)));
+}
+
+function hasMedicalContext(vendor) {
+  return hasAnyKeyword([vendor.business_name, vendor.description].join(' '), MEDICAL_CONTEXT_KEYWORDS);
+}
+
+function hasEducationContext(vendor) {
+  return hasAnyKeyword([vendor.business_name, vendor.description].join(' '), EDUCATION_CONTEXT_KEYWORDS);
+}
+
+function buildDoctorCategoryQa(vendors) {
+  const doctorRecords = vendors.filter((vendor) => normalizeText([
+    vendor.business_name,
+    vendor.description,
+  ].join(' ')).includes(' doctor '));
+
+  const suspiciousDoctorNameRecords = doctorRecords
+    .filter((vendor) => vendor.category === 'Health & Medical' && !hasMedicalContext(vendor))
+    .map(reportShape);
+
+  const educationContextWronglyMedical = vendors
+    .filter((vendor) => vendor.category === 'Health & Medical' && hasEducationContext(vendor))
+    .map(reportShape);
+
+  const correctedRecords = doctorRecords
+    .filter((vendor) => vendor.category === 'Education')
+    .map(reportShape);
+
+  const recordsNeedingManualReview = doctorRecords
+    .filter((vendor) => vendor.category === 'Health & Medical' && !hasMedicalContext(vendor) && !hasEducationContext(vendor))
+    .map(reportShape);
+
+  return {
+    suspicious_doctor_name_records: suspiciousDoctorNameRecords,
+    education_context_wrongly_medical: educationContextWronglyMedical,
+    corrected_records: correctedRecords,
+    records_needing_manual_review: recordsNeedingManualReview,
+  };
 }
 
 function first50Flags(vendor, seenSlugs) {
@@ -247,6 +329,8 @@ async function main() {
     };
   });
 
+  const doctorCategoryQa = buildDoctorCategoryQa(vendors);
+
   let appliedCategoryUpdates = [];
   if (shouldApply) {
     appliedCategoryUpdates = await applyCategoryUpdates(vendors);
@@ -270,6 +354,7 @@ async function main() {
     searchProof,
     first50,
     badLocationStatus,
+    doctorCategoryQa,
   }, null, 2));
 }
 

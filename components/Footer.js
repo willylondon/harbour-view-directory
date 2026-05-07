@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { CONTACT_EMAIL } from '../lib/siteConfig';
 
 export default function Footer() {
     return (
@@ -51,7 +52,7 @@ export default function Footer() {
                             The trusted community marketplace for Harbour View, Kingston Jamaica. Connecting local businesses with the community.
                         </p>
                         <p className="text-sm text-white/40 mt-4">
-                            📧 info@harbourviewdirectory.online
+                            📧 {CONTACT_EMAIL}
                         </p>
                     </div>
                 </div>

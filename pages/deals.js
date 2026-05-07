@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { CONTACT_MAILTO } from '../lib/siteConfig';
 
 const DEAL_CATEGORIES = [
     { emoji: '🍽️', label: 'Food & Drink Deals', desc: 'Lunch specials, discounts on meals, snacks, and drinks from local eateries.' },
@@ -33,7 +34,7 @@ export default function DealsPage() {
                             Local promotions, discounts, and specials from businesses serving Harbour View, Bull Bay, and the CMU area. Updated regularly — check back often.
                         </p>
                         <div className="flex flex-wrap justify-center gap-3">
-                            <a href="mailto:info@harbourviewdirectory.online?subject=Submit a Deal" className="bg-white text-brand-warm font-bold px-8 py-3.5 rounded-btn hover:bg-gray-50 transition shadow-lg">
+                            <a href={`${CONTACT_MAILTO}?subject=Submit a Deal`} className="bg-white text-brand-warm font-bold px-8 py-3.5 rounded-btn hover:bg-gray-50 transition shadow-lg">
                                 Submit a Deal
                             </a>
                             <Link href="/post-ad" className="bg-transparent border-2 border-white/40 text-white font-bold px-8 py-3.5 rounded-btn hover:bg-white/10 transition">
@@ -75,7 +76,7 @@ export default function DealsPage() {
                         </p>
                         <div className="flex flex-wrap justify-center gap-4">
                             <a
-                                href="mailto:info@harbourviewdirectory.online?subject=Submit a Deal"
+                                href={`${CONTACT_MAILTO}?subject=Submit a Deal`}
                                 className="bg-brand-warm text-white font-bold px-8 py-3.5 rounded-btn hover:bg-amber-500 transition shadow-sm"
                             >
                                 📧 Submit Your Deal

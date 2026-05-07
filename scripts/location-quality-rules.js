@@ -81,10 +81,10 @@ const CATEGORY_ALIASES = {
 const CATEGORY_KEYWORDS = [
   { label: 'Marine / Fishing Supplies', keywords: ['fishing', 'bait', 'tackle', 'marine', 'boat supplies', 'fishing supplies'], exclude: ['restaurant', 'jerk', 'cook shop', 'cookshop', 'takeout', 'bakery', 'patty', 'bar and grill'] },
   { label: 'Finance & Banking', keywords: ['atm', 'bank', 'credit union', 'cambio', 'remittance', 'western union', 'moneygram', 'loan'] },
-  { label: 'Health & Medical', keywords: ['clinic', 'doctor', 'pharmacy', 'medical', 'health centre', 'health center', 'dentist', 'nurse', 'physiotherapy', 'lab'] },
+  { label: 'Health & Medical', keywords: ['clinic', 'pharmacy', 'medical', 'health', 'health centre', 'health center', 'physician', 'dentist', 'nurse', 'patient', 'surgery', 'hospital', 'lab', "doctor's office", 'doctor office', 'physiotherapy'] },
   { label: 'Auto & Transport', keywords: ['mechanic', 'mobile mechanic', 'car technician', 'auto technician', 'vehicle', 'tyre', 'tire', 'battery', 'taxi', 'transport', 'car wash', 'auto parts'] },
   { label: 'Community & Church', keywords: ['church', 'ministry', 'temple', 'community centre', 'community center', 'citizens association'] },
-  { label: 'Education', keywords: ['school', 'tutor', 'tutoring', 'academy', 'basic school', 'prep school', 'college', 'learning centre', 'learning center'] },
+  { label: 'Education', keywords: ['teacher', 'tutor', 'tutoring', 'school', 'class', 'lessons', 'education', 'academy', 'learning', 'students', 'csec', 'cape', 'homework', 'reading', 'maths', 'math', 'english', 'basic school', 'prep school', 'college', 'learning centre', 'learning center'] },
   { label: 'Laundry & Cleaning', keywords: ['laundry', 'laundromat', 'laundry mat', 'dry cleaner', 'dry cleaning', 'cleaners', 'wash and fold', 'wash & fold', 'ironing', 'pressing', 'house cleaning', 'pressure washing'] },
   { label: 'Beauty & Wellness', keywords: ['hair', 'hairdresser', 'salon', 'braids', 'cornrow', 'twist', 'barber', 'beauty', 'nail', 'nails', 'lash', 'makeup', 'massage', 'spa', 'wellness'] },
   { label: 'Grocery & Convenience', keywords: ['supermarket', 'grocery', 'mini mart', 'minimart', 'convenience', 'wholesale', 'market', 'corner shop', 'liquor store', 'liquor', 'spirits', 'wine shop', 'beverage depot'] },
