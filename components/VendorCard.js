@@ -62,6 +62,9 @@ export default function ListingCard({ vendor }) {
     const showImage = imageUrl && !imgError;
     const showNew = isNew(created_at) && !is_featured && !is_top_ad;
     const displayAddress = address || 'Local Harbour View business — address not listed';
+    const fallbackDescription = phone || whatsapp
+        ? 'Local Harbour View business. Details are being updated.'
+        : 'Local Harbour View business. Contact details are being verified.';
 
     return (
         <Link href={vendorUrl} className="block group focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 rounded-2xl">
@@ -126,7 +129,7 @@ export default function ListingCard({ vendor }) {
 
                     {/* Description */}
                     <p className="text-sm text-text-soft mb-2 line-clamp-2 leading-relaxed flex-1">
-                        {description || `${business_name} is listed as a ${cat.display} business serving the Harbour View community. Contact and listing details are being verified.`}
+                        {description || fallbackDescription}
                     </p>
 
                     {/* Location */}

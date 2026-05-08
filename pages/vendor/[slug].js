@@ -300,7 +300,9 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, simi
 
                             {/* Description */}
                             <div className="text-text-soft leading-relaxed mb-6 whitespace-pre-wrap">
-                                {vendor.description || `${vendor.business_name} is listed as a ${cat.display} business serving the Harbour View community. Contact and listing details are being verified.`}
+                                {vendor.description || (vendor.phone || vendor.whatsapp
+                                    ? 'Local Harbour View business. Details are being updated.'
+                                    : 'Local Harbour View business. Contact details are being verified.')}
                             </div>
 
                             {/* Contact & CTAs */}
