@@ -1,0 +1,13 @@
+.env
+.env.*
+!.env.example
+
+.git
+.next
+node_modules
+test-results
+tmp
+
+scripts/current_production_vendors.json
+scripts/current_production_rentals.json
+scripts/phase6_recovery_schema.sql

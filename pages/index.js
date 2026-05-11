@@ -209,7 +209,7 @@ export default function Home({ featuredVendors, recentVendors, rentals }) {
 
             <main className="overflow-hidden bg-[#07101d]">
                 <section className="relative isolate px-5 pb-24 pt-12 md:px-6 md:pb-32 md:pt-24">
-                    <picture>
+                    <picture className="absolute inset-0 overflow-hidden">
                         <source srcSet="/hero.webp" type="image/webp" media="(min-width: 769px)" />
                         <source srcSet="/hero-mobile.webp" type="image/webp" media="(max-width: 768px)" />
                         <img

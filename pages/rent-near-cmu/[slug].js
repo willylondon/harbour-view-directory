@@ -5,6 +5,7 @@ import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import { supabase, getImageUrl, RENTAL_IMAGES_BUCKET } from '../../lib/supabase';
 import { applyPublicRentalFilters } from '../../lib/publicDirectory';
+import { getBrandedPlaceholder, getCategoryFallbackImage } from '../../lib/categoryFallbackImages';
 
 const PUBLIC_RENTAL_DETAIL_COLUMNS = 'id, title, description, contact_name, whatsapp, type, price, deposit, location, available_date, utilities_included, furnished, distance_to_cmu, photos, house_rules, slug, created_at';
 
@@ -57,6 +58,9 @@ export default function RentalDetailPage({ rental }) {
 
     const pageTitle = `${title} | Rent Near CMU`;
     const pageDescription = description || `View details for this ${type} near Caribbean Maritime University. Price: JMD $${price.toLocaleString()}.`;
+    const fallbackImage = getCategoryFallbackImage('Rooms & Rentals', rental);
+    const placeholder = getBrandedPlaceholder();
+    const mainUploadedImage = photos && photos.length > 0 ? getImageUrl(photos[mainImageIndex], RENTAL_IMAGES_BUCKET) : null;
 
     return (
         <div className="min-h-screen bg-bg">
@@ -75,16 +79,29 @@ export default function RentalDetailPage({ rental }) {
                         <div className="lg:col-span-2 space-y-6">
                             {/* Gallery */}
                             <div className="card-premium overflow-hidden bg-white">
-                                <div className="relative h-[400px] bg-brand-soft flex items-center justify-center">
-                                    {photos && photos.length > 0 ? (
+                                <div
+                                    className="relative h-[400px] flex items-center justify-center overflow-hidden"
+                                    style={!mainUploadedImage && !fallbackImage.src ? { background: placeholder.gradient } : undefined}
+                                >
+                                    {mainUploadedImage ? (
                                         <img 
-                                            src={getImageUrl(photos[mainImageIndex], RENTAL_IMAGES_BUCKET)} 
+                                            src={mainUploadedImage}
                                             alt={title}
                                             className="w-full h-full object-cover"
                                         />
+                                    ) : fallbackImage.src ? (
+                                        <img
+                                            src={fallbackImage.src}
+                                            alt={fallbackImage.alt}
+                                            className="w-full h-full object-cover"
+                                        />
                                     ) : (
-                                        <span className="text-9xl opacity-20">🏠</span>
+                                        <div className="text-center text-white">
+                                            <div className="mb-2 text-[11px] font-black uppercase tracking-[0.24em] text-amber-200">Harbour View</div>
+                                            <span className="text-sm font-bold">Rooms & Rentals</span>
+                                        </div>
                                     )}
+                                    {(mainUploadedImage || fallbackImage.src) && <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-slate-950/35 via-transparent to-transparent" />}
                                     <div className="absolute top-4 left-4">
                                         <span className="bg-brand-deep text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
                                             {type}

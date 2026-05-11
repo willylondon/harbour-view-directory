@@ -1,34 +1,10 @@
 import { useState } from 'react';
 import Link from 'next/link';
-import { getImageUrl } from '../lib/supabase';
 import { getDisplayCategory } from '../lib/categoryMap';
-
-// Category-based gradient fallbacks — rich visual placeholders
-const CATEGORY_FALLBACKS = {
-    'Food & Restaurants':       { grad: 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)', emoji: '🍽️' },
-    'Beauty & Wellness':        { grad: 'linear-gradient(135deg, #FDF2F8 0%, #FBCFE8 100%)', emoji: '💆' },
-    'Home Services':            { grad: 'linear-gradient(135deg, #ECFDF5 0%, #A7F3D0 100%)', emoji: '🏠' },
-    'Auto & Transport':         { grad: 'linear-gradient(135deg, #F1F5F9 0%, #CBD5E1 100%)', emoji: '🚗' },
-    'Education':                { grad: 'linear-gradient(135deg, #EEF2FF 0%, #C7D2FE 100%)', emoji: '📚' },
-    'Tech & Electronics':       { grad: 'linear-gradient(135deg, #ECFEFF 0%, #A5F3FC 100%)', emoji: '📱' },
-    'Finance & Banking':        { grad: 'linear-gradient(135deg, #ECFDF5 0%, #6EE7B7 100%)', emoji: '🏦' },
-    'Health & Medical':         { grad: 'linear-gradient(135deg, #FEF2F2 0%, #FECACA 100%)', emoji: '⚕️' },
-    'Retail & Shopping':        { grad: 'linear-gradient(135deg, #F5F3FF 0%, #DDD6FE 100%)', emoji: '🛍️' },
-    'Community & Church':       { grad: 'linear-gradient(135deg, #FFFBEB 0%, #FDE68A 100%)', emoji: '⛪' },
-    'Laundry & Cleaning':       { grad: 'linear-gradient(135deg, #F0F9FF 0%, #BAE6FD 100%)', emoji: '🧺' },
-    'Professional / Legal / JP': { grad: 'linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 100%)', emoji: '🏢' },
-    'Books / Stationery':       { grad: 'linear-gradient(135deg, #FEFCE8 0%, #FDE68A 100%)', emoji: '📖' },
-    'Pets / Animals':           { grad: 'linear-gradient(135deg, #F7FEE7 0%, #BEF264 100%)', emoji: '🐾' },
-    'Online Retail':            { grad: 'linear-gradient(135deg, #FDF4FF 0%, #F5D0FE 100%)', emoji: '🛒' },
-    'Events / Bookings':        { grad: 'linear-gradient(135deg, #FFF1F2 0%, #FDA4AF 100%)', emoji: '🎟️' },
-    'General Services':         { grad: 'linear-gradient(135deg, #FAFAF9 0%, #D6D3D1 100%)', emoji: '🧰' },
-    'Grocery & Convenience':    { grad: 'linear-gradient(135deg, #F0FDF4 0%, #BBF7D0 100%)', emoji: '🛒' },
-    'Marine / Fishing Supplies': { grad: 'linear-gradient(135deg, #ECFEFF 0%, #67E8F9 100%)', emoji: '⚓' },
-};
-
-function getFallback(display) {
-    return CATEGORY_FALLBACKS[display] || CATEGORY_FALLBACKS['Professional / Legal / JP'];
-}
+import { getBrandedPlaceholder, getVendorImage } from '../lib/categoryFallbackImages';
+import { getWhatsAppHref } from '../lib/contactLinks';
+import { getVendorDisplayAddress, getVendorDisplayDescription } from '../lib/listingCopy';
+import { getTrustBadgeClass, getTrustStateDescription, getTrustStatus } from '../lib/trustState';
 
 // Is the listing "new" — created within the last 14 days?
 function isNew(createdAt) {
@@ -37,63 +13,62 @@ function isNew(createdAt) {
     return days < 14;
 }
 
-export default function ListingCard({ vendor }) {
+export default function ListingCard({ vendor, imageResolver, resolvedImage }) {
     const [imgError, setImgError] = useState(false);
 
     const {
         id,
         business_name,
-        description,
         is_featured,
         is_top_ad,
-        images,
         slug,
-        address,
         phone,
         whatsapp,
         created_at,
     } = vendor || {};
 
     const cat = getDisplayCategory(vendor);
-    const fallback = getFallback(cat.display);
     const vendorUrl = slug ? `/vendor/${slug}` : `/vendor/${id}`;
+    const vendorImage = resolvedImage || (imageResolver ? imageResolver(vendor) : getVendorImage(vendor));
+    const placeholder = getBrandedPlaceholder();
+    const trustStatus = getTrustStatus(vendor);
+    const trustState = trustStatus.primary;
+    const trustDescription = getTrustStateDescription(trustState);
 
-    const imageUrl = images && images.length > 0 ? getImageUrl(images[0]) : null;
-    const showImage = imageUrl && !imgError;
+    const showImage = vendorImage.src && !imgError;
     const showNew = isNew(created_at) && !is_featured && !is_top_ad;
-    const displayAddress = address || 'Local Harbour View business — address not listed';
-    const fallbackDescription = phone || whatsapp
-        ? 'Local Harbour View business. Details are being updated.'
-        : 'Local Harbour View business. Contact details are being verified.';
+    const displayAddress = getVendorDisplayAddress(vendor);
+    const displayDescription = getVendorDisplayDescription(vendor);
+    const whatsappHref = getWhatsAppHref(whatsapp);
 
     return (
-        <Link href={vendorUrl} className="block group focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 rounded-2xl">
+        <Link href={vendorUrl} className="block min-w-0 group focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 rounded-2xl">
             <article
-                className={`card-premium overflow-hidden h-full flex flex-col ${is_top_ad ? 'ring-2 ring-brand-warm/50 ring-offset-1' : ''}`}
+                className={`h-full min-w-0 overflow-hidden rounded-[1.4rem] bg-white shadow-[0_22px_70px_rgba(15,23,42,0.10)] transition duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_30px_90px_rgba(15,23,42,0.16)] ${is_top_ad ? 'ring-2 ring-amber-300/70 ring-offset-1' : ''}`}
             >
                 {/* ── Image / Fallback ── */}
                 <div
-                    className="relative h-44 flex items-center justify-center overflow-hidden"
-                    style={!showImage ? { background: fallback.grad } : undefined}
+                    className="relative h-48 flex items-center justify-center overflow-hidden"
+                    style={!showImage ? { background: placeholder.gradient } : undefined}
                 >
                     {showImage ? (
                         <img
-                            src={imageUrl}
-                            alt={business_name || 'Business'}
+                            src={vendorImage.src}
+                            alt={vendorImage.alt || business_name || 'Business'}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             loading="lazy"
                             width="400"
-                            height="176"
+                            height="192"
                             onError={() => setImgError(true)}
                         />
                     ) : (
-                        <span
-                            className="text-5xl"
-                            style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.12))' }}
-                            aria-hidden="true"
-                        >
-                            {fallback.emoji}
-                        </span>
+                        <div className="px-5 text-center text-white">
+                            <span className="text-[11px] font-black uppercase tracking-[0.22em] text-amber-200">Harbour View</span>
+                            <p className="mt-2 text-lg font-black leading-tight">{cat.display}</p>
+                        </div>
+                    )}
+                    {showImage && (
+                        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-slate-950/8 to-transparent" />
                     )}
 
                     {/* Badges — top left */}
@@ -116,20 +91,26 @@ export default function ListingCard({ vendor }) {
                 <div className="p-4 flex flex-col flex-1">
                     {/* Category badge */}
                     <span
-                        className="badge-category mb-2 self-start"
-                        style={{ background: fallback.grad, color: '#374151' }}
+                        className="mb-2 self-start rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-black text-slate-600"
                     >
-                        {fallback.emoji} {cat.display}
+                        {cat.emoji} {cat.display}
+                    </span>
+                    <span
+                        className={`mb-2 self-start rounded-full px-2.5 py-1 text-[11px] font-black ring-1 ${getTrustBadgeClass(trustState.tone)}`}
+                        title={trustDescription}
+                        aria-label={`${trustState.label}: ${trustDescription}`}
+                    >
+                        {trustState.label}
                     </span>
 
                     {/* Business name */}
-                    <h3 className="text-base font-bold text-text mb-1 group-hover:text-brand transition-colors line-clamp-1 leading-snug">
+                    <h3 className="text-base font-bold text-text mb-1 group-hover:text-brand transition-colors line-clamp-2 leading-snug break-words">
                         {business_name}
                     </h3>
 
                     {/* Description */}
-                    <p className="text-sm text-text-soft mb-2 line-clamp-2 leading-relaxed flex-1">
-                        {description || fallbackDescription}
+                    <p className="text-sm text-text-soft mb-2 line-clamp-2 leading-relaxed flex-1 break-words">
+                        {displayDescription}
                     </p>
 
                     {/* Location */}
@@ -143,9 +124,9 @@ export default function ListingCard({ vendor }) {
                         <span className="text-sm font-bold text-brand group-hover:text-brand-deep transition">
                             View Details →
                         </span>
-                        {whatsapp && (
+                        {whatsappHref && (
                             <a
-                                href={whatsapp}
+                                href={whatsappHref}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="ml-auto inline-flex items-center gap-1 text-xs font-bold text-white bg-green-500 px-2.5 py-1.5 rounded-btn hover:bg-green-600 transition"
@@ -155,7 +136,7 @@ export default function ListingCard({ vendor }) {
                                 💬 <span>Chat</span>
                             </a>
                         )}
-                        {!phone && !whatsapp && (
+                        {trustStatus.showContactNotice && (
                             <span className="ml-auto text-xs font-semibold text-amber-600">
                                 Contact not verified yet
                             </span>

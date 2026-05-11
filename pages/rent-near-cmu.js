@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import EmptyState from '../components/EmptyState';
 import RentalCard from '../components/RentalCard';
+import { CONTACT_MAILTO } from '../lib/siteConfig';
 import { supabase } from '../lib/supabase';
 import {
     applyPublicRentalFilters,
@@ -169,15 +170,27 @@ export default function RentalsListingPage({ rentals, query }) {
                                 ))}
                             </div>
                         ) : (
-                            <EmptyState 
-                                icon="🏠" 
-                                title="Rooms and rentals are being added now." 
-                                description="Landlords in Harbour View and nearby areas can submit rooms, studios, apartments, and houses for students and workers. Listings are reviewed before publishing." 
-                                ctaText="List a Room" 
-                                ctaHref="/rent-near-cmu/submit?type=Room"
-                                secondaryCtaText="List a House"
-                                secondaryCtaHref="/rent-near-cmu/submit?type=House"
-                            />
+                            <div className="mx-auto max-w-3xl">
+                                <EmptyState
+                                    icon="🏠"
+                                    title="Rental listings are open for submission."
+                                    description="Approved rooms, studios, apartments, and houses near CMU and Harbour View will appear here after review."
+                                    ctaText="Submit rental"
+                                    ctaHref="/rent-near-cmu/submit"
+                                    secondaryCtaText="View listing rules"
+                                    secondaryCtaHref="/listing-guidelines"
+                                />
+                                <div className="mt-5 flex flex-wrap justify-center gap-3">
+                                    <a href={`${CONTACT_MAILTO}?subject=Rental listing question`} className="rounded-btn border border-border bg-white px-5 py-3 text-sm font-bold text-text-soft transition hover:border-brand hover:text-brand">
+                                        Contact directory admin
+                                    </a>
+                                </div>
+                                <div className="mt-6 grid gap-3 text-sm text-text-soft md:grid-cols-3">
+                                    <div className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-border">Landlord personal details are not exposed without approval.</div>
+                                    <div className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-border">Every rental submission is reviewed before publishing.</div>
+                                    <div className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-border">Suspicious or incomplete submissions may be rejected.</div>
+                                </div>
+                            </div>
                         )}
                     </div>
                 </section>
@@ -187,7 +200,7 @@ export default function RentalsListingPage({ rentals, query }) {
                         <div className="rounded-3xl border border-border bg-bg-alt p-6 md:p-8">
                             <p className="text-sm font-semibold uppercase tracking-wide text-brand mb-2">Privacy First</p>
                             <p className="text-text-soft max-w-3xl">
-                                Exact home addresses stay private by default. We show the approximate area publicly and keep detailed location notes admin-only unless the landlord explicitly opts in.
+                                Exact home addresses stay private by default. We show the approximate area publicly and keep detailed location notes admin-only unless the landlord explicitly opts in. Listings are reviewed before publishing.
                             </p>
                         </div>
                     </div>

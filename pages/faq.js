@@ -18,7 +18,7 @@ const FAQS = [
         section: 'Pricing & Payment',
         items: [
             { q: 'Is listing really free?', a: 'Yes. A basic listing is completely free. Featured and Premium plans have monthly fees paid via WhatsApp bank transfer.' },
-            { q: 'What\'s the difference between Free, Featured, and Premium?', a: 'Free listings appear in the standard directory. Featured listings get a badge and higher placement. Premium listings get top ad placement, homepage visibility, and a verified badge. See our Pricing page for full details.' },
+            { q: 'What\'s the difference between Free, Featured, and Premium?', a: 'Free listings appear in the standard directory. Featured listings get a badge and higher placement. Premium listings get top ad placement and homepage visibility. They are eligible for verification review, but the verified badge only appears after the listing passes manual checks. See our Pricing page for full details.' },
             { q: 'How do I pay for a paid plan?', a: 'We send a WhatsApp invoice after you apply for a paid plan. Payment is by bank transfer or mobile money (NCB, JMMB, Scotia).' },
             { q: 'Can I cancel my paid plan?', a: 'Yes, any time. Plans are month-to-month. Message us on WhatsApp to cancel.' },
         ]

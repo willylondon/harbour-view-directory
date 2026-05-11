@@ -6,6 +6,8 @@ import Footer from '../components/Footer';
 import ListingCard from '../components/VendorCard';
 import { supabase } from '../lib/supabase';
 import { getDisplayCategory, vendorMatchesSearch, CATEGORY_TAXONOMY, normalizeCategoryLabel } from '../lib/categoryMap';
+import { createVendorImageResolver } from '../lib/categoryFallbackImages';
+import { TRUST_FILTERS, vendorMatchesTrustState } from '../lib/trustState';
 import {
     applyPublicVendorFilters,
     filterPublicVendors,
@@ -19,6 +21,8 @@ const SORT_OPTIONS = [
     { value: 'recent', label: '🕐 Recently Added' },
     { value: 'az', label: '🔤 A–Z' },
 ];
+
+const COMMON_SEARCHES = ['food', 'lunch', 'fry chicken', 'fried chicken', 'Chinese', 'patty', 'bakery', 'barber', 'taxi', 'mechanic', 'pharmacy', 'laundry', 'ATM', 'JP', 'plumber', 'electrician', 'carpenter', 'AC', 'phone repair', 'bills', 'money transfer', 'fishing', 'pet shop', 'books', 'stationery'];
 
 export async function getServerSideProps({ query }) {
     const { q = '', category = '', sort = 'featured' } = query;
@@ -66,6 +70,7 @@ export default function DirectoryPage({ initialVendors, initialQ, initialCategor
     const [searchQuery, setSearchQuery] = useState(initialQ);
     const [activeCategory, setActiveCategory] = useState(initialCategory);
     const [sort, setSort] = useState(initialSort);
+    const [trustFilter, setTrustFilter] = useState('');
     const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
     // Client-side filter + search
@@ -82,6 +87,10 @@ export default function DirectoryPage({ initialVendors, initialQ, initialCategor
             list = list.filter(v => vendorMatchesSearch(v, searchQuery.trim()));
         }
 
+        if (trustFilter) {
+            list = list.filter(v => vendorMatchesTrustState(v, trustFilter));
+        }
+
         // Client-side sort (in case SSR sort differs after filter)
         if (sort === 'az') {
             list.sort((a, b) => (a.business_name || '').localeCompare(b.business_name || ''));
@@ -90,15 +99,20 @@ export default function DirectoryPage({ initialVendors, initialQ, initialCategor
         }
 
         return list;
-    }, [initialVendors, searchQuery, activeCategory, sort]);
+    }, [initialVendors, searchQuery, activeCategory, sort, trustFilter]);
 
     const visibleVendors = filteredVendors.slice(0, visibleCount);
+    const visibleVendorImages = useMemo(() => {
+        const resolveImage = createVendorImageResolver();
+        return new Map(visibleVendors.map(vendor => [vendor.id, resolveImage(vendor)]));
+    }, [visibleVendors]);
     const hasMore = visibleCount < filteredVendors.length;
 
     function clearFilters() {
         setSearchQuery('');
         setActiveCategory('');
         setSort('featured');
+        setTrustFilter('');
         setVisibleCount(PAGE_SIZE);
     }
 
@@ -128,7 +142,10 @@ export default function DirectoryPage({ initialVendors, initialQ, initialCategor
                             Harbour View Business Directory
                         </h1>
                         <p className="text-white/70 text-lg">
-                            {filteredVendors.length} {filteredVendors.length === 1 ? 'business' : 'businesses'} in Harbour View
+                            {initialVendors.length} businesses in Harbour View
+                        </p>
+                        <p className="mt-1 text-white/55 text-sm font-semibold">
+                            {initialVendors.length} local records · verified and community-submitted listings
                         </p>
                     </div>
                 </div>
@@ -138,10 +155,15 @@ export default function DirectoryPage({ initialVendors, initialQ, initialCategor
                 {/* ── Sticky filter bar ── */}
                 <div className="sticky top-16 z-30 bg-white border-b border-border shadow-sm">
                     <div className="container-premium py-3">
-                        <div className="flex flex-wrap gap-3 items-center">
+                        <p className="mb-2 text-[11px] font-black uppercase tracking-[0.18em] text-text-muted sm:hidden">
+                            Search and filter
+                        </p>
+                        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:flex lg:flex-wrap lg:items-center lg:gap-3">
                             {/* Search */}
-                            <div className="flex-1 min-w-48">
+                            <div className="min-w-0 lg:flex-1 lg:min-w-48">
+                                <label className="sr-only" htmlFor="directory-search">Search businesses</label>
                                 <input
+                                    id="directory-search"
                                     type="text"
                                     value={searchQuery}
                                     onChange={e => { setSearchQuery(e.target.value); setVisibleCount(PAGE_SIZE); }}
@@ -154,7 +176,7 @@ export default function DirectoryPage({ initialVendors, initialQ, initialCategor
                             <select
                                 value={activeCategory}
                                     onChange={e => { setActiveCategory(e.target.value); setVisibleCount(PAGE_SIZE); }}
-                                    className="text-sm border border-border rounded-btn px-3 py-2 outline-none focus:border-brand bg-bg-alt text-text"
+                                    className="min-w-0 text-sm border border-border rounded-btn px-3 py-2 outline-none focus:border-brand bg-bg-alt text-text"
                                 >
                                     <option value="">All Categories</option>
                                     {CATEGORY_TAXONOMY.map(cat => (
@@ -166,18 +188,29 @@ export default function DirectoryPage({ initialVendors, initialQ, initialCategor
                             <select
                                 value={sort}
                                 onChange={e => { setSort(e.target.value); setVisibleCount(PAGE_SIZE); }}
-                                className="text-sm border border-border rounded-btn px-3 py-2 outline-none focus:border-brand bg-bg-alt text-text"
+                                className="min-w-0 text-sm border border-border rounded-btn px-3 py-2 outline-none focus:border-brand bg-bg-alt text-text"
                             >
                                 {SORT_OPTIONS.map(o => (
                                     <option key={o.value} value={o.value}>{o.label}</option>
                                 ))}
                             </select>
 
+                            <select
+                                value={trustFilter}
+                                onChange={e => { setTrustFilter(e.target.value); setVisibleCount(PAGE_SIZE); }}
+                                className="min-w-0 text-sm border border-border rounded-btn px-3 py-2 outline-none focus:border-brand bg-bg-alt text-text"
+                                aria-label="Filter by trust status"
+                            >
+                                {TRUST_FILTERS.map(filter => (
+                                    <option key={filter.value} value={filter.value}>{filter.label}</option>
+                                ))}
+                            </select>
+
                             {/* Clear */}
-                            {(searchQuery || activeCategory || sort !== 'featured') && (
+                            {(searchQuery || activeCategory || sort !== 'featured' || trustFilter) && (
                                 <button
                                     onClick={clearFilters}
-                                    className="text-sm text-text-muted hover:text-red-600 font-medium transition whitespace-nowrap"
+                                    className="rounded-btn px-3 py-2 text-sm text-text-muted hover:text-red-600 font-medium transition whitespace-nowrap sm:text-left"
                                 >
                                     ✕ Clear
                                 </button>
@@ -185,13 +218,21 @@ export default function DirectoryPage({ initialVendors, initialQ, initialCategor
                         </div>
 
                         {/* Active category chips row */}
-                        {activeCategory && (
-                            <div className="flex items-center gap-2 mt-2 pt-2 border-t border-border">
+                        {(activeCategory || trustFilter) && (
+                            <div className="flex flex-wrap items-center gap-2 mt-2 pt-2 border-t border-border">
                                 <span className="text-xs text-text-muted">Filtered:</span>
-                                <span className="inline-flex items-center gap-1 text-xs font-semibold bg-brand-soft text-brand px-3 py-1 rounded-full">
-                                    {activeCategory}
-                                    <button onClick={() => setActiveCategory('')} className="ml-1 hover:opacity-70">✕</button>
-                                </span>
+                                {activeCategory && (
+                                    <span className="inline-flex items-center gap-1 text-xs font-semibold bg-brand-soft text-brand px-3 py-1 rounded-full">
+                                        {activeCategory}
+                                        <button onClick={() => setActiveCategory('')} className="ml-1 hover:opacity-70">✕</button>
+                                    </span>
+                                )}
+                                {trustFilter && (
+                                    <span className="inline-flex items-center gap-1 text-xs font-semibold bg-amber-50 text-amber-700 px-3 py-1 rounded-full">
+                                        {TRUST_FILTERS.find(filter => filter.value === trustFilter)?.label || trustFilter}
+                                        <button onClick={() => setTrustFilter('')} className="ml-1 hover:opacity-70">✕</button>
+                                    </span>
+                                )}
                             </div>
                         )}
                     </div>
@@ -199,11 +240,23 @@ export default function DirectoryPage({ initialVendors, initialQ, initialCategor
 
                 <div className="container-premium pt-8">
                     {/* Results count */}
-                    {(searchQuery || activeCategory) && (
+                    <div className="mb-6 flex max-h-24 flex-wrap gap-2 overflow-hidden sm:max-h-none">
+                        {COMMON_SEARCHES.map(term => (
+                            <button
+                                key={term}
+                                onClick={() => { setSearchQuery(term); setVisibleCount(PAGE_SIZE); }}
+                                className="rounded-full bg-white px-3 py-1.5 text-xs font-bold text-slate-600 shadow-sm ring-1 ring-slate-200 transition hover:text-brand hover:ring-brand/30"
+                            >
+                                {term}
+                            </button>
+                        ))}
+                    </div>
+
+                    {(searchQuery || activeCategory || trustFilter) && (
                         <p className="text-sm text-text-muted mb-6">
                             {filteredVendors.length === 0
                                 ? 'No results found'
-                                : `${filteredVendors.length} result${filteredVendors.length !== 1 ? 's' : ''}${activeCategory ? ` in ${activeCategory}` : ''}${searchQuery ? ` for "${searchQuery}"` : ''}`
+                                : `${filteredVendors.length} result${filteredVendors.length !== 1 ? 's' : ''}${activeCategory ? ` in ${activeCategory}` : ''}${searchQuery ? ` for "${searchQuery}"` : ''}${trustFilter ? ` · ${TRUST_FILTERS.find(filter => filter.value === trustFilter)?.label || trustFilter}` : ''}`
                             }
                         </p>
                     )}
@@ -213,7 +266,7 @@ export default function DirectoryPage({ initialVendors, initialQ, initialCategor
                         <>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                                 {visibleVendors.map(vendor => (
-                                    <ListingCard key={vendor.id} vendor={vendor} />
+                                    <ListingCard key={vendor.id} vendor={vendor} resolvedImage={visibleVendorImages.get(vendor.id)} />
                                 ))}
                             </div>
 
@@ -236,11 +289,11 @@ export default function DirectoryPage({ initialVendors, initialQ, initialCategor
                         /* Zero result state */
                         <div className="text-center py-20">
                             <div className="text-6xl mb-4">🔍</div>
-                            <h2 className="text-2xl font-extrabold text-text mb-2">No businesses found</h2>
+                            <h2 className="text-2xl font-extrabold text-text mb-2">No matching local records</h2>
                             <p className="text-text-soft mb-8 max-w-md mx-auto">
                                 {searchQuery
-                                    ? `No results for "${searchQuery}"${activeCategory ? ` in ${activeCategory}` : ''}. Try a different search or category.`
-                                    : `No businesses in ${activeCategory} yet. Try a different category.`
+                                    ? `No results for "${searchQuery}"${activeCategory ? ` in ${activeCategory}` : ''}. Try food, taxi, pharmacy, barber, laundry, mechanic, ATM, JP, or phone repair.`
+                                    : `No records match this filter yet. Try a different category or trust state.`
                                 }
                             </p>
                             <div className="flex flex-wrap justify-center gap-3">

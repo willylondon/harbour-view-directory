@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { getImageUrl, RENTAL_IMAGES_BUCKET } from '../lib/supabase';
+import { getBrandedPlaceholder, getCategoryFallbackImage } from '../lib/categoryFallbackImages';
 
 export default function RentalCard({ rental }) {
     const [imgError, setImgError] = useState(false);
@@ -20,13 +21,19 @@ export default function RentalCard({ rental }) {
 
     const rentalUrl = `/rent-near-cmu/${slug || id}`;
     const imageUrl = photos && photos.length > 0 ? getImageUrl(photos[0], RENTAL_IMAGES_BUCKET) : null;
+    const fallbackImage = getCategoryFallbackImage('Rooms & Rentals', rental);
+    const placeholder = getBrandedPlaceholder();
     const showImage = imageUrl && !imgError;
+    const showFallback = !imageUrl && fallbackImage.src && !imgError;
 
     return (
         <Link href={rentalUrl} className="block group">
             <article className="card-premium overflow-hidden h-full flex flex-col">
                 {/* Image / Placeholder */}
-                <div className={`relative h-48 ${showImage ? '' : 'bg-brand-soft'} flex items-center justify-center border-b border-border`}>
+                <div
+                    className="relative h-48 flex items-center justify-center overflow-hidden border-b border-border"
+                    style={!showImage && !showFallback ? { background: placeholder.gradient } : undefined}
+                >
                     {showImage ? (
                         <img
                             src={imageUrl}
@@ -35,8 +42,22 @@ export default function RentalCard({ rental }) {
                             loading="lazy"
                             onError={() => setImgError(true)}
                         />
+                    ) : showFallback ? (
+                        <img
+                            src={fallbackImage.src}
+                            alt={fallbackImage.alt}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            loading="lazy"
+                            onError={() => setImgError(true)}
+                        />
                     ) : (
-                        <span className="text-6xl opacity-60">🏠</span>
+                        <div className="px-5 text-center text-white">
+                            <span className="text-[11px] font-black uppercase tracking-[0.22em] text-amber-200">Harbour View</span>
+                            <p className="mt-2 text-lg font-black leading-tight">Rooms & Rentals</p>
+                        </div>
+                    )}
+                    {(showImage || showFallback) && (
+                        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-slate-950/45 via-transparent to-transparent" />
                     )}
                     
                     {/* Price Badge */}

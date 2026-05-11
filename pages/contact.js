@@ -65,10 +65,9 @@ export default function ContactPage() {
                                 
                                 <div className="space-y-6">
                                     <div>
-                                        <h3 className="text-lg font-bold text-gray-800 mb-2">📍 Location</h3>
+                                        <h3 className="text-lg font-bold text-gray-800 mb-2">📍 Support Area</h3>
                                         <p className="text-gray-600">
-                                            Harbour View Community Centre<br />
-                                            Kingston, Jamaica
+                                            Online directory support for Harbour View, Kingston 17.
                                         </p>
                                     </div>
 
@@ -84,11 +83,9 @@ export default function ContactPage() {
 
 
                                     <div>
-                                        <h3 className="text-lg font-bold text-gray-800 mb-2">🕒 Hours</h3>
+                                        <h3 className="text-lg font-bold text-gray-800 mb-2">💬 WhatsApp</h3>
                                         <p className="text-gray-600">
-                                            Monday - Friday: 9:00 AM - 5:00 PM<br />
-                                            Saturday: 10:00 AM - 2:00 PM<br />
-                                            Sunday: Closed
+                                            WhatsApp support is available through the directory links.
                                         </p>
                                     </div>
                                 </div>
@@ -223,7 +220,7 @@ export default function ContactPage() {
                                         <div>
                                             <h4 className="font-bold text-gray-700">How long does it take to list my business?</h4>
                                             <p className="text-gray-600 text-sm mt-1">
-                                                Free listings are typically approved within 24-48 hours. Premium listings are activated immediately after payment.
+                                                Free listings are reviewed within 24–48 hours. Featured and Premium listings receive priority review within 12 hours after payment confirmation.
                                             </p>
                                         </div>
                                         <div>

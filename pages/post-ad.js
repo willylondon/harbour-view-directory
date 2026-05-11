@@ -61,7 +61,7 @@ export default function PostAdPage() {
                                         <li>Register an account or log in</li>
                                         <li>Fill in your business details</li>
                                         <li>For paid plans: we'll WhatsApp you a payment link</li>
-                                        <li>Once approved, your listing goes live</li>
+                                        <li>No listing goes public before admin approval</li>
                                     </ol>
                                 </div>
                                 <div className="flex flex-wrap gap-3">
@@ -96,11 +96,11 @@ export default function PostAdPage() {
                                 <div className="space-y-4 mb-6">
                                     <div className="border border-brand rounded-btn p-5">
                                         <h4 className="font-bold text-text">Featured — JMD $2,500/month</h4>
-                                        <p className="text-sm text-text-soft mt-1">Top of category, featured badge, WhatsApp button, priority approval, 10 images, basic analytics.</p>
+                                        <p className="text-sm text-text-soft mt-1">Top of category, featured badge, WhatsApp button, priority review, and up to 10 images.</p>
                                     </div>
                                     <div className="bg-brand-deep text-white rounded-btn p-5">
                                         <h4 className="font-bold">Premium — JMD $5,000/month</h4>
-                                        <p className="text-sm opacity-80 mt-1">Top Ad placement on homepage, unlimited images, advanced analytics, social promotion, verified badge.</p>
+                                        <p className="text-sm opacity-80 mt-1">Top Ad placement on homepage, expanded image gallery, social promotion request support, and verification review eligibility.</p>
                                     </div>
                                 </div>
                                 <div className="flex flex-wrap gap-3">

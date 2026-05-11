@@ -6,16 +6,16 @@ export default function PricingPage() {
     const plans = [
         {
             name: 'Free', price: 'Free', period: 'forever', accent: 'bg-bg-alt border-border', btn: 'bg-brand text-white hover:bg-brand-deep',
-            features: ['Business listing', 'Contact details', 'Category placement', 'Community reviews', '48-hour approval']
+            features: ['Business listing', 'Contact details', 'Category placement', 'Community reviews', 'Reviewed within 24–48 hours']
         },
         {
             name: 'Featured', price: 'JMD $2,500', period: '/month', accent: 'ring-2 ring-brand border-brand', btn: 'bg-brand text-white hover:bg-brand-deep',
-            features: ['Everything in Free', '⭐ Featured badge', 'Top of category', 'Priority approval', 'WhatsApp button', '10 images', 'Monthly listing summary — coming soon'],
+            features: ['Everything in Free', '⭐ Featured badge', 'Top of category', 'Priority review within 12 hours after payment confirmation', 'WhatsApp button', 'Up to 10 images'],
             popular: true
         },
         {
             name: 'Premium', price: 'JMD $5,000', period: '/month', accent: 'bg-gradient-to-b from-brand-deep to-brand text-white', btn: 'bg-white text-brand-deep hover:bg-gray-100',
-            features: ['Everything in Featured', '🔥 Top Ad placement', 'Homepage visibility', 'Unlimited images', 'Priority placement reports — coming soon', 'Social promotion', 'Verified badge']
+            features: ['Everything in Featured', '🔥 Top Ad placement', 'Homepage visibility', 'Expanded image gallery', 'Social promotion request support', 'Verification review eligibility']
         }
     ];
 
@@ -69,7 +69,7 @@ export default function PricingPage() {
                                 { step: 2, title: 'Fill Business Details', desc: 'Complete the simple online form with your business info.' },
                                 { step: 3, title: 'Receive WhatsApp Invoice', desc: 'We send a secure payment request via WhatsApp with all details.' },
                                 { step: 4, title: 'Pay & Confirm', desc: 'Pay via bank transfer, mobile money, or card — then send us the confirmation.' },
-                                { step: 5, title: 'Go Live Instantly', desc: 'Your listing is activated immediately after payment verification.' },
+                                { step: 5, title: 'Submitted for Priority Review', desc: 'Paid listings are submitted for priority review after payment confirmation.' },
                                 { step: 6, title: 'Get Support', desc: 'Receive your receipt and dedicated support for your listing.' }
                             ].map(item => (
                                 <div key={item.step} className="flex gap-5 items-start">
@@ -81,6 +81,9 @@ export default function PricingPage() {
                                 </div>
                             ))}
                         </div>
+                        <p className="mt-8 rounded-btn bg-brand-soft px-5 py-4 text-center text-sm font-bold text-brand-deep">
+                            No listing goes public before admin approval.
+                        </p>
                     </div>
                 </section>
 
@@ -89,7 +92,7 @@ export default function PricingPage() {
                         <h2 className="text-3xl font-extrabold text-text text-center mb-10">Frequently Asked Questions</h2>
                         <div className="space-y-4">
                             {[
-                                { q: 'How long does approval take?', a: 'Free listings: ~48 hours. Featured/Premium: within 12 hours.' },
+                                { q: 'How long does approval take?', a: 'Free listings are reviewed within 24–48 hours. Featured and Premium listings receive priority review within 12 hours after payment confirmation.' },
                                 { q: 'Can I switch plans later?', a: 'Yes — upgrade anytime. Just WhatsApp us and we\'ll adjust your listing.' },
                                 { q: 'What payment methods are accepted?', a: 'Bank transfer, mobile money (JMMB, NCB, Scotia), and credit/debit cards via WhatsApp link.' },
                                 { q: 'Can I cancel anytime?', a: 'Absolutely. Featured/Premium plans are month-to-month with no long-term commitment.' }

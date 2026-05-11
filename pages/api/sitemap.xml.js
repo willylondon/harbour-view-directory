@@ -1,4 +1,5 @@
 import { supabase } from '../../lib/supabase';
+import { CATEGORY_TAXONOMY } from '../../lib/categoryMap';
 import { applyPublicRentalFilters, applyPublicVendorFilters, filterPublicRentals, filterPublicVendors } from '../../lib/publicDirectory';
 
 const SITE_URL = 'https://harbourviewdirectory.online';
@@ -25,9 +26,11 @@ export default async function handler(req, res) {
             { loc: `${SITE_URL}/`, lastmod: today, changefreq: 'daily', priority: '1.0' },
             { loc: `${SITE_URL}/directory`, lastmod: today, changefreq: 'daily', priority: '0.95' },
             { loc: `${SITE_URL}/rent-near-cmu`, lastmod: today, changefreq: 'weekly', priority: '0.85' },
+            { loc: `${SITE_URL}/rent-near-cmu/submit`, lastmod: today, changefreq: 'monthly', priority: '0.65' },
             { loc: `${SITE_URL}/deals`, lastmod: today, changefreq: 'weekly', priority: '0.8' },
             { loc: `${SITE_URL}/safety`, lastmod: today, changefreq: 'daily', priority: '0.8' },
             { loc: `${SITE_URL}/events`, lastmod: today, changefreq: 'weekly', priority: '0.75' },
+            { loc: `${SITE_URL}/report`, lastmod: today, changefreq: 'monthly', priority: '0.65' },
             { loc: `${SITE_URL}/pricing`, lastmod: today, changefreq: 'monthly', priority: '0.7' },
             { loc: `${SITE_URL}/post-ad`, lastmod: today, changefreq: 'monthly', priority: '0.7' },
             { loc: `${SITE_URL}/contact`, lastmod: today, changefreq: 'monthly', priority: '0.5' },
@@ -37,6 +40,13 @@ export default async function handler(req, res) {
             { loc: `${SITE_URL}/terms`, lastmod: today, changefreq: 'yearly', priority: '0.3' },
             { loc: `${SITE_URL}/privacy`, lastmod: today, changefreq: 'yearly', priority: '0.3' },
         ];
+
+        const categoryPages = CATEGORY_TAXONOMY.map(category => ({
+            loc: `${SITE_URL}/directory?category=${encodeURIComponent(category)}`,
+            lastmod: today,
+            changefreq: 'weekly',
+            priority: '0.65',
+        }));
 
         // Fetch approved vendors
         const { data: vendors, error } = await applyPublicVendorFilters(
@@ -90,7 +100,7 @@ export default async function handler(req, res) {
         }));
 
         // Combine all URLs (drop stale category/* pages)
-        const allUrls = [...staticPages, ...vendorPages, ...rentalPages, ...eventPages];
+        const allUrls = [...staticPages, ...categoryPages, ...vendorPages, ...rentalPages, ...eventPages];
 
         // Generate XML
         const sitemapXml = generateSitemapXml(allUrls);

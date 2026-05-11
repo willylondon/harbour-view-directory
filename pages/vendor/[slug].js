@@ -5,30 +5,17 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
-import { supabase, getImageUrl } from '../../lib/supabase';
+import { supabase } from '../../lib/supabase';
 import { getDisplayCategory } from '../../lib/categoryMap';
+import { getBrandedPlaceholder, getVendorImage } from '../../lib/categoryFallbackImages';
+import { getWhatsAppHref } from '../../lib/contactLinks';
+import { getVendorDisplayAddress, getVendorDisplayDescription, getVendorMetaDescription } from '../../lib/listingCopy';
+import { getTrustBadgeClass, getTrustStateDescription, getTrustStatus } from '../../lib/trustState';
 import {
     applyPublicVendorFilters,
     filterPublicVendors,
     PUBLIC_VENDOR_COLUMNS,
 } from '../../lib/publicDirectory';
-
-const CATEGORY_FALLBACKS = {
-    'Food & Restaurants':       { grad: 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)', emoji: '🍽️' },
-    'Beauty & Wellness':        { grad: 'linear-gradient(135deg, #FDF2F8 0%, #FBCFE8 100%)', emoji: '💆' },
-    'Home Services':            { grad: 'linear-gradient(135deg, #ECFDF5 0%, #A7F3D0 100%)', emoji: '🏠' },
-    'Auto & Transport':         { grad: 'linear-gradient(135deg, #F1F5F9 0%, #CBD5E1 100%)', emoji: '🚗' },
-    'Education':                { grad: 'linear-gradient(135deg, #EEF2FF 0%, #C7D2FE 100%)', emoji: '📚' },
-    'Tech & Electronics':       { grad: 'linear-gradient(135deg, #ECFEFF 0%, #A5F3FC 100%)', emoji: '📱' },
-    'Finance & Banking':        { grad: 'linear-gradient(135deg, #ECFDF5 0%, #6EE7B7 100%)', emoji: '🏦' },
-    'Health & Medical':         { grad: 'linear-gradient(135deg, #FEF2F2 0%, #FECACA 100%)', emoji: '⚕️' },
-    'Retail & Shopping':        { grad: 'linear-gradient(135deg, #F5F3FF 0%, #DDD6FE 100%)', emoji: '🛍️' },
-    'Community & Church':       { grad: 'linear-gradient(135deg, #FFFBEB 0%, #FDE68A 100%)', emoji: '⛪' },
-    'Laundry & Cleaning':       { grad: 'linear-gradient(135deg, #F0F9FF 0%, #BAE6FD 100%)', emoji: '🧺' },
-    'Professional / Legal / JP': { grad: 'linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 100%)', emoji: '🏢' },
-    'Grocery & Convenience':    { grad: 'linear-gradient(135deg, #F0FDF4 0%, #BBF7D0 100%)', emoji: '🛒' },
-    'Marine / Fishing Supplies':{ grad: 'linear-gradient(135deg, #ECFEFF 0%, #67E8F9 100%)', emoji: '⚓' },
-};
 
 export async function getServerSideProps(context) {
     const { slug } = context.params;
@@ -107,9 +94,16 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, simi
     const [heroImgError, setHeroImgError] = useState(false);
 
     const cat = getDisplayCategory(vendor);
-    const fallback = CATEGORY_FALLBACKS[cat.display] || CATEGORY_FALLBACKS['Professional / Legal / JP'];
-    const heroImageUrl = getImageUrl(vendor?.images?.[0]);
-    const displayAddress = vendor?.address || 'Local Harbour View business — address not listed';
+    const fallback = getBrandedPlaceholder();
+    const heroImage = getVendorImage(vendor);
+    const displayAddress = getVendorDisplayAddress(vendor);
+    const displayDescription = getVendorDisplayDescription(vendor);
+    const metaDescription = getVendorMetaDescription(vendor);
+    const whatsappHref = getWhatsAppHref(vendor.whatsapp);
+    const trustStatus = getTrustStatus(vendor);
+    const trustState = trustStatus.primary;
+    const trustStates = trustStatus.states;
+    const trustDescription = getTrustStateDescription(trustState);
 
     // Owner notes vs community reviews
     const OWNER_NOTE_PATTERNS = [
@@ -167,7 +161,7 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, simi
         '@context': 'https://schema.org',
         '@type': 'LocalBusiness',
         name: vendor.business_name,
-        description: vendor.description,
+        description: displayDescription,
         address: {
             '@type': 'PostalAddress',
             streetAddress: vendor.address,
@@ -177,7 +171,7 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, simi
         },
         telephone: vendor.phone,
         url: `https://harbourviewdirectory.online/vendor/${vendor.slug || vendor.id}`,
-        ...(vendor.images?.length > 0 && { image: vendor.images[0] }),
+        ...(heroImage.src && { image: heroImage.src }),
         ...(communityReviews.length > 0 && {
             aggregateRating: {
                 '@type': 'AggregateRating',
@@ -188,19 +182,26 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, simi
             },
         }),
         areaServed: 'Harbour View, Kingston Jamaica',
-        sameAs: vendor.whatsapp ? [vendor.whatsapp] : [],
+        sameAs: whatsappHref ? [whatsappHref] : [],
     };
 
     const pageTitle = `${vendor.business_name} | ${cat.display} in Harbour View, Kingston Jamaica`;
-    const pageDescription = vendor.description
-        ? `${vendor.description.slice(0, 150)}…`
-        : `${vendor.business_name} — ${cat.display} serving Harbour View, Kingston Jamaica. Contact details and location.`;
+    const pageDescription = metaDescription.slice(0, 158);
 
     const shareUrl = `https://harbourviewdirectory.online/vendor/${vendor.slug || vendor.id}`;
     const whatsappClaim = `https://wa.me/18767978034?text=I+would+like+to+claim+the+listing+for+${encodeURIComponent(vendor.business_name)}+on+Harbour+View+Directory.`;
     const whatsappReport = `https://wa.me/18767978034?text=I+want+to+report+incorrect+info+for+${encodeURIComponent(vendor.business_name)}+(${vendor.slug || vendor.id}).%0A%0AIssue+type:+[Wrong phone number / Wrong category / Business closed / Duplicate listing / Wrong address / Missing WhatsApp / Other]%0A%0AMy+correction:`;
 
     const shouldNoindex = !vendor.business_name || !vendor.category || vendor.is_approved === false;
+    const breadcrumbLd = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://harbourviewdirectory.online/' },
+            { '@type': 'ListItem', position: 2, name: 'Directory', item: 'https://harbourviewdirectory.online/directory' },
+            { '@type': 'ListItem', position: 3, name: vendor.business_name, item: shareUrl },
+        ],
+    };
 
     return (
         <div className="min-h-screen bg-bg">
@@ -211,10 +212,11 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, simi
                 <meta property="og:description" content={pageDescription} />
                 <meta property="og:type" content="business.business" />
                 <meta property="og:url" content={shareUrl} />
-                {vendor.images?.length > 0 && <meta property="og:image" content={vendor.images[0]} />}
+                {heroImage.src && <meta property="og:image" content={heroImage.src} />}
                 {shouldNoindex && <meta name="robots" content="noindex, nofollow" />}
                 <link rel="canonical" href={shareUrl} />
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+                <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
             </Head>
             <Navbar />
 
@@ -235,21 +237,21 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, simi
                         {/* Hero image */}
                         <div
                             className="relative h-64 w-full flex items-center justify-center"
-                            style={!heroImageUrl || heroImgError ? { background: fallback.grad } : undefined}
+                            style={!heroImage.src || heroImgError ? { background: fallback.gradient } : undefined}
                         >
-                            {heroImageUrl && !heroImgError ? (
+                            {heroImage.src && !heroImgError ? (
                                 <Image
-                                    src={heroImageUrl}
-                                    alt={vendor.business_name}
+                                    src={heroImage.src}
+                                    alt={heroImage.alt || vendor.business_name}
                                     fill
                                     className="object-cover"
                                     sizes="(max-width: 768px) 100vw, 800px"
                                     onError={() => setHeroImgError(true)}
                                 />
                             ) : (
-                                <div className="text-center">
-                                    <div className="text-7xl mb-2 opacity-70">{fallback.emoji}</div>
-                                    <span className="text-text-muted text-sm font-medium">{cat.display}</span>
+                                <div className="text-center text-white">
+                                    <div className="mb-2 text-[11px] font-black uppercase tracking-[0.24em] text-amber-200">Harbour View</div>
+                                    <span className="text-sm font-bold">{cat.display}</span>
                                 </div>
                             )}
                         </div>
@@ -264,9 +266,9 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, simi
                                     <div className="flex flex-wrap items-center gap-2">
                                         <span
                                             className="badge-category"
-                                            style={{ background: fallback.grad, color: '#374151' }}
+                                            style={{ background: '#f1f5f9', color: '#374151' }}
                                         >
-                                            {fallback.emoji} {cat.display}
+                                            {cat.emoji} {cat.display}
                                         </span>
                                         {vendor.is_top_ad && (
                                             <span className="badge-featured" style={{ background: '#F59E0B', color: 'white' }}>⭐ Top Ad</span>
@@ -274,6 +276,13 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, simi
                                         {vendor.is_featured && !vendor.is_top_ad && (
                                             <span className="badge-featured">Featured</span>
                                         )}
+                                        <span
+                                            className={`rounded-full px-2.5 py-1 text-xs font-black ring-1 ${getTrustBadgeClass(trustState.tone)}`}
+                                            title={trustDescription}
+                                            aria-label={`${trustState.label}: ${trustDescription}`}
+                                        >
+                                            {trustState.label}
+                                        </span>
                                         {communityReviews.length > 0 && (
                                             <span className="text-sm text-text-muted">
                                                 ★ {(communityReviews.reduce((s, r) => s + (r.rating || 0), 0) / communityReviews.length).toFixed(1)} ({communityReviews.length} review{communityReviews.length !== 1 ? 's' : ''})
@@ -300,9 +309,24 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, simi
 
                             {/* Description */}
                             <div className="text-text-soft leading-relaxed mb-6 whitespace-pre-wrap">
-                                {vendor.description || (vendor.phone || vendor.whatsapp
-                                    ? 'Local Harbour View business. Details are being updated.'
-                                    : 'Local Harbour View business. Contact details are being verified.')}
+                                {displayDescription}
+                            </div>
+
+                            <div className="mb-6 flex flex-wrap gap-2">
+                                {trustStates.map(state => (
+                                    <span
+                                        key={state.value}
+                                        className={`rounded-full px-3 py-1.5 text-xs font-black ring-1 ${getTrustBadgeClass(state.tone)}`}
+                                        title={getTrustStateDescription(state)}
+                                    >
+                                        {state.label}
+                                    </span>
+                                ))}
+                            </div>
+
+                            <div className="mb-6 rounded-xl border border-border bg-bg-alt p-4 text-sm text-text-soft">
+                                <p className="font-bold text-text mb-1">What this trust label means</p>
+                                <p>{trustDescription}</p>
                             </div>
 
                             {/* Contact & CTAs */}
@@ -317,7 +341,7 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, simi
                                             {displayAddress}
                                         </div>
                                     </div>
-                                    {!vendor.phone && !vendor.whatsapp && (
+                                    {trustStatus.showContactNotice && (
                                         <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2">
                                             <p className="font-medium text-amber-700 mb-1">Contact not verified yet</p>
                                             <p>Know this business? <a href={whatsappReport} target="_blank" rel="noopener noreferrer" className="text-brand hover:underline">Report the correct contact info</a>.</p>
@@ -341,8 +365,8 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, simi
                                             📞 Call Now
                                         </a>
                                     )}
-                                    {vendor.whatsapp && (
-                                        <a href={vendor.whatsapp} target="_blank" rel="noopener noreferrer" className="flex-1 min-w-[120px] text-center font-bold px-4 py-2.5 rounded-btn bg-[#25D366] text-white hover:bg-[#1DA851] transition shadow-sm">
+                                    {whatsappHref && (
+                                        <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="flex-1 min-w-[120px] text-center font-bold px-4 py-2.5 rounded-btn bg-[#25D366] text-white hover:bg-[#1DA851] transition shadow-sm">
                                             💬 WhatsApp
                                         </a>
                                     )}
@@ -381,7 +405,7 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, simi
                     <div className="card-premium-static p-6 md:p-8 mb-6">
                         <div className="flex justify-between items-center mb-5">
                             <h2 className="text-xl font-bold text-text">Community Reviews</h2>
-                            {!showReviewForm && (
+                            {communityReviews.length > 0 && !showReviewForm && (
                                 <button
                                     onClick={() => setShowReviewForm(true)}
                                     className="text-sm font-bold px-4 py-2 rounded-btn border border-brand text-brand hover:bg-brand hover:text-white transition"
@@ -440,10 +464,17 @@ export default function VendorDetailSlug({ vendor, reviews: initialReviews, simi
                                     </p>
                                 </div>
                             )) : (
-                                <div className="text-center py-10 bg-bg-alt rounded-xl">
-                                    <div className="text-3xl mb-2">⭐</div>
-                                    <p className="font-semibold text-text mb-1">No community reviews yet</p>
-                                    <p className="text-text-muted text-sm">Be the first to share your experience.</p>
+                                <div className="rounded-xl bg-bg-alt p-5">
+                                    <p className="font-semibold text-text mb-1">No public reviews yet</p>
+                                    <p className="text-text-muted text-sm">Reviews will appear here after real community feedback is submitted.</p>
+                                    {!showReviewForm && (
+                                        <button
+                                            onClick={() => setShowReviewForm(true)}
+                                            className="mt-4 text-sm font-bold text-brand hover:underline"
+                                        >
+                                            Write the first review
+                                        </button>
+                                    )}
                                 </div>
                             )}
                         </div>

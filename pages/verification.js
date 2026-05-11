@@ -67,8 +67,8 @@ export default function VerificationPage() {
                     <section className="card-premium p-8 mb-8">
                         <h2 className="text-xl font-bold text-text mb-5 pb-3 border-b border-border">How to Get Verified</h2>
                         <p className="text-text-soft mb-6">
-                            Verification is currently available to Premium plan subscribers. To request verification for your
-                            listing, contact us via WhatsApp with your listing name and business details.
+                            Premium plan subscribers are eligible to request verification review. The verified badge only appears
+                            after the listing passes manual contact and consistency checks.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4">
                             <a

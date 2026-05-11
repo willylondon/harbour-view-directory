@@ -1,4 +1,5 @@
 import { supabase } from '../lib/supabase';
+import { CATEGORY_TAXONOMY } from '../lib/categoryMap';
 import { applyPublicRentalFilters, applyPublicVendorFilters, filterPublicRentals, filterPublicVendors } from '../lib/publicDirectory';
 
 const BASE_URL = 'https://harbourviewdirectory.online';
@@ -11,6 +12,23 @@ function generateSiteMap(vendors, rentals) {
     <url><loc>${BASE_URL}/directory</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
     <url><loc>${BASE_URL}/post-ad</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
     <url><loc>${BASE_URL}/rent-near-cmu</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+    <url><loc>${BASE_URL}/rent-near-cmu/submit</loc><changefreq>monthly</changefreq><priority>0.65</priority></url>
+    <url><loc>${BASE_URL}/pricing</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+    <url><loc>${BASE_URL}/safety</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    <url><loc>${BASE_URL}/events</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    <url><loc>${BASE_URL}/report</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+    <url><loc>${BASE_URL}/contact</loc><changefreq>monthly</changefreq><priority>0.55</priority></url>
+    <url><loc>${BASE_URL}/faq</loc><changefreq>monthly</changefreq><priority>0.55</priority></url>
+    <url><loc>${BASE_URL}/verification</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+    <url><loc>${BASE_URL}/listing-guidelines</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+    <url><loc>${BASE_URL}/privacy</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+    <url><loc>${BASE_URL}/terms</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+    ${CATEGORY_TAXONOMY.map(category => `
+    <url>
+        <loc>${BASE_URL}/directory?category=${encodeURIComponent(category)}</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.65</priority>
+    </url>`).join('')}
     
     <!-- Dynamic Vendor Routes -->
     ${vendors

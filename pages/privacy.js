@@ -145,7 +145,7 @@ export default function PrivacyPage() {
                                 </p>
                                 <p className="text-gray-600">
                                     Email: {CONTACT_EMAIL}<br />
-                                    Address: Harbour View Community Centre, Kingston, Jamaica
+                                    Support: Online directory support for Harbour View, Kingston 17.
                                 </p>
                             </section>
                         </div>

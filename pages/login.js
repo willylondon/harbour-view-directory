@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
@@ -12,6 +12,12 @@ export default function Login() {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            if (session) router.replace(router.query.redirect || '/dashboard');
+        });
+    }, [router]);
+
     async function handleLogin(e) {
         e.preventDefault();
         setError(null);
@@ -19,7 +25,7 @@ export default function Login() {
         try {
             const { error } = await supabase.auth.signInWithPassword({ email, password });
             if (error) throw error;
-            router.push('/dashboard');
+            router.push(router.query.redirect || '/dashboard');
         } catch (err) {
             setError(err.message);
         } finally {
@@ -53,6 +59,11 @@ export default function Login() {
                                 className="w-full px-4 py-3 border border-border rounded-btn focus:ring-2 focus:ring-brand outline-none transition text-text" />
                         </div>
                         <PasswordInput id="password" value={password} onChange={e => setPassword(e.target.value)} />
+                        <div className="text-right">
+                            <Link href="/forgot-password" className="text-sm font-bold text-brand hover:underline">
+                                Forgot password?
+                            </Link>
+                        </div>
                         <button type="submit" disabled={loading}
                             className="w-full bg-brand text-white font-bold py-3 rounded-btn hover:bg-brand-deep transition disabled:opacity-50">
                             {loading ? 'Signing in...' : 'Sign In'}
