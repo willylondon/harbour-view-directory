@@ -165,7 +165,7 @@ export default function Home({ featuredVendors, recentVendors, rentals }) {
                         <img
                             src="/hero.png"
                             alt="Aerial view of Harbour View, Kingston Jamaica at golden hour"
-                            className="absolute inset-0 h-full w-full object-cover opacity-60"
+                            className="absolute inset-0 h-full w-full object-cover opacity-35"
                             style={{ objectPosition: 'center 40%' }}
                             fetchPriority="high"
                             decoding="async"
