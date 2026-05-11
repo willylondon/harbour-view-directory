@@ -1,10 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ListingCard from '../components/VendorCard';
 import { supabase } from '../lib/supabase';
+import { getDisplayCategory } from '../lib/categoryMap';
+import { createVendorImageResolver } from '../lib/categoryFallbackImages';
+import { getVendorDisplayAddress } from '../lib/listingCopy';
 import {
     applyPublicRentalFilters,
     applyPublicVendorFilters,
@@ -51,13 +54,15 @@ const LOCAL_SEARCH_GROUPS = [
 ];
 
 const COMMUNITY_NOTICES = [
-    { title: 'Lost & Found', icon: '🔎', desc: 'Report missing items, pets, or found property.' },
-    { title: 'Road / Traffic', icon: '🚧', desc: 'Community road, commute, and traffic updates.' },
-    { title: 'Water / Electricity', icon: '💧', desc: 'Service interruption notes and local updates.' },
-    { title: 'Safety Notices', icon: '🛡️', desc: 'Scam warnings and safety information.' },
-    { title: 'Events', icon: '📅', desc: 'Markets, church events, workshops, and meetups.' },
-    { title: 'Rental Alerts', icon: '🏘️', desc: 'New rooms and available housing leads.' },
+    { title: 'Lost & Found', icon: '🔎', desc: 'Missing items, pets, and found property.', href: '/report' },
+    { title: 'Road / Traffic', icon: '🚧', desc: 'Commute notes, road hazards, and traffic issues.', href: '/report' },
+    { title: 'Water / Electricity', icon: '💧', desc: 'Utility interruption notes and local updates.', href: '/report' },
+    { title: 'Safety Notices', icon: '🛡️', desc: 'Scam warnings and safety information.', href: '/safety' },
+    { title: 'Events', icon: '📅', desc: 'Markets, church events, workshops, and meetups.', href: '/events' },
+    { title: 'Rental Alerts', icon: '🏘️', desc: 'New rooms and available housing leads.', href: '/rent-near-cmu' },
 ];
+
+const VISIBLE_NOTICE_COUNT = 4;
 
 const HELP_CTAS = [
     { label: 'List your business free', href: '/post-ad', icon: '➕' },
@@ -76,6 +81,10 @@ function formatJamaicaTime(date = new Date()) {
         hour12: true,
         weekday: 'short',
     }).format(date);
+}
+
+function formatWeatherValue(value, suffix = '') {
+    return Number.isFinite(value) ? `${Math.round(value)}${suffix}` : null;
 }
 
 export async function getServerSideProps() {
@@ -122,11 +131,40 @@ export async function getServerSideProps() {
 export default function Home({ featuredVendors, recentVendors, rentals }) {
     const [searchQuery, setSearchQuery] = useState('');
     const [jamaicaTime, setJamaicaTime] = useState('Loading local time...');
+    const [weather, setWeather] = useState({ status: 'loading', data: null });
 
     useEffect(() => {
         setJamaicaTime(formatJamaicaTime());
         const timer = setInterval(() => setJamaicaTime(formatJamaicaTime()), 30000);
         return () => clearInterval(timer);
+    }, []);
+
+    useEffect(() => {
+        const controller = new AbortController();
+
+        async function loadWeather() {
+            try {
+                const response = await fetch('/api/weather', {
+                    signal: controller.signal,
+                    headers: { accept: 'application/json' },
+                });
+
+                if (!response.ok) {
+                    throw new Error('Weather request failed');
+                }
+
+                const data = await response.json();
+                setWeather({ status: 'ready', data });
+            } catch (error) {
+                if (error.name !== 'AbortError') {
+                    setWeather({ status: 'error', data: null });
+                }
+            }
+        }
+
+        loadWeather();
+
+        return () => controller.abort();
     }, []);
 
     function handleSearch(e) {
@@ -139,13 +177,25 @@ export default function Home({ featuredVendors, recentVendors, rentals }) {
     const businessPreview = featuredVendors.length ? featuredVendors : recentVendors;
     const featuredPick = businessPreview[0];
     const featuredPicks = businessPreview.slice(0, 4);
-    const newThisWeek = recentVendors.slice(0, 4);
+    const featuredPickImages = useMemo(() => {
+        const resolveImage = createVendorImageResolver();
+        return new Map(featuredPicks.map(vendor => [vendor.id, resolveImage(vendor)]));
+    }, [featuredPicks]);
+    const foodPicks = businessPreview
+        .filter(vendor => getDisplayCategory(vendor).display === 'Food & Restaurants')
+        .slice(0, 3);
+    const temperature = formatWeatherValue(weather.data?.temperature, '°C');
+    const feelsLike = formatWeatherValue(weather.data?.feelsLike, '°C');
+    const humidity = formatWeatherValue(weather.data?.humidity, '%');
+    const windSpeed = formatWeatherValue(weather.data?.windSpeed, ' km/h');
+    const rainChance = formatWeatherValue(weather.data?.rainChance, '%');
+    const visibleCommunityNotices = COMMUNITY_NOTICES.slice(0, VISIBLE_NOTICE_COUNT);
 
     return (
         <div className="min-h-screen bg-[#08111f] text-white">
             <Head>
                 <title>Harbour View Directory — Kingston 17 Community Portal</title>
-                <meta name="description" content="Harbour View, all in one place. Find trusted local businesses, rooms, food, services, and community updates across Harbour View and Kingston 17." />
+                <meta name="description" content="Harbour View, organized. Find food, taxis, rentals, repairs, shops, services, and community updates across Kingston 17." />
                 <meta property="og:title" content="Harbour View Directory — Kingston 17 Community Portal" />
                 <meta property="og:description" content="Businesses, rooms, food, services, deals, and community notices in one local Harbour View portal." />
                 <meta property="og:url" content="https://harbourviewdirectory.online" />
@@ -158,7 +208,7 @@ export default function Home({ featuredVendors, recentVendors, rentals }) {
             <Navbar />
 
             <main className="overflow-hidden bg-[#07101d]">
-                <section className="relative isolate px-6 pb-28 pt-14 md:pb-32 md:pt-24">
+                <section className="relative isolate px-5 pb-24 pt-12 md:px-6 md:pb-32 md:pt-24">
                     <picture>
                         <source srcSet="/hero.webp" type="image/webp" media="(min-width: 769px)" />
                         <source srcSet="/hero-mobile.webp" type="image/webp" media="(max-width: 768px)" />
@@ -190,21 +240,19 @@ export default function Home({ featuredVendors, recentVendors, rentals }) {
                             backgroundSize: '44px 44px',
                         }}
                     />
-                    <div aria-hidden="true" className="absolute -left-28 top-24 h-72 w-72 rounded-full bg-sky-400/20 blur-3xl" />
-                    <div aria-hidden="true" className="absolute -right-24 bottom-10 h-96 w-96 rounded-full bg-amber-300/10 blur-3xl" />
 
                     <div className="container-premium relative z-10">
                         <div className="grid gap-12 lg:grid-cols-[minmax(0,1.16fr)_minmax(320px,0.64fr)] lg:items-center">
                             <div className="max-w-4xl pt-4 md:pt-8">
-                                <h1 className="max-w-4xl text-5xl font-black leading-[0.98] tracking-[-0.05em] text-white md:text-7xl lg:text-8xl">
-                                    Harbour View, all in one place.
+                                <h1 className="max-w-4xl text-5xl font-black leading-[0.98] text-white md:text-7xl lg:text-8xl">
+                                    Harbour View, organized.
                                 </h1>
                                 <p className="mt-6 max-w-2xl text-base leading-8 text-slate-200/90 md:text-xl">
-                                    Find trusted local businesses, rooms, food, services, and community updates across Harbour View and Kingston 17.
+                                    Find food, taxis, rentals, repairs, shops, services, and community updates across Kingston 17.
                                 </p>
 
-                                <form onSubmit={handleSearch} className="mt-9 max-w-2xl rounded-[1.6rem] bg-white/[0.11] p-2 shadow-[0_30px_90px_rgba(0,0,0,0.38)] ring-1 ring-white/10 backdrop-blur-2xl">
-                                    <div className="flex flex-col gap-2 rounded-[1.2rem] bg-slate-950/45 p-1.5 shadow-inner shadow-white/5 sm:flex-row sm:items-center">
+                                <form onSubmit={handleSearch} className="mt-9 max-w-2xl rounded-[1.35rem] bg-white/[0.13] p-2 shadow-[0_30px_90px_rgba(0,0,0,0.34)] ring-1 ring-white/10 backdrop-blur-2xl">
+                                    <div className="flex flex-col gap-2 rounded-[1rem] bg-slate-950/45 p-1.5 shadow-inner shadow-white/5 sm:flex-row sm:items-center">
                                         <label className="sr-only" htmlFor="portal-search">Search Harbour View Directory</label>
                                         <div className="flex min-h-[3.25rem] flex-1 items-center gap-3 rounded-[1rem] bg-white px-4 text-slate-950">
                                             <span className="text-slate-400" aria-hidden="true">⌕</span>
@@ -232,20 +280,49 @@ export default function Home({ featuredVendors, recentVendors, rentals }) {
                                 </div>
                             </div>
 
-                            <aside className="relative overflow-hidden rounded-[2.2rem] bg-white/[0.08] p-6 shadow-[0_30px_120px_rgba(0,0,0,0.42)] ring-1 ring-white/10 backdrop-blur-2xl md:p-7 lg:translate-y-10">
+                            <aside className="relative overflow-hidden rounded-[2rem] bg-white/[0.085] p-6 shadow-[0_30px_120px_rgba(0,0,0,0.38)] ring-1 ring-white/10 backdrop-blur-2xl md:p-7 lg:translate-y-10">
                                 <div aria-hidden="true" className="absolute -right-16 -top-16 h-44 w-44 rounded-full bg-sky-300/15 blur-2xl" />
                                 <div aria-hidden="true" className="absolute -bottom-20 left-6 h-40 w-40 rounded-full bg-amber-300/10 blur-2xl" />
                                 <div className="relative flex items-start justify-between gap-5">
                                     <div>
                                         <p className="text-[11px] font-black uppercase tracking-[0.24em] text-amber-300">Harbour View Today</p>
-                                        <h2 className="mt-3 text-3xl font-black tracking-[-0.04em] text-white">{jamaicaTime}</h2>
+                                        <h2 className="mt-3 text-3xl font-black text-white" suppressHydrationWarning>{jamaicaTime}</h2>
                                         <p className="mt-2 text-sm font-semibold text-sky-100/80">Kingston 17 local time</p>
                                     </div>
                                     <span className="rounded-full bg-white/10 px-3 py-2 text-2xl shadow-inner shadow-white/10" aria-hidden="true">🇯🇲</span>
                                 </div>
                                 <div className="relative mt-8 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-                                <p className="relative mt-6 max-w-sm text-sm leading-7 text-slate-200/82">
-                                    Start with food, rooms near CMU, trusted services, or a correction that helps the next neighbour.
+                                <div className="relative mt-6">
+                                    {weather.status === 'ready' && (
+                                        <div className="rounded-2xl bg-white/[0.10] p-4 shadow-inner shadow-white/5 ring-1 ring-white/10">
+                                            <div className="flex items-end justify-between gap-4">
+                                                <div>
+                                                    <p className="text-[10px] font-black uppercase tracking-[0.18em] text-sky-200">Weather now</p>
+                                                    <p className="mt-1 text-4xl font-black text-white">{temperature}</p>
+                                                </div>
+                                                <p className="pb-1 text-right text-sm font-black text-amber-200">{weather.data.conditionLabel}</p>
+                                            </div>
+                                            <div className="mt-4 grid grid-cols-2 gap-2 text-xs font-bold text-slate-200/84">
+                                                {feelsLike && <span>Feels {feelsLike}</span>}
+                                                {humidity && <span>Humidity {humidity}</span>}
+                                                {windSpeed && <span>Wind {windSpeed}</span>}
+                                                {rainChance && <span>Rain chance {rainChance}</span>}
+                                            </div>
+                                        </div>
+                                    )}
+                                    {weather.status === 'loading' && (
+                                        <div className="rounded-2xl bg-white/[0.08] p-4 text-sm font-bold text-slate-200/78 ring-1 ring-white/10">
+                                            Checking local weather...
+                                        </div>
+                                    )}
+                                    {weather.status === 'error' && (
+                                        <div className="rounded-2xl bg-white/[0.08] p-4 text-sm font-bold text-slate-200/78 ring-1 ring-white/10">
+                                            Weather is temporarily unavailable. Local time will keep updating here.
+                                        </div>
+                                    )}
+                                </div>
+                                <p className="relative mt-5 max-w-sm text-sm leading-7 text-slate-200/82">
+                                    Start with food, rooms near CMU, local services, or a correction that helps the next neighbour.
                                 </p>
                                 <div className="relative mt-7 space-y-3 text-sm">
                                     {featuredPick && (
@@ -264,14 +341,14 @@ export default function Home({ featuredVendors, recentVendors, rentals }) {
                     </div>
                 </section>
 
-                <section className="relative z-10 -mt-16 px-6 pb-14">
+                <section className="relative z-10 -mt-12 px-5 pb-12 md:px-6">
                     <div className="container-premium">
-                        <div className="grid grid-cols-2 gap-3 rounded-[2rem] bg-white/[0.055] p-3 shadow-[0_30px_100px_rgba(0,0,0,0.36)] ring-1 ring-white/10 backdrop-blur-2xl sm:grid-cols-4 lg:grid-cols-8">
+                        <div className="grid grid-cols-2 gap-2 rounded-[1.6rem] bg-white/[0.07] p-2 shadow-[0_24px_90px_rgba(0,0,0,0.32)] ring-1 ring-white/10 backdrop-blur-2xl sm:grid-cols-4 lg:grid-cols-8">
                             {QUICK_ACTIONS.map(action => (
-                                <Link key={action.label} href={action.href} className="group rounded-[1.45rem] bg-white/[0.07] p-4 transition hover:-translate-y-1 hover:bg-white/[0.12]">
-                                    <div className="mb-5 inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-950/35 text-2xl shadow-inner shadow-white/5">{action.icon}</div>
-                                        <h3 className="text-sm font-black text-white">{action.label}</h3>
-                                    <p className="mt-1 hidden text-xs leading-5 text-slate-400/90 sm:block">{action.hint}</p>
+                                <Link key={action.label} href={action.href} className="group min-h-[6.25rem] rounded-[1.15rem] px-3.5 py-4 transition hover:bg-white/[0.11] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300">
+                                    <div className="mb-3 text-2xl">{action.icon}</div>
+                                    <h3 className="text-sm font-black leading-tight text-white">{action.label}</h3>
+                                    <p className="mt-1 hidden text-xs leading-5 text-slate-400/90 md:block">{action.hint}</p>
                                 </Link>
                             ))}
                         </div>
@@ -285,7 +362,7 @@ export default function Home({ featuredVendors, recentVendors, rentals }) {
                                 <div aria-hidden="true" className="absolute -right-20 -top-20 h-56 w-56 rounded-full bg-sky-400/20 blur-3xl" />
                                 <div aria-hidden="true" className="absolute -bottom-24 left-12 h-56 w-56 rounded-full bg-amber-300/12 blur-3xl" />
                                 <p className="relative text-[11px] font-black uppercase tracking-[0.26em] text-amber-300">Rooms & Rentals</p>
-                                <h2 className="relative mt-4 text-3xl font-black leading-tight tracking-[-0.04em] md:text-5xl">A better rental lane for Kingston 17.</h2>
+                                <h2 className="relative mt-4 text-3xl font-black leading-tight md:text-5xl">A better rental lane for Kingston 17.</h2>
                                 <p className="relative mt-5 text-sm leading-8 text-slate-200/88 md:text-base">
                                     Rooms, studios, apartments, and houses for CMU students, port workers, dry dock workers, construction workers, and people relocating to East Kingston.
                                 </p>
@@ -305,10 +382,13 @@ export default function Home({ featuredVendors, recentVendors, rentals }) {
                                         {rental.price && <p className="mt-4 text-xl font-black text-[#0b2545]">J${rental.price.toLocaleString()}<span className="text-xs font-semibold text-slate-500">/mo</span></p>}
                                     </Link>
                                 )) : (
-                                    <div className="md:col-span-3 rounded-[2rem] bg-white/88 p-9 text-center shadow-[0_24px_80px_rgba(15,23,42,0.10)] ring-1 ring-slate-900/5">
-                                        <div className="text-5xl">🏠</div>
-                                        <h3 className="mt-4 text-xl font-black text-slate-950">Rooms and rentals are being added now.</h3>
-                                        <p className="mx-auto mt-2 max-w-lg text-sm leading-6 text-slate-500">Landlords can submit rooms, studios, apartments, and houses. Exact home addresses stay private by default.</p>
+                                    <div className="md:col-span-3 rounded-[1.5rem] bg-white/88 p-6 shadow-[0_18px_50px_rgba(15,23,42,0.08)] ring-1 ring-slate-900/5">
+                                        <p className="text-[10px] font-black uppercase tracking-[0.18em] text-sky-700">No approved rentals yet</p>
+                                        <h3 className="mt-2 text-lg font-black text-slate-950">Rental submissions are open.</h3>
+                                        <p className="mt-2 text-sm leading-6 text-slate-500">Approved listings will appear here after review. Landlords can submit rooms, studios, apartments, and houses now.</p>
+                                        <Link href="/rent-near-cmu/submit" className="mt-4 inline-flex rounded-full bg-[#0b2545] px-4 py-2 text-xs font-black text-white transition hover:bg-sky-800">
+                                            Submit rental
+                                        </Link>
                                     </div>
                                 )}
                             </div>
@@ -316,28 +396,42 @@ export default function Home({ featuredVendors, recentVendors, rentals }) {
                     </div>
                 </section>
 
-                <section className="bg-[#fbfcfd] px-6 py-20 text-slate-950 md:py-24">
-                    <div className="container-premium">
+                <section className="overflow-hidden bg-[#fbfcfd] px-5 py-20 text-slate-950 md:px-6 md:py-24">
+                    <div className="container-premium max-w-full">
                         <div className="mb-10 flex flex-col justify-between gap-5 md:flex-row md:items-end">
                             <div>
                                 <p className="text-[11px] font-black uppercase tracking-[0.26em] text-amber-600">Featured Local Picks</p>
-                                <h2 className="mt-3 max-w-3xl text-3xl font-black tracking-[-0.04em] md:text-5xl">Places the community should be able to find fast.</h2>
+                                <h2 className="mt-3 max-w-3xl text-3xl font-black md:text-5xl">Places the community should be able to find fast.</h2>
                                 <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-500">A tighter edit of useful Harbour View listings, from Seashore Place to Everest Drive and Nautilus Avenue.</p>
                             </div>
                             <Link href="/directory" className="rounded-full bg-slate-950 px-5 py-3 text-sm font-black text-white shadow-[0_14px_35px_rgba(15,23,42,0.16)] transition hover:bg-sky-800">View all businesses →</Link>
                         </div>
 
-                        <div className="mb-7 flex flex-wrap gap-2">
-                            {['Verified', 'Community Pick', 'Recently Added', 'Owner Claimed'].map(badge => (
-                                <span key={badge} className="rounded-full bg-slate-100 px-3.5 py-1.5 text-xs font-black text-slate-600 shadow-inner shadow-white">{badge}</span>
-                            ))}
-                        </div>
-
                         {businessPreview.length > 0 ? (
-                            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
-                                {featuredPicks.map(vendor => (
-                                    <ListingCard key={vendor.id} vendor={vendor} />
-                                ))}
+                            <div className="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-start">
+                                {featuredPicks[0] && (
+                                    <div className="min-w-0 lg:sticky lg:top-24">
+                                        <ListingCard vendor={featuredPicks[0]} resolvedImage={featuredPickImages.get(featuredPicks[0].id)} />
+                                    </div>
+                                )}
+                                <div className="min-w-0 space-y-3">
+                                    {featuredPicks.slice(1).map(vendor => {
+                                        const cat = getDisplayCategory(vendor);
+                                        return (
+                                            <Link key={vendor.id} href={`/vendor/${vendor.slug || vendor.id}`} className="group grid min-w-0 gap-3 overflow-hidden rounded-[1.25rem] bg-slate-50/80 px-5 py-4 transition hover:bg-white hover:shadow-[0_18px_50px_rgba(15,23,42,0.10)] md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+                                                <div className="min-w-0">
+                                                    <p className="text-[10px] font-black uppercase tracking-[0.18em] text-sky-700">{cat.display}</p>
+                                                    <h3 className="mt-1 break-words text-lg font-black leading-tight text-slate-950">{vendor.business_name}</h3>
+                                                    <p className="mt-1 line-clamp-2 break-words text-sm text-slate-500">{getVendorDisplayAddress(vendor)}</p>
+                                                </div>
+                                                <span className="text-xs font-black uppercase tracking-[0.18em] text-amber-600 transition group-hover:text-slate-950">View</span>
+                                            </Link>
+                                        );
+                                    })}
+                                    <div className="rounded-[1.25rem] bg-[#07101d] px-5 py-5 text-white">
+                                        <p className="text-sm font-semibold leading-7 text-slate-200/88">Community picks are still being shaped during soft launch. The best corrections come from people who pass these places every week.</p>
+                                    </div>
+                                </div>
                             </div>
                         ) : (
                             <div className="rounded-[2rem] bg-slate-50 p-10 text-center shadow-inner shadow-white ring-1 ring-slate-900/5">
@@ -355,7 +449,7 @@ export default function Home({ featuredVendors, recentVendors, rentals }) {
                         <div className="relative grid gap-10 lg:grid-cols-[0.76fr_1.24fr] lg:items-start">
                             <div>
                                 <p className="text-[11px] font-black uppercase tracking-[0.26em] text-amber-300">Popular in Harbour View</p>
-                                <h2 className="mt-3 text-3xl font-black tracking-[-0.04em] text-white md:text-5xl">Lunch, errands, repairs, and a way home.</h2>
+                                <h2 className="mt-3 text-3xl font-black text-white md:text-5xl">Lunch, errands, repairs, and a way home.</h2>
                                 <p className="mt-4 text-sm leading-7 text-slate-400">Shortcuts for the searches that make a local portal feel useful on an ordinary day.</p>
                             </div>
                             <div className="space-y-4">
@@ -381,47 +475,72 @@ export default function Home({ featuredVendors, recentVendors, rentals }) {
                     </div>
                 </section>
 
-                <section className="bg-[#fbfcfd] px-6 py-20 text-slate-950 md:py-24">
+                <section className="bg-[#fbfcfd] px-5 py-20 text-slate-950 md:px-6 md:py-24">
                     <div className="container-premium">
-                        <div className="grid gap-10 lg:grid-cols-[0.55fr_1.45fr] lg:items-start">
+                        <div className="grid gap-10 lg:grid-cols-[0.62fr_1.38fr] lg:items-start">
                             <div>
-                                <p className="text-[11px] font-black uppercase tracking-[0.26em] text-sky-700">New This Week</p>
-                                <h2 className="mt-3 text-3xl font-black tracking-[-0.04em] md:text-5xl">Fresh additions without the duplicate grid.</h2>
-                                <p className="mt-4 text-sm leading-7 text-slate-500">Recently added records are shown as a compact local log so the homepage has rhythm, not another wall of cards.</p>
+                                <p className="text-[11px] font-black uppercase tracking-[0.26em] text-amber-600">Hungry in Harbour View</p>
+                                <h2 className="mt-3 text-3xl font-black md:text-5xl">Find lunch before the question gets dramatic.</h2>
+                                <p className="mt-4 text-sm leading-7 text-slate-500">Fast paths for cook shops, patties, Chinese food, jerk, bakeries, and the everyday places people actually search for.</p>
+                                <div className="mt-6 flex flex-wrap gap-2">
+                                    {FOOD_SHORTCUTS.map(item => (
+                                        <Link key={item} href={`/directory?q=${encodeURIComponent(item)}`} className="rounded-full bg-amber-100 px-4 py-2 text-xs font-black text-amber-800 transition hover:bg-amber-200">
+                                            {item}
+                                        </Link>
+                                    ))}
+                                </div>
                             </div>
-                            <div className="divide-y divide-slate-200/80 rounded-[2rem] bg-white shadow-[0_24px_80px_rgba(15,23,42,0.08)] ring-1 ring-slate-900/5">
-                                {newThisWeek.length > 0 ? newThisWeek.map(vendor => (
-                                    <Link key={vendor.id} href={`/vendor/${vendor.slug || vendor.id}`} className="grid gap-3 px-6 py-5 transition hover:bg-slate-50 md:grid-cols-[1fr_auto] md:items-center">
-                                        <div>
-                                            <h3 className="font-black text-slate-950">{vendor.business_name}</h3>
-                                            <p className="mt-1 text-sm text-slate-500">{vendor.category || 'Local business'} · {vendor.address || 'Local Harbour View business — address not listed'}</p>
-                                        </div>
-                                        <span className="text-xs font-black uppercase tracking-[0.18em] text-sky-700">View</span>
-                                    </Link>
-                                )) : (
-                                    <div className="px-6 py-8 text-sm text-slate-500">New approved listings will appear here after review.</div>
+                            <div className="rounded-[2rem] bg-white p-3 shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
+                                {foodPicks.length > 0 ? (
+                                    <div className="grid gap-3 md:grid-cols-3">
+                                        {foodPicks.map(vendor => (
+                                            <Link key={vendor.id} href={`/vendor/${vendor.slug || vendor.id}`} className="rounded-[1.5rem] bg-[#fff7ed] p-5 transition hover:-translate-y-1 hover:bg-amber-50">
+                                                <p className="text-[10px] font-black uppercase tracking-[0.18em] text-amber-700">Food pick</p>
+                                                <h3 className="mt-2 min-h-12 text-lg font-black leading-tight text-slate-950">{vendor.business_name}</h3>
+                                                <p className="mt-3 line-clamp-2 break-words text-sm leading-6 text-slate-600">{getVendorDisplayAddress(vendor)}</p>
+                                            </Link>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="rounded-[1.5rem] bg-[#fff7ed] p-8">
+                                        <p className="text-[11px] font-black uppercase tracking-[0.2em] text-amber-700">Food listings</p>
+                                        <h3 className="mt-3 text-2xl font-black text-slate-950">The food map is ready for better local picks.</h3>
+                                        <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-600">Search by food type now, and help add the cook shops, bakeries, and lunch spots missing from the directory.</p>
+                                    </div>
                                 )}
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <section className="bg-[linear-gradient(180deg,#eef4f8_0%,#f8fafc_100%)] px-6 py-20 text-slate-950 md:py-24">
+                <section className="bg-[linear-gradient(180deg,#eef4f8_0%,#f8fafc_100%)] px-5 py-20 text-slate-950 md:px-6 md:py-24">
                     <div className="container-premium">
-                        <div className="mb-10 max-w-2xl">
-                            <p className="text-[11px] font-black uppercase tracking-[0.26em] text-sky-700">Community Notices</p>
-                            <h2 className="mt-3 text-3xl font-black tracking-[-0.04em] md:text-5xl">Notices without the group-chat chaos.</h2>
-                            <p className="mt-3 text-sm leading-7 text-slate-500">Lost items, road issues, water and electricity updates, safety notes, events, and rental alerts can live here once approved.</p>
-                        </div>
-                        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                            {COMMUNITY_NOTICES.map(notice => (
-                                <Link key={notice.title} href={notice.title === 'Events' ? '/events' : notice.title === 'Safety Notices' ? '/safety' : '/report'} className="group rounded-[1.8rem] bg-white/92 p-6 shadow-[0_24px_70px_rgba(15,23,42,0.08)] ring-1 ring-slate-900/5 transition hover:-translate-y-1 hover:shadow-[0_30px_80px_rgba(14,165,233,0.13)]">
-                                    <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-2xl transition group-hover:bg-sky-50">{notice.icon}</div>
-                                    <h3 className="mt-5 text-lg font-black">{notice.title}</h3>
-                                    <p className="mt-2 text-sm leading-6 text-slate-500">{notice.desc}</p>
-                                    <p className="mt-5 text-[11px] font-black uppercase tracking-[0.18em] text-slate-400">No active public notice</p>
+                        <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
+                            <div>
+                                <p className="text-[11px] font-black uppercase tracking-[0.26em] text-sky-700">Community Notices</p>
+                                <h2 className="mt-3 text-3xl font-black md:text-5xl">Useful updates, reviewed before they travel.</h2>
+                                <p className="mt-3 text-sm leading-7 text-slate-500">Submit useful local updates for review. Approved notices can be published without turning the homepage into a notice dump.</p>
+                                <div className="mt-6 rounded-[1.5rem] bg-white/80 p-5 shadow-[0_18px_60px_rgba(15,23,42,0.08)]">
+                                    <p className="text-sm font-bold text-slate-950">Community notice board is open for submissions.</p>
+                                    <p className="mt-2 text-sm leading-6 text-slate-500">Approved notices will be published without turning the homepage into a notice dump.</p>
+                                </div>
+                            </div>
+                            <div className="grid gap-3 sm:grid-cols-2">
+                                {visibleCommunityNotices.map(notice => (
+                                    <Link key={notice.title} href={notice.href} className="group rounded-[1.35rem] bg-white/88 px-5 py-4 shadow-[0_16px_50px_rgba(15,23,42,0.06)] transition hover:-translate-y-1 hover:bg-white">
+                                        <div className="flex items-start gap-4">
+                                            <span className="text-2xl" aria-hidden="true">{notice.icon}</span>
+                                            <div>
+                                                <h3 className="font-black">{notice.title}</h3>
+                                                <p className="mt-1 text-sm leading-6 text-slate-500">{notice.desc}</p>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                ))}
+                                <Link href="/report" className="rounded-[1.35rem] border border-dashed border-slate-300 bg-white/55 px-5 py-4 text-sm font-bold text-slate-600 transition hover:border-brand hover:text-brand">
+                                    Submit another community update
                                 </Link>
-                            ))}
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -434,7 +553,7 @@ export default function Home({ featuredVendors, recentVendors, rentals }) {
                             <div className="relative grid gap-9 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
                                 <div>
                                     <p className="text-[11px] font-black uppercase tracking-[0.26em] text-amber-300">Help Build the Directory</p>
-                                    <h2 className="mt-3 text-3xl font-black tracking-[-0.04em] md:text-5xl">Community-built. Locally reviewed.</h2>
+                                    <h2 className="mt-3 text-3xl font-black md:text-5xl">Community-built. Locally reviewed.</h2>
                                     <p className="mt-4 text-sm leading-7 text-sky-50/82">Soft launch is for finding missing businesses, correcting phone numbers, claiming listings, and adding rentals.</p>
                                     <div className="mt-6 grid gap-2 sm:grid-cols-2">
                                         {TRUST_POINTS.map(point => (
