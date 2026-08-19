@@ -101,6 +101,10 @@ export default function RentalsListingPage({ rentals, query }) {
                             <a href="/rent-near-cmu/submit?type=House" className="bg-white/10 border border-white/20 text-white font-bold px-6 py-3.5 rounded-btn hover:bg-white/15 transition inline-block">List a House</a>
                             <a href="https://wa.me/18767978034?text=Hi%2C%20I%20need%20help%20with%20a%20Harbour%20View%20room%20or%20rental." target="_blank" rel="noopener noreferrer" className="bg-emerald-500 text-white font-bold px-6 py-3.5 rounded-btn hover:bg-emerald-600 transition inline-block">WhatsApp Us</a>
                         </div>
+                        <div className="mt-6 flex items-center justify-center gap-2 text-xs text-white/80 bg-white/10 max-w-md mx-auto py-2 px-4 rounded-full border border-white/10">
+                            <span>⚡</span>
+                            <span><strong>Are you a landlord?</strong> Renters are currently waiting for rooms in Harbour View.</span>
+                        </div>
                     </div>
                 </section>
 
