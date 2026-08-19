@@ -96,10 +96,10 @@ export default function RentalsListingPage({ rentals, query }) {
                         <h1 className="text-4xl md:text-5xl font-extrabold mb-4">Rooms &amp; Rentals Near CMU</h1>
                         <p className="text-lg text-white/80 mb-8">Find rooms, studios, apartments, and houses in Harbour View and nearby areas for CMU students, port workers, dry dock workers, construction workers, and people relocating to East Kingston.</p>
                         <div className="flex flex-wrap justify-center gap-3">
-                            <a href="/rent-near-cmu/submit?type=Room" className="bg-white text-brand-deep font-bold px-6 py-3.5 rounded-btn hover:bg-gray-50 transition inline-block shadow-lg">List a Room</a>
+                            <a href="/rent-near-cmu/request" className="bg-white text-brand-deep font-bold px-6 py-3.5 rounded-btn hover:bg-gray-50 transition inline-block shadow-lg">🔔 Request a Room</a>
+                            <a href="/rent-near-cmu/submit?type=Room" className="bg-white/15 border border-white/30 text-white font-bold px-6 py-3.5 rounded-btn hover:bg-white/20 transition inline-block">List a Room</a>
                             <a href="/rent-near-cmu/submit?type=House" className="bg-white/10 border border-white/20 text-white font-bold px-6 py-3.5 rounded-btn hover:bg-white/15 transition inline-block">List a House</a>
                             <a href="https://wa.me/18767978034?text=Hi%2C%20I%20need%20help%20with%20a%20Harbour%20View%20room%20or%20rental." target="_blank" rel="noopener noreferrer" className="bg-emerald-500 text-white font-bold px-6 py-3.5 rounded-btn hover:bg-emerald-600 transition inline-block">WhatsApp Us</a>
-                            <a href="https://wa.me/18767978034?text=Please%20add%20me%20to%20Harbour%20View%20rental%20alerts." target="_blank" rel="noopener noreferrer" className="bg-white/10 border border-white/20 text-white font-bold px-6 py-3.5 rounded-btn hover:bg-white/15 transition inline-block">Join Rental Alerts</a>
                         </div>
                     </div>
                 </section>
@@ -169,15 +169,26 @@ export default function RentalsListingPage({ rentals, query }) {
                                 ))}
                             </div>
                         ) : (
-                            <EmptyState 
-                                icon="🏠" 
-                                title="Rooms and rentals are being added now." 
-                                description="Landlords in Harbour View and nearby areas can submit rooms, studios, apartments, and houses for students and workers. Listings are reviewed before publishing." 
-                                ctaText="List a Room" 
-                                ctaHref="/rent-near-cmu/submit?type=Room"
-                                secondaryCtaText="List a House"
-                                secondaryCtaHref="/rent-near-cmu/submit?type=House"
-                            />
+                            <div className="card-premium p-10 bg-white border border-border text-center max-w-xl mx-auto shadow-sm">
+                                <div className="text-5xl mb-4">🏠</div>
+                                <h3 className="text-2xl font-black text-text mb-2">Looking for a Room or Rental?</h3>
+                                <p className="text-text-soft mb-6 leading-relaxed text-sm">
+                                    Landlords in Harbour View are actively updating vacancies. If you don't see what you need yet, submit your budget and move-in date to be notified immediately.
+                                </p>
+                                
+                                <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
+                                    <a className="inline-flex items-center justify-center bg-brand text-white font-extrabold px-6 py-3.5 rounded-btn hover:bg-brand-deep transition shadow-md" href="/rent-near-cmu/request">
+                                        🔔 Tell Us What Room You Need
+                                    </a>
+                                    <a className="inline-flex items-center justify-center border-2 border-brand text-brand font-bold px-6 py-3.5 rounded-btn hover:bg-brand-soft transition" href="/rent-near-cmu/submit?type=Room">
+                                        + Landlord? List a Space
+                                    </a>
+                                </div>
+
+                                <p className="text-xs text-text-muted">
+                                    Are you a CMU student or worker? We match requests with verified local rooms in Harbour View.
+                                </p>
+                            </div>
                         )}
                     </div>
                 </section>

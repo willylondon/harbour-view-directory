@@ -20,8 +20,10 @@ const SORT_OPTIONS = [
     { value: 'az', label: '🔤 A–Z' },
 ];
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps({ query, res }) {
     const { q = '', category = '', sort = 'featured' } = query;
+
+    res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600');
 
     try {
         let dbQuery = applyPublicVendorFilters(
@@ -112,7 +114,7 @@ export default function DirectoryPage({ initialVendors, initialQ, initialCategor
                 <link rel="canonical" href="https://harbourviewdirectory.online/directory" />
             </Head>
 
-            <Navbar />
+            <Navbar publicOnly />
 
             {/* ── Page Header ── */}
             <div

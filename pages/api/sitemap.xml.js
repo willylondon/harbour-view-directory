@@ -1,5 +1,7 @@
 import { supabase } from '../../lib/supabase';
 import { applyPublicRentalFilters, applyPublicVendorFilters, filterPublicRentals, filterPublicVendors } from '../../lib/publicDirectory';
+import { getAllBlogPosts } from '../../lib/blogPosts';
+import { CATEGORY_LANDING_PAGES } from '../../lib/categoryLandingPages';
 
 const SITE_URL = 'https://harbourviewdirectory.online';
 
@@ -24,6 +26,7 @@ export default async function handler(req, res) {
         const staticPages = [
             { loc: `${SITE_URL}/`, lastmod: today, changefreq: 'daily', priority: '1.0' },
             { loc: `${SITE_URL}/directory`, lastmod: today, changefreq: 'daily', priority: '0.95' },
+            { loc: `${SITE_URL}/blog`, lastmod: today, changefreq: 'weekly', priority: '0.8' },
             { loc: `${SITE_URL}/rent-near-cmu`, lastmod: today, changefreq: 'weekly', priority: '0.85' },
             { loc: `${SITE_URL}/deals`, lastmod: today, changefreq: 'weekly', priority: '0.8' },
             { loc: `${SITE_URL}/safety`, lastmod: today, changefreq: 'daily', priority: '0.8' },
@@ -89,8 +92,22 @@ export default async function handler(req, res) {
             priority: '0.8'
         }));
 
+        const blogPages = getAllBlogPosts().map(post => ({
+            loc: `${SITE_URL}/blog/${post.slug}`,
+            lastmod: post.updatedAt,
+            changefreq: 'monthly',
+            priority: '0.75'
+        }));
+
+        const categoryPages = CATEGORY_LANDING_PAGES.map(page => ({
+            loc: `${SITE_URL}/category/${page.slug}`,
+            lastmod: today,
+            changefreq: 'weekly',
+            priority: '0.78'
+        }));
+
         // Combine all URLs (drop stale category/* pages)
-        const allUrls = [...staticPages, ...vendorPages, ...rentalPages, ...eventPages];
+        const allUrls = [...staticPages, ...vendorPages, ...rentalPages, ...eventPages, ...blogPages, ...categoryPages];
 
         // Generate XML
         const sitemapXml = generateSitemapXml(allUrls);

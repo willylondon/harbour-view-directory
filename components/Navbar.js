@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 
-export default function Navbar() {
+export default function Navbar({ publicOnly = false }) {
     const router = useRouter();
     const [mobileOpen, setMobileOpen] = useState(false);
     const [session, setSession] = useState(null);
@@ -12,6 +12,11 @@ export default function Navbar() {
     const isActive = path => router.pathname === path || (path === '/' && router.pathname === '/');
 
     useEffect(() => {
+        if (publicOnly) {
+            setAuthReady(true);
+            return undefined;
+        }
+
         supabase.auth.getSession().then(({ data: { session: s } }) => {
             setSession(s);
             if (s) checkAdmin(s);
@@ -23,9 +28,8 @@ export default function Navbar() {
             if (s) checkAdmin(s);
             else { setIsAdmin(false); setAuthReady(true); }
         });
-
         return () => subscription.unsubscribe();
-    }, []);
+    }, [publicOnly]);
 
     async function checkAdmin(s) {
         const meta = s?.user?.app_metadata || {};
@@ -61,9 +65,10 @@ export default function Navbar() {
         { href: '/', label: 'Home' },
         { href: '/directory', label: 'Directory' },
         { href: '/rent-near-cmu', label: 'Rooms & Rentals' },
+        { href: '/blog', label: 'Blog' },
     ];
 
-    const loggedIn = !!session;
+    const loggedIn = !publicOnly && !!session;
 
     return (
         <header className="bg-white/80 backdrop-blur-md border-b border-border sticky top-0 z-50">
@@ -103,8 +108,8 @@ export default function Navbar() {
                         </>
                     ) : (
                         <>
-                            <Link href="/login" className="text-sm font-medium text-text-soft hover:text-text px-4 py-2 rounded-btn transition">Login</Link>
-                            <Link href="/register" className="text-sm font-medium text-text-soft hover:text-text px-4 py-2 rounded-btn transition">Register</Link>
+                            {!publicOnly && <Link href="/login" className="text-sm font-medium text-text-soft hover:text-text px-4 py-2 rounded-btn transition">Login</Link>}
+                            {!publicOnly && <Link href="/register" className="text-sm font-medium text-text-soft hover:text-text px-4 py-2 rounded-btn transition">Register</Link>}
                             <Link href="/post-ad" className="bg-brand text-white text-sm font-bold px-5 py-2.5 rounded-btn hover:bg-brand-deep transition shadow-sm">
                                 List Business
                             </Link>
@@ -136,8 +141,8 @@ export default function Navbar() {
                         </>
                     ) : (
                         <>
-                            <Link href="/login" onClick={() => setMobileOpen(false)} className="block px-4 py-2.5 rounded-btn text-sm font-medium text-text-soft hover:bg-bg-alt">Login</Link>
-                            <Link href="/register" onClick={() => setMobileOpen(false)} className="block px-4 py-2.5 rounded-btn text-sm font-medium text-text-soft hover:bg-bg-alt">Register</Link>
+                            {!publicOnly && <Link href="/login" onClick={() => setMobileOpen(false)} className="block px-4 py-2.5 rounded-btn text-sm font-medium text-text-soft hover:bg-bg-alt">Login</Link>}
+                            {!publicOnly && <Link href="/register" onClick={() => setMobileOpen(false)} className="block px-4 py-2.5 rounded-btn text-sm font-medium text-text-soft hover:bg-bg-alt">Register</Link>}
                             <Link href="/post-ad" onClick={() => setMobileOpen(false)} className="block bg-brand text-white text-center text-sm font-bold py-3 rounded-btn mt-2">List Business</Link>
                         </>
                     )}

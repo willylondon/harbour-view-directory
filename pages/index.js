@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ListingCard from '../components/VendorCard';
 import { supabase } from '../lib/supabase';
+import { getBlogPreviewPosts } from '../lib/blogPosts';
 import {
     applyPublicRentalFilters,
     applyPublicVendorFilters,
@@ -78,7 +79,7 @@ function formatJamaicaTime(date = new Date()) {
     }).format(date);
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
     try {
         const { data: featuredVendors } = await applyPublicVendorFilters(
             supabase
@@ -111,20 +112,24 @@ export async function getServerSideProps() {
                 featuredVendors: filterPublicVendors(featuredVendors || []),
                 recentVendors: filterPublicVendors(recentVendors || []),
                 rentals: filterPublicRentals(rentals || []),
+                blogPosts: getBlogPreviewPosts(3),
             },
+            revalidate: 300,
         };
     } catch (err) {
         console.error('Homepage SSR error:', err.message);
-        return { props: { featuredVendors: [], recentVendors: [], rentals: [] } };
+        return {
+            props: { featuredVendors: [], recentVendors: [], rentals: [], blogPosts: getBlogPreviewPosts(3) },
+            revalidate: 60,
+        };
     }
 }
 
-export default function Home({ featuredVendors, recentVendors, rentals }) {
+export default function Home({ featuredVendors, recentVendors, rentals, blogPosts }) {
     const [searchQuery, setSearchQuery] = useState('');
-    const [jamaicaTime, setJamaicaTime] = useState('Loading local time...');
+    const [jamaicaTime, setJamaicaTime] = useState(() => formatJamaicaTime());
 
     useEffect(() => {
-        setJamaicaTime(formatJamaicaTime());
         const timer = setInterval(() => setJamaicaTime(formatJamaicaTime()), 30000);
         return () => clearInterval(timer);
     }, []);
@@ -155,7 +160,7 @@ export default function Home({ featuredVendors, recentVendors, rentals }) {
                 <link rel="preload" as="image" href="/hero-mobile.webp" type="image/webp" media="(max-width: 768px)" />
             </Head>
 
-            <Navbar />
+            <Navbar publicOnly />
 
             <main className="overflow-hidden bg-[#07101d]">
                 <section className="relative isolate px-6 pb-28 pt-14 md:pb-32 md:pt-24">
@@ -402,6 +407,45 @@ export default function Home({ featuredVendors, recentVendors, rentals }) {
                                     <div className="px-6 py-8 text-sm text-slate-500">New approved listings will appear here after review.</div>
                                 )}
                             </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="bg-[linear-gradient(180deg,#eef4f8_0%,#f8fafc_100%)] px-6 py-20 text-slate-950 md:py-24">
+                    <div className="container-premium">
+                        <div className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+                            <div className="max-w-3xl">
+                                <p className="text-[11px] font-black uppercase tracking-[0.26em] text-sky-700">Local search content</p>
+                                <h2 className="mt-3 text-3xl font-black tracking-[-0.04em] md:text-5xl">Guides built for Harbour View search traffic.</h2>
+                                <p className="mt-3 text-sm leading-7 text-slate-500">Evergreen posts that target rentals near CMU, trusted local services, and practical Harbour View searches.</p>
+                            </div>
+                            <Link href="/blog" className="rounded-full bg-slate-950 px-5 py-3 text-sm font-black text-white shadow-[0_14px_35px_rgba(15,23,42,0.16)] transition hover:bg-sky-800">Visit the blog →</Link>
+                        </div>
+
+                        <div className="mb-6 flex flex-wrap gap-3">
+                            <Link href="/category/food" className="rounded-full bg-white px-4 py-2 text-xs font-black text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.08)] transition hover:bg-amber-50 hover:text-amber-700">Food</Link>
+                            <Link href="/category/pharmacy" className="rounded-full bg-white px-4 py-2 text-xs font-black text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.08)] transition hover:bg-red-50 hover:text-red-700">Pharmacy</Link>
+                            <Link href="/category/taxi" className="rounded-full bg-white px-4 py-2 text-xs font-black text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.08)] transition hover:bg-slate-100 hover:text-slate-900">Taxi</Link>
+                            <Link href="/category/mechanic" className="rounded-full bg-white px-4 py-2 text-xs font-black text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.08)] transition hover:bg-slate-100 hover:text-slate-900">Mechanic</Link>
+                            <Link href="/category/beauty" className="rounded-full bg-white px-4 py-2 text-xs font-black text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.08)] transition hover:bg-pink-50 hover:text-pink-700">Beauty</Link>
+                        </div>
+
+                        <div className="grid gap-5 lg:grid-cols-3">
+                            {blogPosts.map(post => (
+                                <article key={post.slug} className="rounded-[1.8rem] bg-white p-6 shadow-[0_24px_70px_rgba(15,23,42,0.08)] ring-1 ring-slate-900/5 transition hover:-translate-y-1">
+                                    <div className="text-xs font-black uppercase tracking-[0.18em] text-sky-700">{post.readingMinutes} min read</div>
+                                    <h3 className="mt-4 text-xl font-black text-slate-950 leading-tight">
+                                        <Link href={`/blog/${post.slug}`} className="hover:text-brand transition">{post.title}</Link>
+                                    </h3>
+                                    <p className="mt-3 text-sm leading-7 text-slate-500">{post.excerpt}</p>
+                                    <div className="mt-5 flex flex-wrap gap-2">
+                                        {post.tags.slice(0, 3).map(tag => (
+                                            <span key={tag} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-600">{tag}</span>
+                                        ))}
+                                    </div>
+                                    <Link href={`/blog/${post.slug}`} className="mt-6 inline-flex text-sm font-black text-brand hover:text-brand-deep transition">Read article →</Link>
+                                </article>
+                            ))}
                         </div>
                     </div>
                 </section>

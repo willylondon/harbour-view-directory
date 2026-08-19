@@ -1,5 +1,7 @@
 import { supabase } from '../lib/supabase';
 import { applyPublicRentalFilters, applyPublicVendorFilters, filterPublicRentals, filterPublicVendors } from '../lib/publicDirectory';
+import { getAllBlogPosts } from '../lib/blogPosts';
+import { CATEGORY_LANDING_PAGES } from '../lib/categoryLandingPages';
 
 const BASE_URL = 'https://harbourviewdirectory.online';
 
@@ -9,8 +11,25 @@ function generateSiteMap(vendors, rentals) {
     <!-- Manual Routes -->
     <url><loc>${BASE_URL}</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
     <url><loc>${BASE_URL}/directory</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+    <url><loc>${BASE_URL}/blog</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
     <url><loc>${BASE_URL}/post-ad</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
     <url><loc>${BASE_URL}/rent-near-cmu</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+    ${getAllBlogPosts()
+        .map(({ slug, updatedAt }) => `
+    <url>
+        <loc>${BASE_URL}/blog/${slug}</loc>
+        <lastmod>${new Date(updatedAt).toISOString()}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.75</priority>
+    </url>`).join('')}
+    ${CATEGORY_LANDING_PAGES
+        .map(({ slug }) => `
+    <url>
+        <loc>${BASE_URL}/category/${slug}</loc>
+        <lastmod>${new Date().toISOString()}</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.78</priority>
+    </url>`).join('')}
     
     <!-- Dynamic Vendor Routes -->
     ${vendors
