@@ -7,6 +7,24 @@ import ListingCard from '../components/VendorCard';
 import { supabase } from '../lib/supabase';
 import { getBlogPreviewPosts } from '../lib/blogPosts';
 import {
+    Utensils,
+    Car,
+    Cross,
+    CreditCard,
+    Sparkles,
+    Wrench,
+    Home as HomeIcon,
+    ShieldAlert,
+    Search,
+    AlertCircle,
+    Calendar,
+    Bell,
+    PlusCircle,
+    Tag,
+    Flag,
+    CheckCircle2
+} from 'lucide-react';
+import {
     applyPublicRentalFilters,
     applyPublicVendorFilters,
     filterPublicRentals,
@@ -24,14 +42,14 @@ const QUICK_CHIPS = [
 ];
 
 const QUICK_ACTIONS = [
-    { label: 'Food', icon: '🍽️', href: '/directory?q=food', hint: 'Restaurants, cook shops, lunch' },
-    { label: 'Taxi', icon: '🚕', href: '/directory?q=taxi', hint: 'Transport and local rides' },
-    { label: 'Pharmacy', icon: '⚕️', href: '/directory?q=pharmacy', hint: 'Health and pharmacy listings' },
-    { label: 'ATM', icon: '🏧', href: '/directory?q=atm', hint: 'Cash, banking, bill pay' },
-    { label: 'Laundry', icon: '🧺', href: '/directory?q=laundry', hint: 'Wash, dry, cleaning' },
-    { label: 'Mechanic', icon: '🔧', href: '/directory?q=mechanic', hint: 'Auto repairs and parts' },
-    { label: 'Rooms', icon: '🏠', href: '/rent-near-cmu', hint: 'Rooms and rentals near CMU' },
-    { label: 'Emergency / Safety', icon: '🚨', href: '/safety', hint: 'Notices and key contacts' },
+    { label: 'Food', icon: Utensils, href: '/directory?q=food', hint: 'Restaurants, cook shops, lunch' },
+    { label: 'Taxi', icon: Car, href: '/directory?q=taxi', hint: 'Transport and local rides' },
+    { label: 'Pharmacy', icon: Cross, href: '/directory?q=pharmacy', hint: 'Health and pharmacy listings' },
+    { label: 'ATM', icon: CreditCard, href: '/directory?q=atm', hint: 'Cash, banking, bill pay' },
+    { label: 'Laundry', icon: Sparkles, href: '/directory?q=laundry', hint: 'Wash, dry, cleaning' },
+    { label: 'Mechanic', icon: Wrench, href: '/directory?q=mechanic', hint: 'Auto repairs and parts' },
+    { label: 'Rooms', icon: HomeIcon, href: '/rent-near-cmu', hint: 'Rooms and rentals near CMU' },
+    { label: 'Safety', icon: ShieldAlert, href: '/safety', hint: 'Notices and key contacts' },
 ];
 
 const FOOD_SHORTCUTS = [
@@ -52,19 +70,19 @@ const LOCAL_SEARCH_GROUPS = [
 ];
 
 const COMMUNITY_NOTICES = [
-    { title: 'Lost & Found', icon: '🔎', desc: 'Report missing items, pets, or found property.' },
-    { title: 'Road / Traffic', icon: '🚧', desc: 'Community road, commute, and traffic updates.' },
-    { title: 'Water / Electricity', icon: '💧', desc: 'Service interruption notes and local updates.' },
-    { title: 'Safety Notices', icon: '🛡️', desc: 'Scam warnings and safety information.' },
-    { title: 'Events', icon: '📅', desc: 'Markets, church events, workshops, and meetups.' },
-    { title: 'Rental Alerts', icon: '🏘️', desc: 'New rooms and available housing leads.' },
+    { title: 'Lost & Found', icon: Search, desc: 'Report missing items, pets, or found property.' },
+    { title: 'Road / Traffic', icon: Car, desc: 'Community road, commute, and traffic updates.' },
+    { title: 'Water / Electricity', icon: AlertCircle, desc: 'Service interruption notes and local updates.' },
+    { title: 'Safety Notices', icon: ShieldAlert, desc: 'Scam warnings and safety information.' },
+    { title: 'Events', icon: Calendar, desc: 'Markets, church events, workshops, and meetups.' },
+    { title: 'Rental Alerts', icon: Bell, desc: 'New rooms and available housing leads.' },
 ];
 
 const HELP_CTAS = [
-    { label: 'List your business free', href: '/post-ad', icon: '➕' },
-    { label: 'Claim a Listing', href: '/post-ad', icon: '🏷️' },
-    { label: 'Report Wrong Info', href: '/report', icon: '⚑' },
-    { label: 'Submit a Rental', href: '/rent-near-cmu/submit', icon: '🏠' },
+    { label: 'List your business free', href: '/post-ad', icon: PlusCircle },
+    { label: 'Claim a Listing', href: '/post-ad', icon: Tag },
+    { label: 'Report Wrong Info', href: '/report', icon: Flag },
+    { label: 'Submit a Rental', href: '/rent-near-cmu/submit', icon: HomeIcon },
 ];
 
 const TRUST_POINTS = ['Community-built', 'Locally reviewed', 'Report wrong info anytime', 'List your business free'];
@@ -212,14 +230,14 @@ export default function Home({ featuredVendors, recentVendors, rentals, blogPost
                                     <div className="flex flex-col gap-2 rounded-[1.2rem] bg-slate-950/45 p-1.5 shadow-inner shadow-white/5 sm:flex-row sm:items-center">
                                         <label className="sr-only" htmlFor="portal-search">Search Harbour View Directory</label>
                                         <div className="flex min-h-[3.25rem] flex-1 items-center gap-3 rounded-[1rem] bg-white px-4 text-slate-950">
-                                            <span className="text-slate-400" aria-hidden="true">⌕</span>
+                                            <Search size={18} className="text-slate-400" />
                                             <input
                                                 id="portal-search"
                                                 type="text"
                                                 value={searchQuery}
                                                 onChange={e => setSearchQuery(e.target.value)}
                                                 placeholder="Try lunch, taxi, pharmacy, rooms..."
-                                                className="min-h-12 flex-1 bg-transparent text-sm font-semibold text-slate-950 outline-none placeholder:text-slate-400"
+                                                className="min-h-12 flex-1 bg-transparent text-sm font-semibold text-slate-950 outline-none placeholder:text-slate-400 font-heading"
                                             />
                                         </div>
                                         <button type="submit" className="min-h-12 rounded-[1rem] bg-gradient-to-r from-amber-300 to-amber-500 px-7 text-sm font-black text-slate-950 shadow-[0_14px_35px_rgba(245,158,11,0.28)] transition hover:translate-y-[-1px] hover:from-amber-200 hover:to-amber-400">
@@ -272,13 +290,18 @@ export default function Home({ featuredVendors, recentVendors, rentals, blogPost
                 <section className="relative z-10 -mt-16 px-6 pb-14">
                     <div className="container-premium">
                         <div className="grid grid-cols-2 gap-3 rounded-[2rem] bg-white/[0.055] p-3 shadow-[0_30px_100px_rgba(0,0,0,0.36)] ring-1 ring-white/10 backdrop-blur-2xl sm:grid-cols-4 lg:grid-cols-8">
-                            {QUICK_ACTIONS.map(action => (
-                                <Link key={action.label} href={action.href} className="group rounded-[1.45rem] bg-white/[0.07] p-4 transition hover:-translate-y-1 hover:bg-white/[0.12]">
-                                    <div className="mb-5 inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-950/35 text-2xl shadow-inner shadow-white/5">{action.icon}</div>
-                                        <h3 className="text-sm font-black text-white">{action.label}</h3>
-                                    <p className="mt-1 hidden text-xs leading-5 text-slate-400/90 sm:block">{action.hint}</p>
-                                </Link>
-                            ))}
+                            {QUICK_ACTIONS.map(action => {
+                                const IconComponent = action.icon;
+                                return (
+                                    <Link key={action.label} href={action.href} className="group rounded-[1.45rem] bg-white/[0.07] p-4 transition hover:-translate-y-1 hover:bg-white/[0.12]">
+                                        <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-sky-500/15 text-sky-300 shadow-inner ring-1 ring-sky-400/20 group-hover:scale-110 transition-transform">
+                                            <IconComponent size={20} strokeWidth={2.2} />
+                                        </div>
+                                        <h3 className="text-sm font-black text-white font-heading">{action.label}</h3>
+                                        <p className="mt-1 hidden text-xs leading-5 text-slate-400/90 sm:block">{action.hint}</p>
+                                    </Link>
+                                );
+                            })}
                         </div>
                     </div>
                 </section>
@@ -458,14 +481,19 @@ export default function Home({ featuredVendors, recentVendors, rentals, blogPost
                             <p className="mt-3 text-sm leading-7 text-slate-500">Lost items, road issues, water and electricity updates, safety notes, events, and rental alerts can live here once approved.</p>
                         </div>
                         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                            {COMMUNITY_NOTICES.map(notice => (
-                                <Link key={notice.title} href={notice.title === 'Events' ? '/events' : notice.title === 'Safety Notices' ? '/safety' : '/report'} className="group rounded-[1.8rem] bg-white/92 p-6 shadow-[0_24px_70px_rgba(15,23,42,0.08)] ring-1 ring-slate-900/5 transition hover:-translate-y-1 hover:shadow-[0_30px_80px_rgba(14,165,233,0.13)]">
-                                    <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-2xl transition group-hover:bg-sky-50">{notice.icon}</div>
-                                    <h3 className="mt-5 text-lg font-black">{notice.title}</h3>
-                                    <p className="mt-2 text-sm leading-6 text-slate-500">{notice.desc}</p>
-                                    <p className="mt-5 text-[11px] font-black uppercase tracking-[0.18em] text-slate-400">No active public notice</p>
-                                </Link>
-                            ))}
+                            {COMMUNITY_NOTICES.map(notice => {
+                                const IconComponent = notice.icon;
+                                return (
+                                    <Link key={notice.title} href={notice.title === 'Events' ? '/events' : notice.title === 'Safety Notices' ? '/safety' : '/report'} className="group rounded-[1.8rem] bg-white/92 p-6 shadow-[0_24px_70px_rgba(15,23,42,0.08)] ring-1 ring-slate-900/5 transition hover:-translate-y-1 hover:shadow-[0_30px_80px_rgba(14,165,233,0.13)]">
+                                        <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-sky-50 text-sky-700 shadow-inner group-hover:bg-sky-600 group-hover:text-white transition-colors">
+                                            <IconComponent size={22} strokeWidth={2} />
+                                        </div>
+                                        <h3 className="mt-5 text-lg font-black font-heading text-slate-950">{notice.title}</h3>
+                                        <p className="mt-2 text-sm leading-6 text-slate-500">{notice.desc}</p>
+                                        <p className="mt-5 text-[11px] font-black uppercase tracking-[0.18em] text-slate-400">No active public notice</p>
+                                    </Link>
+                                );
+                            })}
                         </div>
                     </div>
                 </section>
@@ -490,12 +518,15 @@ export default function Home({ featuredVendors, recentVendors, rentals, blogPost
                                     </div>
                                 </div>
                                 <div className="grid gap-3 sm:grid-cols-2">
-                                    {HELP_CTAS.map(cta => (
-                                        <Link key={cta.label} href={cta.href} className="rounded-[1.2rem] bg-white/96 px-5 py-4 text-sm font-black text-[#0b2545] shadow-[0_14px_38px_rgba(2,6,23,0.12)] transition hover:-translate-y-1 hover:bg-amber-300">
-                                            <span className="mr-2">{cta.icon}</span>
-                                            {cta.label}
-                                        </Link>
-                                    ))}
+                                    {HELP_CTAS.map(cta => {
+                                        const IconComponent = cta.icon;
+                                        return (
+                                            <Link key={cta.label} href={cta.href} className="inline-flex items-center rounded-2xl bg-white/92 px-5 py-3 text-sm font-black text-slate-950 shadow-[0_16px_40px_rgba(15,23,42,0.08)] ring-1 ring-slate-900/5 transition hover:-translate-y-1 hover:bg-sky-50">
+                                                <IconComponent size={16} className="mr-2 text-sky-600" />
+                                                <span>{cta.label}</span>
+                                            </Link>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         </div>

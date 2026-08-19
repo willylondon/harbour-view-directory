@@ -73,9 +73,9 @@ export default function Navbar({ publicOnly = false }) {
     return (
         <header className="bg-white/80 backdrop-blur-md border-b border-border sticky top-0 z-50">
             <div className="container-premium flex items-center justify-between h-16">
-                <Link href="/" className="flex items-center gap-2.5 font-extrabold text-xl text-text tracking-tight shrink-0">
-                    <span className="w-9 h-9 rounded-full bg-brand flex items-center justify-center text-white text-sm">HV</span>
-                    Harbour View
+                <Link href="/" className="flex items-center gap-2.5 font-extrabold text-xl text-text tracking-tight shrink-0 font-heading">
+                    <span className="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-deep to-brand flex items-center justify-center text-white text-sm font-black shadow-sm">HV</span>
+                    <span>Harbour View</span>
                 </Link>
 
                 <nav className="hidden md:flex items-center gap-1">
